@@ -1,20 +1,33 @@
-# Compiled class files
-*.class
-
-# Maven / Gradle
+HELP.md
 target/
-build/
-.mvn/
-.gradle/
-*.log
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 
-# IDE files
-.idea/
-.vscode/
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
 *.iml
-*.code-workspace
+*.ipr
 
-# OS files
-.DS_Store
-Thumbs.db
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
+### VS Code ###
+.vscode/
