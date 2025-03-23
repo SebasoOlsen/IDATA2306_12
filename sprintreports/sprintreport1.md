@@ -16,41 +16,22 @@ Sprint stenographer: Sebastian
 ## **Sprint Summary**
 - **Total Planned Work:**
   - Read over every powerpoint and get an overview of what has to be done.
-  - Create repository classes.
   - Write down future tasks for the project.
 
 - **Completed Work:**
-  - 
-
----
-
-## **Challenges/Blockers**
-- **Challenge 1:** 
-  - **Impact:** 
-  - **Proposed Solution:** 
-
----
-
-## **Risks & Dependencies**
-- **Risk 1:** 
-  - **Impact:** 
-- **Dependency 1:** 
-
----
-
-## **Retrospective Summary**
-- **What Went Well:**
-  - 
-
-- **What Could Be Improved:**
-  - 
-
-- **Actions for Next Sprint:**
-  - 
+  - Read every powerpoint.
+  - wrote down future tasks for the project.
 
 ---
 
 ## **Next Steps**
 - **Upcoming Goals:**
-  - 
+  - Download mysql and get it running.
+  - Set up JDBC.
+  - Make DTO.
+  - Make CRUDrepository.
+  - Set up file structure.
+  - Make Controllers.
+  - Make Thymeleaf templates.
+  - Finish the entity classes.
 ---
