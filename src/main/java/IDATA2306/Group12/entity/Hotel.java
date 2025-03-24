@@ -1,4 +1,4 @@
-package IDATA2306.Group12;
+package IDATA2306.Group12.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

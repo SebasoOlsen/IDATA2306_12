@@ -1,4 +1,4 @@
-package IDATA2306.Group12;
+package IDATA2306.Group12.entity;
 
 import java.util.List;
 
