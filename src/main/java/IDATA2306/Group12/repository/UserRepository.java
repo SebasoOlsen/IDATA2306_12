@@ -1,5 +1,8 @@
 package IDATA2306.Group12.repository;
 
-public class UserRepository {
+import IDATA2306.Group12.entity.User;
+import org.springframework.data.repository.CrudRepository;
+
+public interface UserRepository extends CrudRepository<User, Integer> {
     
 }
