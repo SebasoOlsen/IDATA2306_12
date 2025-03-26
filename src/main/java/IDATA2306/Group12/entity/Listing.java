@@ -2,6 +2,7 @@ package IDATA2306.Group12.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,7 +13,7 @@ import jakarta.persistence.Table;
  * Represents a listing for a hotel.
  */
 @Entity
-@Table(name = "listings")
+@Table(name = "Listings")
 public class Listing {
 
     /**
@@ -20,40 +21,37 @@ public class Listing {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("id")
     private int id;
 
     /**
      * The provider of the listing.
      */
-    private Provider provider;
+    @JsonProperty("pID")
+    private int pID;
 
     /**
      * The hotel associated with the listing.
      */
-    private Hotel hotel;
+    @JsonProperty("hID")
+    private int hID;
 
     /**
      * The price of the listing.
      */
+    @JsonProperty("price")
     private int price;
 
     /**
      * The currency of the price.
      */
+    @JsonProperty("currency")
     private String currency;
 
     /**
      * The link to the listing.
      */
+    @JsonProperty("link")
     private String link;
 
-    /**
-     * The bookings made for the listing.
-     */
-    private List<Booking> bookings;
-
-    /**
-     * The users who have favorited the listing.
-     */
-    private List<User> favoritedBy;
 }
