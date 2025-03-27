@@ -34,4 +34,9 @@ public class Favourite {
 
     public Favourite() {}
 
+    public int getuID() {return uID;}
+    public void setuID(int uID) {this.uID = uID;}
+
+    public int getListingID() {return listingID;}
+    public void setListingID(int listingID) {this.listingID = listingID;}
 }

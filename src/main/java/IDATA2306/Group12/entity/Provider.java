@@ -1,7 +1,5 @@
 package IDATA2306.Group12.entity;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,4 +39,10 @@ public class Provider {
     }
 
     public Provider() {}
+
+    public int getId() {return id;}
+    public void setId(int id) {this.id = id;}
+
+    public String getName() {return name;}
+    public void setName(String name) {this.name = name;}
 }

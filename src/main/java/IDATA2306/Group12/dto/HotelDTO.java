@@ -16,12 +16,12 @@ public class HotelDTO {
     @NotBlank(message = "Location type cannot be empty")
     private String locationType;
 
-    private List<String> roomTypes;
-    private List<String> extraFeatures;
+    private String roomTypes;
+    private String extraFeatures;
 
     public HotelDTO() {}
 
-    public HotelDTO(int id, String name, String locationType, List<String> roomTypes, List<String> extraFeatures) {
+    public HotelDTO(int id, String name, String locationType, String roomTypes, String extraFeatures) {
         this.id = id;
         this.name = name;
         this.locationType = locationType;
@@ -38,9 +38,9 @@ public class HotelDTO {
     public String getLocationType() { return locationType; }
     public void setLocationType(String locationType) { this.locationType = locationType; }
 
-    public List<String> getRoomTypes() { return roomTypes; }
-    public void setRoomTypes(List<String> roomTypes) { this.roomTypes = roomTypes; }
+    public String getRoomTypes() { return roomTypes; }
+    public void setRoomTypes(String roomTypes) { this.roomTypes = roomTypes; }
 
-    public List<String> getExtraFeatures() { return extraFeatures; }
-    public void setExtraFeatures(List<String> extraFeatures) { this.extraFeatures = extraFeatures; }
+    public String getExtraFeatures() { return extraFeatures; }
+    public void setExtraFeatures(String extraFeatures) { this.extraFeatures = extraFeatures; }
 }

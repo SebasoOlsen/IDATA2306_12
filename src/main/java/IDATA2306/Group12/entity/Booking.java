@@ -54,21 +54,23 @@ public class Booking {
     @JsonProperty("endDate")
     private Date endDate;
 
-    /**
-     * Create a new booking using parameters.
-     * @param id id of the booking
-     * @param uID id of the user this booking belongs to.
-     * @param status status of the booking.
-     * @param startDate the first date of the booking
-     * @param endDate the last day of the booking
-     */
-    public Booking(int id, int uID, String status, Date startDate, Date endDate) {
-        this.id = id;
-        this.uID = uID;
-        this.status = status;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
     public Booking() {}
+
+    public int getId() {return id;}
+    public void setId(int id) {this.id = id;}
+
+    public int getUID() {return uID;}
+    public void setUID(int uID) {this.uID = uID;}
+
+    public int getLID() {return listID;}
+    public void setLID(int listID) {this.listID = listID;}
+
+    public String getStatus() {return status;}
+    public void setStatus(String status) {this.status = status;}
+
+    public Date getStartDate() {return startDate;}
+    public void setStartDate(Date startDate) {this.startDate = startDate;}
+
+    public Date getEndDate() {return endDate;}
+    public void setEndDate(Date endDate) {this.endDate = endDate;}
 }

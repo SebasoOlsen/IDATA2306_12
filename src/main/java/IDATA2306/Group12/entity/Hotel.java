@@ -48,22 +48,20 @@ public class Hotel {
     @JsonProperty("extraFeatures")
     private String extraFeatures;
 
-    /**
-     * Create a Hotel using parameters.
-     * @param id id of the hotel
-     * @param name name of the hotel
-     * @param locationType location type
-     * @param roomTypes room types
-     * @param extraFeatures extra features
-     */
-    public Hotel(int id, String name, String locationType,
-                 String roomTypes, String extraFeatures) {
-        this.id = id;
-        this.name = name;
-        this.locationType = locationType;
-        this.roomTypes = roomTypes;
-        this.extraFeatures = extraFeatures;
-    }
-
     public Hotel() {}
+
+    public int getId() {return id;}
+    public void setId(int id) {this.id = id;}
+
+    public String getName() {return name;}
+    public void setName(String name) {this.name = name;}
+
+    public String getLocationType() {return locationType;}
+    public void setLocationType(String locationType) {this.locationType = locationType;}
+
+    public String getRoomTypes() {return roomTypes;}
+    public void setRoomTypes(String roomTypes) {this.roomTypes = roomTypes;}
+
+    public String getExtraFeatures() {return extraFeatures;}
+    public void setExtraFeatures(String extraFeatures) {this.extraFeatures = extraFeatures;}
 }

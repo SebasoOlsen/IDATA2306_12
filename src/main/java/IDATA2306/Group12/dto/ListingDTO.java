@@ -40,11 +40,11 @@ public class ListingDTO {
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
-    public int getProviderId() { return providerId; }
-    public void setProviderId(int providerId) { this.providerId = providerId; }
+    public int getPID() { return providerId; }
+    public void setPID(int providerId) { this.providerId = providerId; }
 
-    public int getHotelId() { return hotelId; }
-    public void setHotelId(int hotelId) { this.hotelId = hotelId; }
+    public int getHID() { return hotelId; }
+    public void setHID(int hotelId) { this.hotelId = hotelId; }
 
     public int getPrice() { return price; }
     public void setPrice(int price) { this.price = price; }

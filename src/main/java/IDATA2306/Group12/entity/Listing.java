@@ -1,7 +1,5 @@
 package IDATA2306.Group12.entity;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -54,4 +52,23 @@ public class Listing {
     @JsonProperty("link")
     private String link;
 
+    public Listing () {}
+
+    public int getId() {return id;}
+    public void setId(int id) {this.id = id;}
+
+    public int getPID() {return pID;}
+    public void setPID(int pID) {this.pID = pID;}
+
+    public int getHID() {return hID;}
+    public void setHID(int hID) {this.hID = hID;}
+
+    public int getPrice() {return price;}
+    public void setPrice(int price) {this.price = price;}
+
+    public String getCurrency() {return currency;}
+    public void setCurrency(String currency) {this.currency = currency;}
+
+    public String getLink() {return link;}
+    public void setLink(String link) {this.link = link;}
 }
