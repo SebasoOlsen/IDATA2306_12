@@ -8,21 +8,23 @@ Sprint stenographer: Sebastian
 - **Duration:** 19.03.2025 - 23.03.2025
 - **Sprint Goal:** Get an overview of what has to be done.
 - **Team Members:**
-  - Sebastian Olsen - Sebastian Olsen
+  - Sebastian Olsen - SebasoOlsen
   - Knut Olav Leknes - Knut Olav
-
+  - Jonas Olsen - jonasOlsenNTNU
+  - Oskar Oliwier Kotyla - Cotzy21
 ---
 
 ## **Sprint Summary**
 - **Total Planned Work:**
-  - Read over every powerpoint and get an overview of what has to be done.
-  - Write down future tasks for the project.
+  - Read over every powerpoint and get an overview of what has to be done. - Everyone
+  - Write down future tasks for the project. - Everyone
 
 - **Completed Work:**
   - Read every powerpoint.
   - wrote down future tasks for the project.
 
----
+- **Comments::**
+  - From now on we will have a stand-up meeting in the middle of each sprint to discuss how things are going.
 
 ## **Next Steps**
 - **Upcoming Goals:**
