@@ -1,0 +1,115 @@
+-- 1) Drop and recreate the database
+DROP DATABASE IF EXISTS stayfinder;
+CREATE DATABASE stayfinder;
+USE stayfinder;
+
+-- 2) Create the Users table
+CREATE TABLE Users (
+    uID INT PRIMARY KEY,
+    firstName VARCHAR(50) NOT NULL,
+    lastName VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    telephone VARCHAR(20),
+    areaCode VARCHAR(5)
+);
+
+-- 3) Create the Hotels table
+CREATE TABLE Hotels (
+    hID INT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    locationType VARCHAR(100),
+    extraFeatures VARCHAR(255)
+);
+
+-- 4) Create the Providers table
+CREATE TABLE Providers (
+    pID INT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+-- 5) Create the Listings table
+CREATE TABLE Listings (
+    listID INT PRIMARY KEY,
+    hID INT NOT NULL,
+    pID INT NOT NULL,
+    currency VARCHAR(10),
+    link VARCHAR(255),
+    CONSTRAINT fk_listings_hotels FOREIGN KEY (hID) REFERENCES Hotels(hID),
+    CONSTRAINT fk_listings_providers FOREIGN KEY (pID) REFERENCES Providers(pID)
+);
+
+-- 6) Create the Bookings table
+CREATE TABLE Bookings (
+    bID INT PRIMARY KEY,
+    uID INT NOT NULL,
+    listID INT NOT NULL,
+    status VARCHAR(20), -- e.g., awaiting payment, partialPaid, paid, canceled
+    startDate DATE,
+    endDate DATE,
+    CONSTRAINT fk_bookings_users FOREIGN KEY (uID) REFERENCES Users(uID),
+    CONSTRAINT fk_bookings_listings FOREIGN KEY (listID) REFERENCES Listings(listID)
+);
+
+-- 7) Create the Favorites table
+--    Composite primary key (listingID, uID)
+CREATE TABLE Favorites (
+    listingID INT NOT NULL,
+    uID INT NOT NULL,
+    PRIMARY KEY (listingID, uID),
+    CONSTRAINT fk_favorites_listings FOREIGN KEY (listingID) REFERENCES Listings(listID),
+    CONSTRAINT fk_favorites_users FOREIGN KEY (uID) REFERENCES Users(uID)
+);
+
+-- =============================
+-- INSERT SAMPLE DATA
+-- =============================
+
+-- Insert into Users
+INSERT INTO Users (uID, firstName, lastName, email, telephone, areaCode)
+VALUES
+  (1, 'John',  'Doe',     'john@example.com',  '12345678', '+47'),
+  (2, 'Jane',  'Smith',   'jane@example.com',  '12345679', '+47'),
+  (3, 'Alice', 'Johnson', 'alice@example.com', '12345680', '+47');
+
+-- Insert into Hotels
+INSERT INTO Hotels (hID, name, locationType, extraFeatures)
+VALUES
+  (1, 'Andante Hotel',       'City Center',         'Rooftop Pool, Gym'),
+  (2, 'Thon Hotel Ålesund',  'Coastal/Fjord View',  'Free Breakfast, Conference Facilities'),
+  (3, 'Scandic Parken',      'Park Proximity',      'In-house Restaurant, EV Charging');
+
+-- Insert into Providers
+INSERT INTO Providers (pID, name)
+VALUES
+  (1, 'Booking.com'),
+  (2, 'Agoda'),
+  (3, 'Expedia'),
+  (4, 'momondo'),
+  (5, 'Airbnb');
+
+-- Insert into Listings
+INSERT INTO Listings (listID, hID, pID, currency, link)
+VALUES
+  (1, 1, 1, 'USD', 'http://booking.com/andante'),
+  (2, 1, 2, 'USD', 'http://agoda.com/andante'),
+  (3, 2, 4, 'NOK', 'http://momondo.com/thon'),
+  (4, 2, 3, 'NOK', 'http://expedia.com/thon'),
+  (5, 3, 5, 'NOK', 'http://airbnb.com/scandic'),
+  (6, 3, 2, 'NOK', 'http://agoda.com/scandic');
+
+-- Insert into Bookings
+INSERT INTO Bookings (bID, uID, listID, status, startDate, endDate)
+VALUES
+  (1, 1, 1, 'awaiting payment', '2025-04-01', '2025-04-05'),
+  (2, 2, 3, 'paid',             '2025-04-10', '2025-04-15'),
+  (3, 3, 5, 'canceled',         '2025-04-20', '2025-04-22');
+
+-- Insert into Favorites
+INSERT INTO Favorites (listingID, uID)
+VALUES
+  (1, 2),
+  (3, 1),
+  (5, 1);
+
+-- Done!
+SELECT 'Database setup complete!' AS message;

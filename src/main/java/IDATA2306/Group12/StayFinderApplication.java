@@ -18,10 +18,4 @@ public class StayFinderApplication {
 			System.out.println("Application started successfully.");
 		}
 	}
-	@PostConstruct
-	public void logWorkingDir() {
-		System.out.println("Working Directory: " + System.getProperty("user.dir"));
-	}
-
-
 }
