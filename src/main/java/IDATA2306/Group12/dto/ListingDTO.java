@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 /**
- * Data Transfer Object (DTO) for Listing entity.
+ * Data Transfer Object (DTO) for Listings entity.
  */
 public class ListingDTO {
 

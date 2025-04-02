@@ -3,55 +3,57 @@ DROP DATABASE IF EXISTS stayfinder;
 CREATE DATABASE stayfinder;
 USE stayfinder;
 
--- 2) Create the Users table
+-- 2) Create the Users table with AUTO_INCREMENT for uID
 CREATE TABLE Users (
-    uID INT PRIMARY KEY,
+    uID INT PRIMARY KEY AUTO_INCREMENT,
     firstName VARCHAR(50) NOT NULL,
     lastName VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL,
     telephone VARCHAR(20),
-    areaCode VARCHAR(5)
+    areaCode VARCHAR(5),
+    password VARCHAR(100)
 );
 
--- 3) Create the Hotels table
+-- 3) Create the Hotels table with AUTO_INCREMENT for hID
 CREATE TABLE Hotels (
-    hID INT PRIMARY KEY,
+    hID INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
     locationType VARCHAR(100),
-    extraFeatures VARCHAR(255)
+    extraFeatures VARCHAR(255),
+    roomTypes VARCHAR(255)
 );
 
--- 4) Create the Providers table
+-- 4) Create the Providers table with AUTO_INCREMENT for pID
 CREATE TABLE Providers (
-    pID INT PRIMARY KEY,
+    pID INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL
 );
 
--- 5) Create the Listings table
+-- 5) Create the Listings table with AUTO_INCREMENT for listID
 CREATE TABLE Listings (
-    listID INT PRIMARY KEY,
+    listID INT PRIMARY KEY AUTO_INCREMENT,
     hID INT NOT NULL,
     pID INT NOT NULL,
     currency VARCHAR(10),
     link VARCHAR(255),
+    price DECIMAL(10,2),
     CONSTRAINT fk_listings_hotels FOREIGN KEY (hID) REFERENCES Hotels(hID),
     CONSTRAINT fk_listings_providers FOREIGN KEY (pID) REFERENCES Providers(pID)
 );
 
--- 6) Create the Bookings table
+-- 6) Create the Bookings table with AUTO_INCREMENT for bID
 CREATE TABLE Bookings (
-    bID INT PRIMARY KEY,
-    uID INT NOT NULL,
+    bID INT PRIMARY KEY AUTO_INCREMENT,
     listID INT NOT NULL,
-    status VARCHAR(20), -- e.g., awaiting payment, partialPaid, paid, canceled
+    uID INT NOT NULL,
+    status VARCHAR(20),
     startDate DATE,
     endDate DATE,
-    CONSTRAINT fk_bookings_users FOREIGN KEY (uID) REFERENCES Users(uID),
-    CONSTRAINT fk_bookings_listings FOREIGN KEY (listID) REFERENCES Listings(listID)
+    CONSTRAINT fk_bookings_listings FOREIGN KEY (listID) REFERENCES Listings(listID),
+    CONSTRAINT fk_bookings_users FOREIGN KEY (uID) REFERENCES Users(uID)
 );
 
--- 7) Create the Favorites table
---    Composite primary key (listingID, uID)
+-- 7) Create the Favorites table (composite primary key, no auto-increment needed)
 CREATE TABLE Favorites (
     listingID INT NOT NULL,
     uID INT NOT NULL,
@@ -64,45 +66,48 @@ CREATE TABLE Favorites (
 -- INSERT SAMPLE DATA
 -- =============================
 
--- Insert into Users
-INSERT INTO Users (uID, firstName, lastName, email, telephone, areaCode)
+-- Insert into Users (do not include uID since it will be auto-generated)
+INSERT INTO Users (firstName, lastName, email, telephone, areaCode, password)
 VALUES
-  (1, 'John',  'Doe',     'john@example.com',  '12345678', '+47'),
-  (2, 'Jane',  'Smith',   'jane@example.com',  '12345679', '+47'),
-  (3, 'Alice', 'Johnson', 'alice@example.com', '12345680', '+47');
+  ('John',  'Doe',     'john@example.com',  '12345678', '+47', 'password123'),
+  ('Jane',  'Smith',   'jane@example.com',  '12345679', '+47', 'password456'),
+  ('Alice', 'Johnson', 'alice@example.com', '12345680', '+47', 'password789'),
+  ('Bob',   'Brown',   'bob@example.com',   '98765432', '+47', 'password000'),
+  ('Carol', 'White',   'carol@example.com', '55555555', '+47', 'password111'),
+  ('Dave',  'Black',   'dave@example.com',  '44444444', '+47', 'password222');
 
 -- Insert into Hotels
-INSERT INTO Hotels (hID, name, locationType, extraFeatures)
+INSERT INTO Hotels (name, locationType, extraFeatures, roomTypes)
 VALUES
-  (1, 'Andante Hotel',       'City Center',         'Rooftop Pool, Gym'),
-  (2, 'Thon Hotel Ålesund',  'Coastal/Fjord View',  'Free Breakfast, Conference Facilities'),
-  (3, 'Scandic Parken',      'Park Proximity',      'In-house Restaurant, EV Charging');
+  ('Andante Hotel',       'City Center',         'Rooftop Pool, Gym',                'Single, Double'),
+  ('Thon Hotel Ålesund',  'Coastal/Fjord View',  'Free Breakfast, Conference Facilities', 'Single, Family'),
+  ('Scandic Parken',      'Park Proximity',      'In-house Restaurant, EV Charging', 'Double, Suite');
 
 -- Insert into Providers
-INSERT INTO Providers (pID, name)
+INSERT INTO Providers (name)
 VALUES
-  (1, 'Booking.com'),
-  (2, 'Agoda'),
-  (3, 'Expedia'),
-  (4, 'momondo'),
-  (5, 'Airbnb');
+  ('Booking.com'),
+  ('Agoda'),
+  ('Expedia'),
+  ('momondo'),
+  ('Airbnb');
 
--- Insert into Listings
-INSERT INTO Listings (listID, hID, pID, currency, link)
+-- Insert into Listings (with price)
+INSERT INTO Listings (hID, pID, currency, link, price)
 VALUES
-  (1, 1, 1, 'USD', 'http://booking.com/andante'),
-  (2, 1, 2, 'USD', 'http://agoda.com/andante'),
-  (3, 2, 4, 'NOK', 'http://momondo.com/thon'),
-  (4, 2, 3, 'NOK', 'http://expedia.com/thon'),
-  (5, 3, 5, 'NOK', 'http://airbnb.com/scandic'),
-  (6, 3, 2, 'NOK', 'http://agoda.com/scandic');
+  (1, 1, 'USD', 'http://booking.com/andante',       150.00),
+  (1, 2, 'USD', 'http://agoda.com/andante',         200.00),
+  (2, 4, 'NOK', 'http://momondo.com/thon',         1200.00),
+  (2, 3, 'NOK', 'http://expedia.com/thon',         1400.00),
+  (3, 5, 'NOK', 'http://airbnb.com/scandic',       1100.00),
+  (3, 2, 'NOK', 'http://agoda.com/scandic',        1500.00);
 
 -- Insert into Bookings
-INSERT INTO Bookings (bID, uID, listID, status, startDate, endDate)
+INSERT INTO Bookings (listID, uID, status, startDate, endDate)
 VALUES
-  (1, 1, 1, 'awaiting payment', '2025-04-01', '2025-04-05'),
-  (2, 2, 3, 'paid',             '2025-04-10', '2025-04-15'),
-  (3, 3, 5, 'canceled',         '2025-04-20', '2025-04-22');
+  (1, 1, 'awaiting payment', '2025-04-01', '2025-04-05'),
+  (3, 2, 'paid',             '2025-04-10', '2025-04-15'),
+  (5, 3, 'canceled',         '2025-04-20', '2025-04-22');
 
 -- Insert into Favorites
 INSERT INTO Favorites (listingID, uID)

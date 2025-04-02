@@ -1,6 +1,6 @@
 package IDATA2306.Group12.controller;
 
-import IDATA2306.Group12.entity.Listing;
+import IDATA2306.Group12.entity.Listings;
 import IDATA2306.Group12.service.ListingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,7 @@ public class ListingController {
     private ListingService listingService;
 
     @GetMapping
-    public List<Listing> getAlllistings(){
+    public List<Listings> getAlllistings(){
         try{
             return listingService.getAllListings();
         }catch(Exception e){
@@ -24,16 +24,16 @@ public class ListingController {
         }
     }
     @GetMapping("/{id}")
-    public Listing getListingById(@PathVariable int id){
+    public Listings getListingById(@PathVariable int id){
         return listingService.getListingById(id);
     }
     @PostMapping("/{id}")
-    public Listing createListing(@RequestBody Listing listing){
-        return listingService.createListing(listing);
+    public Listings createListing(@RequestBody Listings listings){
+        return listingService.createListing(listings);
     }
     @PutMapping("/{id}")
-    public Listing updateListing(@PathVariable int id,@RequestBody Listing listing){
-        return listingService.updateListing(id, listing);
+    public Listings updateListing(@PathVariable int id, @RequestBody Listings listings){
+        return listingService.updateListing(id, listings);
     }
     @DeleteMapping("/{id}")
     public void deleteListing(@PathVariable int id){
