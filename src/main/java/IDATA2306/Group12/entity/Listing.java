@@ -1,11 +1,7 @@
 package IDATA2306.Group12.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 /**
  * Represents a listing for a hotel.
@@ -20,36 +16,42 @@ public class Listing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
+    @Column(name = "listID")
     private int id;
 
     /**
      * The provider of the listing.
      */
     @JsonProperty("pID")
+    @Column(name = "pID")
     private int pID;
 
     /**
      * The hotel associated with the listing.
      */
     @JsonProperty("hID")
+    @Column(name = "hID")
     private int hID;
 
     /**
      * The price of the listing.
      */
     @JsonProperty("price")
+    @Column(name = "price")
     private int price;
 
     /**
      * The currency of the price.
      */
     @JsonProperty("currency")
+    @Column(name = "currency")
     private String currency;
 
     /**
      * The link to the listing.
      */
     @JsonProperty("link")
+    @Column(name = "link")
     private String link;
 
     public Listing () {}

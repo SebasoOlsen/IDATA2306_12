@@ -1,11 +1,7 @@
 package IDATA2306.Group12.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 /**
  * Represents a provider of listings.
@@ -20,12 +16,14 @@ public class Provider {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
+    @Column(name="pID")
     private int id;
 
     /**
      * The name of the provider.
      */
     @JsonProperty("name")
+    @Column(name="name")
     private String name;
 
     /**

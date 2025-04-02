@@ -1,11 +1,7 @@
 package IDATA2306.Group12.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 /**
  * Represents a hotel with various listings.
@@ -20,30 +16,35 @@ public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
+    @Column(name = "hID")
     private int id;
 
     /**
      * The name of the hotel.
      */
     @JsonProperty("name")
+    @Column(name = "name")
     private String name;
 
     /**
      * The type of location where the hotel is situated.
      */
     @JsonProperty("locationType")
+    @Column(name = "locationType")
     private String locationType;
 
     /**
      * The types of rooms available in the hotel.
      */
     @JsonProperty("roomTypes")
+    @Column(name = "roomTypes")
     private String roomTypes;
 
     /**
      * The extra features offered by the hotel.
      */
     @JsonProperty("extraFeatures")
+    @Column(name = "extraFeatures")
     private String extraFeatures;
 
     public Hotel() {}

@@ -16,8 +16,7 @@ public class HotelService {
     private HotelRepository hotelRepository;
 
     public List<Hotel> getAllHotels(){
-        return StreamSupport.stream(hotelRepository.findAll().spliterator(),false)
-                .collect(Collectors.toList());
+        return hotelRepository.findAll();
     }
     public Hotel getHotelById(Long id){
         return hotelRepository.findById(id.intValue()).orElse(null);
@@ -40,7 +39,7 @@ public class HotelService {
                 return hotelRepository.save(existingHotel);
     }
     @Transactional
-    public void deleteUser(Long id){
+    public void deleteHotel(Long id){
         hotelRepository.deleteById(id.intValue());
     }
 }

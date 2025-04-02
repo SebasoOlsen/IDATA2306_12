@@ -13,6 +13,7 @@ public class Favourite {
      */
     @Id
     @JsonProperty("uID")
+    @Column(name = "uID")
     private int uID;
 
     /**
@@ -20,6 +21,7 @@ public class Favourite {
      */
     @Id
     @JsonProperty("listingID")
+    @Column(name = "listingID")
     private int listingID;
 
     /**

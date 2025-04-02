@@ -2,11 +2,7 @@ package IDATA2306.Group12.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 
 /**
@@ -22,41 +18,48 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
+    @Column(name = "uID")
     private int id;
 
     /**
      * The first name of the user.
      */
+    @Column(name = "firstName")
     @JsonProperty("firstname")
     private String firstName;
 
     /**
      * The last name of the user.
      */
+    @Column(name = "lastName")
     @JsonProperty("lastname")
     private String lastName;
 
     /**
      * The email address of the user.
      */
+    @Column(name = "email")
     @JsonProperty("email")
     private String email;
 
     /**
      * The password of the user.
      */
+    @Column(name = "password")
     @JsonProperty("password")
     private String password;
 
     /**
      * The telephone number of the user.
      */
+    @Column(name = "telephone")
     @JsonProperty("telephone")
     private String telephone;
 
     /**
      * The area code of the user's telephone number.
      */
+    @Column(name = "areaCode")
     @JsonProperty("areaCode")
     private String areaCode;
 

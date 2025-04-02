@@ -1,11 +1,7 @@
 package IDATA2306.Group12.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
@@ -22,36 +18,42 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
+    @Column(name = "bID")
     private int id;
 
     /**
      * The id of the user who made the booking.
      */
     @JsonProperty("uID")
+    @Column(name = "uID")
     private int uID;
 
     /**
      * The listing that is being booked.
      */
     @JsonProperty("listID")
+    @Column(name="listID")
     private int listID;
 
     /**
      * The status of the booking.
      */
     @JsonProperty("status")
+    @Column(name = "status")
     private String status;
 
     /**
      * The start date of the booking.
      */
     @JsonProperty("startDate")
+    @Column(name = "startDate")
     private Date startDate;
 
     /**
      * The end date of the booking.
      */
     @JsonProperty("endDate")
+    @Column(name = "endDate")
     private Date endDate;
 
     public Booking() {}
