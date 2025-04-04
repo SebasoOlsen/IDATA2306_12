@@ -1,50 +1,50 @@
 package IDATA2306.Group12.mapper;
 
-import IDATA2306.Group12.entity.Listing;
+import IDATA2306.Group12.entity.Listings;
 import IDATA2306.Group12.dto.ListingDTO;
 
 /**
- * Mapper class for converting between Listing entity and ListingDTO.
+ * Mapper class for converting between Listings entity and ListingDTO.
  */
 public class ListingMapper {
 
     /**
-     * Converts a Listing entity to a ListingDTO.
+     * Converts a Listings entity to a ListingDTO.
      *
-     * @param listing the Listing entity to convert
+     * @param listings the Listings entity to convert
      * @return the corresponding ListingDTO
      */
-    public static ListingDTO toDTO(Listing listing) {
-        if (listing == null) {
-            throw new IllegalArgumentException("Listing cannot be null");
+    public static ListingDTO toDTO(Listings listings) {
+        if (listings == null) {
+            throw new IllegalArgumentException("Listings cannot be null");
         }
         return new ListingDTO(
-            listing.getId(),
-            listing.getPID(),
-            listing.getHID(),
-            listing.getPrice(),
-            listing.getCurrency(),
-            listing.getLink()
+            listings.getId(),
+            listings.getPID(),
+            listings.getHID(),
+            listings.getPrice(),
+            listings.getCurrency(),
+            listings.getLink()
         );
     }
 
     /**
-     * Converts a ListingDTO to a Listing entity.
+     * Converts a ListingDTO to a Listings entity.
      *
      * @param listingDTO the ListingDTO to convert
-     * @return the corresponding Listing entity
+     * @return the corresponding Listings entity
      */
-    public static Listing toEntity(ListingDTO listingDTO) {
+    public static Listings toEntity(ListingDTO listingDTO) {
         if (listingDTO == null) {
             throw new IllegalArgumentException("ListingDTO cannot be null");
         }
-        Listing listing = new Listing();
-        listing.setId(listingDTO.getId());
-        listing.setPID(listingDTO.getPID());
-        listing.setHID(listingDTO.getHID());
-        listing.setPrice(listingDTO.getPrice());
-        listing.setCurrency(listingDTO.getCurrency());
-        listing.setLink(listingDTO.getLink());
-        return listing;
+        Listings listings = new Listings();
+        listings.setId(listingDTO.getId());
+        listings.setPID(listingDTO.getPID());
+        listings.setHID(listingDTO.getHID());
+        listings.setPrice(listingDTO.getPrice());
+        listings.setCurrency(listingDTO.getCurrency());
+        listings.setLink(listingDTO.getLink());
+        return listings;
     }
 }

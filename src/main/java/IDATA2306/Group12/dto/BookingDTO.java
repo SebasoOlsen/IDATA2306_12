@@ -14,7 +14,7 @@ public class BookingDTO {
     @NotNull(message = "User ID cannot be null")
     private int userId;
 
-    @NotNull(message = "Listing ID cannot be null")
+    @NotNull(message = "Listings ID cannot be null")
     private int listingId;
 
     @NotBlank(message = "Booking status cannot be empty")
