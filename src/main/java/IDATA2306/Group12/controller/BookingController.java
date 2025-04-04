@@ -1,5 +1,6 @@
 package IDATA2306.Group12.controller;
 
+import IDATA2306.Group12.dto.BookingDTO;
 import IDATA2306.Group12.entity.Booking;
 import IDATA2306.Group12.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,9 @@ public class BookingController {
     public Booking getBookingById(@PathVariable Long id){
         return bookingService.getBookingById(id);
     }
-    @PostMapping("/{id}")
-    public Booking createBooking(@RequestBody Booking booking){
-        return bookingService.createBooking(booking);
+    @PostMapping
+    public Booking createBooking(@RequestBody BookingDTO bookingDTO){
+        return bookingService.createBooking(bookingDTO);
     }
     @PutMapping("/{id}")
     public Booking updateBooking(@PathVariable Long id,@RequestBody Booking booking){

@@ -3,6 +3,7 @@ package IDATA2306.Group12.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -19,7 +20,7 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
     @Column(name = "bID")
-    private int id;
+    private int id;;
 
     /**
      * The id of the user who made the booking.
@@ -47,16 +48,21 @@ public class Booking {
      */
     @JsonProperty("startDate")
     @Column(name = "startDate")
-    private Date startDate;
+    private LocalDate startDate;
 
     /**
      * The end date of the booking.
      */
     @JsonProperty("endDate")
     @Column(name = "endDate")
-    private Date endDate;
+    private LocalDate endDate;
 
     public Booking() {}
+
+    @PrePersist
+    protected void onCreate(){
+        this.startDate = LocalDate.now(); ;
+    }
 
     public int getId() {return id;}
     public void setId(int id) {this.id = id;}
@@ -70,9 +76,9 @@ public class Booking {
     public String getStatus() {return status;}
     public void setStatus(String status) {this.status = status;}
 
-    public Date getStartDate() {return startDate;}
-    public void setStartDate(Date startDate) {this.startDate = startDate;}
+    public LocalDate getStartDate() {return startDate;}
+    public void setStartDate(LocalDate startDate) {this.startDate = startDate;}
 
-    public Date getEndDate() {return endDate;}
-    public void setEndDate(Date endDate) {this.endDate = endDate;}
+    public LocalDate getEndDate() {return endDate;}
+    public void setEndDate(LocalDate endDate) {this.endDate = endDate;}
 }

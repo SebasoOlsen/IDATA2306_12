@@ -1,7 +1,10 @@
 package IDATA2306.Group12.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -11,9 +14,11 @@ public class BookingDTO {
 
     private int id;
 
+    @JsonProperty("uID")
     @NotNull(message = "User ID cannot be null")
     private int userId;
 
+    @JsonProperty("listID")
     @NotNull(message = "Listings ID cannot be null")
     private int listingId;
 
@@ -21,14 +26,14 @@ public class BookingDTO {
     private String status;
 
     @NotNull(message = "Start date cannot be null")
-    private Date startDate;
+    private LocalDate startDate;
 
     @NotNull(message = "End date cannot be null")
-    private Date endDate;
+    private LocalDate endDate;
 
     public BookingDTO() {}
 
-    public BookingDTO(int id, int userId, String status, Date startDate, Date endDate) {
+    public BookingDTO(int id, int userId, String status, LocalDate startDate, LocalDate endDate) {
         this.id = id;
         this.userId = userId;
         this.status = status;
@@ -48,9 +53,9 @@ public class BookingDTO {
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 
-    public Date getStartDate() { return startDate; }
-    public void setStartDate(Date startDate) { this.startDate = startDate; }
+    public LocalDate getStartDate() { return startDate; }
+    public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
 
-    public Date getEndDate() { return endDate; }
-    public void setEndDate(Date endDate) { this.endDate = endDate; }
+    public LocalDate getEndDate() { return endDate; }
+    public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
 }

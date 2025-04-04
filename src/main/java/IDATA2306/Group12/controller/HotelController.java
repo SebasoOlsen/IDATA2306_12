@@ -27,7 +27,7 @@ public class HotelController {
     public Hotel getHotelById(@PathVariable Long id){
         return hotelService.getHotelById(id);
     }
-    @PostMapping("/{id}")
+    @PostMapping
     public Hotel createHotel(@RequestBody Hotel hotel){
         return hotelService.createHotel(hotel);
     }

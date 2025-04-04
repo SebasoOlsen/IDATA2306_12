@@ -86,7 +86,7 @@ public class UserService {
      * @param id the ID of the user to be deleted. It is expected to be a Long value,
      *           which will be converted to an integer for deletion.
      * @throws IllegalArgumentException if the provided ID is null or invalid.
-     * @throws EmptyResultDataAccessException if no user with the given ID exists in the repository.
+//     * @throws EmptyResultDataAccessException if no user with the given ID exists in the repository.
      */
     @Transactional
     public void deleteUser(Long id) {

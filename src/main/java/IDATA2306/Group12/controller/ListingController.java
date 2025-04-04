@@ -27,7 +27,7 @@ public class ListingController {
     public Listings getListingById(@PathVariable int id){
         return listingService.getListingById(id);
     }
-    @PostMapping("/{id}")
+    @PostMapping
     public Listings createListing(@RequestBody Listings listings){
         return listingService.createListing(listings);
     }

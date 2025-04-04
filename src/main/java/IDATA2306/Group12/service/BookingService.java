@@ -1,7 +1,9 @@
 package IDATA2306.Group12.service;
 
+import IDATA2306.Group12.dto.BookingDTO;
 import IDATA2306.Group12.entity.Booking;
 import IDATA2306.Group12.repository.BookingRepository;
+import IDATA2306.Group12.repository.ListingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,9 @@ public class BookingService {
     @Autowired
     private BookingRepository bookingRepository;
 
+    @Autowired
+    private ListingRepository listingRepository;
+
     public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
     }
@@ -23,7 +28,15 @@ public class BookingService {
     public Booking getBookingByUserId(Long userId) {
         return bookingRepository.findByuID(userId.intValue());
     }
-    public Booking createBooking(Booking booking) {
+    public Booking createBooking(BookingDTO bookingdto) {
+        if(!listingRepository.existsById(bookingdto.getListingId())){
+            throw new IllegalArgumentException("Listing not found");
+        }
+        Booking booking = new Booking();
+        booking.setLID(bookingdto.getListingId());
+        booking.setStatus(bookingdto.getStatus());
+        booking.setEndDate(bookingdto.getEndDate());
+        booking.setUID(bookingdto.getUserId());
         return bookingRepository.save(booking);
     }
     @Transactional
