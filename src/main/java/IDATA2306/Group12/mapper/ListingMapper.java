@@ -1,6 +1,6 @@
 package IDATA2306.Group12.mapper;
 
-import IDATA2306.Group12.entity.Listings;
+import IDATA2306.Group12.entity.Listing;
 import IDATA2306.Group12.dto.ListingDTO;
 
 /**
@@ -14,7 +14,7 @@ public class ListingMapper {
      * @param listings the Listings entity to convert
      * @return the corresponding ListingDTO
      */
-    public static ListingDTO toDTO(Listings listings) {
+    public static ListingDTO toDTO(Listing listings) {
         if (listings == null) {
             throw new IllegalArgumentException("Listings cannot be null");
         }
@@ -34,11 +34,11 @@ public class ListingMapper {
      * @param listingDTO the ListingDTO to convert
      * @return the corresponding Listings entity
      */
-    public static Listings toEntity(ListingDTO listingDTO) {
+    public static Listing toEntity(ListingDTO listingDTO) {
         if (listingDTO == null) {
             throw new IllegalArgumentException("ListingDTO cannot be null");
         }
-        Listings listings = new Listings();
+        Listing listings = new Listing();
         listings.setId(listingDTO.getId());
         listings.setPID(listingDTO.getPID());
         listings.setHID(listingDTO.getHID());

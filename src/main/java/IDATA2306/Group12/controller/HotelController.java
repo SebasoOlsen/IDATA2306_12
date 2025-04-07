@@ -1,6 +1,6 @@
 package IDATA2306.Group12.controller;
 
-import IDATA2306.Group12.entity.Hotel;
+import IDATA2306.Group12.dto.HotelDTO;
 import IDATA2306.Group12.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,7 @@ public class HotelController {
     private HotelService hotelService;
 
     @GetMapping
-    public List<Hotel> getAllhotels(){
+    public List<HotelDTO> getAllhotels(){
         try{
             return hotelService.getAllHotels();
         }catch(Exception e){
@@ -24,15 +24,15 @@ public class HotelController {
         }
     }
     @GetMapping("/{id}")
-    public Hotel getHotelById(@PathVariable Long id){
+    public HotelDTO getHotelById(@PathVariable Long id){
         return hotelService.getHotelById(id);
     }
     @PostMapping
-    public Hotel createHotel(@RequestBody Hotel hotel){
+    public HotelDTO createHotel(@RequestBody HotelDTO hotel){
         return hotelService.createHotel(hotel);
     }
     @PutMapping("/{id}")
-    public Hotel updateHotel(@PathVariable Long id,@RequestBody Hotel hotel){
+    public HotelDTO updateHotel(@PathVariable Long id,@RequestBody HotelDTO hotel){
         return hotelService.updateHotel(id, hotel);
     }
     @DeleteMapping("/{id}")

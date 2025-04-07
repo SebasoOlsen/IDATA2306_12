@@ -1,7 +1,6 @@
 package IDATA2306.Group12.controller;
 
 import IDATA2306.Group12.dto.BookingDTO;
-import IDATA2306.Group12.entity.Booking;
 import IDATA2306.Group12.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,7 @@ public class BookingController {
     private BookingService bookingService;
 
     @GetMapping
-    public List<Booking> getAllbookings(){
+    public List<BookingDTO> getAllbookings(){
         try{
             return bookingService.getAllBookings();
         }catch(Exception e){
@@ -25,16 +24,16 @@ public class BookingController {
         }
     }
     @GetMapping("/{id}")
-    public Booking getBookingById(@PathVariable Long id){
+    public BookingDTO getBookingById(@PathVariable Long id){
         return bookingService.getBookingById(id);
     }
     @PostMapping
-    public Booking createBooking(@RequestBody BookingDTO bookingDTO){
+    public BookingDTO createBooking(@RequestBody BookingDTO bookingDTO){
         return bookingService.createBooking(bookingDTO);
     }
     @PutMapping("/{id}")
-    public Booking updateBooking(@PathVariable Long id,@RequestBody Booking booking){
-        return bookingService.updateBooking(id, booking);
+    public BookingDTO updateBooking(@PathVariable Long id,@RequestBody BookingDTO bookingDTO){
+        return bookingService.updateBooking(id, bookingDTO);
     }
     @DeleteMapping("/{id}")
     public void deleteBooking(@PathVariable Long id){

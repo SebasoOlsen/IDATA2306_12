@@ -1,6 +1,8 @@
 package IDATA2306.Group12.service;
 
-import IDATA2306.Group12.entity.Listings;
+import IDATA2306.Group12.dto.ListingDTO;
+import IDATA2306.Group12.entity.Listing;
+import IDATA2306.Group12.mapper.ListingMapper;
 import IDATA2306.Group12.repository.ListingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,24 +16,27 @@ public class ListingService {
     @Autowired
     private ListingRepository listingRepository;
 
-    public List<Listings> getAllListings() {
-        return listingRepository.findAll();
+    public List<ListingDTO> getAllListings() {
+        return listingRepository.findAll().stream()
+            .map(listing -> ListingMapper.toDTO(listing)).toList();
     }
-    public Listings getListingById(int id){
-        return listingRepository.findById(id).orElse(null);
+    public ListingDTO getListingById(int id){
+        return ListingMapper.toDTO(listingRepository.findById(id).orElse(null));
     }
 //    public Listings getListingByHotel(Hotel hotel){
 //        return listingRepository.findByHotel(hotel);
 //    }
-    public Listings createListing(Listings listings) {
-        return listingRepository.save(listings);
+    public ListingDTO createListing(ListingDTO listingDTO) {
+        listingRepository.save(ListingMapper.toEntity(listingDTO));
+        return listingDTO;
     }
 //    public Listings findListingByName(String name){
 //        return listingRepository.findByName(name);
 //    }
     @Transactional
-    public Listings updateListing(int id, Listings updatedListings) {
-        Listings existingListings = listingRepository.findById(id)
+    public ListingDTO updateListing(int id, ListingDTO updatedListingsDTO) {
+        Listing updatedListings = ListingMapper.toEntity(updatedListingsDTO);
+        Listing existingListings = listingRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Listings not found"));
         // Update fields except the id
         existingListings.setPID(updatedListings.getPID());
@@ -39,7 +44,8 @@ public class ListingService {
         existingListings.setPrice(updatedListings.getPrice());
         existingListings.setCurrency(updatedListings.getCurrency());
         existingListings.setLink(updatedListings.getLink());
-        return listingRepository.save(existingListings);
+        listingRepository.save(existingListings);
+        return ListingMapper.toDTO(existingListings);
     }
     @Transactional
     public void deleteListing(int id) {

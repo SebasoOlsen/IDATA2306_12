@@ -8,7 +8,7 @@ import jakarta.persistence.*;
  */
 @Entity
 @Table(name = "Listings")
-public class Listings {
+public class Listing {
 
     /**
      * The unique identifier for the listing.
@@ -54,7 +54,7 @@ public class Listings {
     @Column(name = "link")
     private String link;
 
-    public Listings() {}
+    public Listing() {}
 
     public int getId() {return id;}
     public void setId(int id) {this.id = id;}

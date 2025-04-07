@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * The UserService class provides methods for managing user data in the system.
@@ -29,15 +27,8 @@ public class UserService {
      * @return a list of UserDTO objects representing all users in the system.
      */
     public List<UserDTO> getAllUsers() {
-        List <User> users = userRepository.findAll();
-        return users.stream()
-                .map(user -> new UserDTO(user.getId(), 
-                                        user.getFirstName(), 
-                                        user.getLastName(), 
-                                        user.getEmail(), 
-                                        user.getTelephone(), 
-                                        user.getAreaCode())) 
-                .collect(Collectors.toList());
+        return userRepository.findAll().stream()
+                .map(user -> UserMapper.toDTO(user)).toList();
     }
 
     /**
@@ -56,9 +47,9 @@ public class UserService {
      * @param user the User entity to be created and saved
      * @return a UserDTO representation of the saved User entity
      */
-    public UserDTO createUser(User user) {
-        userRepository.save(user);
-        return UserMapper.toDTO(user);
+    public UserDTO createUser(UserDTO userDTO) {
+        userRepository.save(UserMapper.toEntity(userDTO));
+        return userDTO;
     }
 
     /**
@@ -70,7 +61,8 @@ public class UserService {
      * @throws RuntimeException if the user with the specified ID is not found.
      */
     @Transactional
-    public UserDTO updateUser(Long id, User user) {
+    public UserDTO updateUser(Long id, UserDTO userDTO) {
+        User user = UserMapper.toEntity(userDTO);
         User existingUser = userRepository.findById(id.intValue()).orElseThrow(()
                 -> new RuntimeException("User not found"));
                 existingUser.setFirstName(user.getFirstName());

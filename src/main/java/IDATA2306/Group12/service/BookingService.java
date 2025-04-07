@@ -2,6 +2,7 @@ package IDATA2306.Group12.service;
 
 import IDATA2306.Group12.dto.BookingDTO;
 import IDATA2306.Group12.entity.Booking;
+import IDATA2306.Group12.mapper.BookingMapper;
 import IDATA2306.Group12.repository.BookingRepository;
 import IDATA2306.Group12.repository.ListingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,28 +20,31 @@ public class BookingService {
     @Autowired
     private ListingRepository listingRepository;
 
-    public List<Booking> getAllBookings() {
-        return bookingRepository.findAll();
+    public List<BookingDTO> getAllBookings() {
+        return bookingRepository.findAll().stream()
+                .map(booking -> BookingMapper.toDTO(booking)).toList();
     }
-    public Booking getBookingById(Long id) {
-        return bookingRepository.findById(id.intValue()).orElse(null);
+    public BookingDTO getBookingById(Long id) {
+        return BookingMapper.toDTO(bookingRepository.findById(id.intValue()).orElse(null));
     }
-    public Booking getBookingByUserId(Long userId) {
-        return bookingRepository.findByuID(userId.intValue());
+    public BookingDTO getBookingByUserId(Long userId) {
+        return BookingMapper.toDTO(bookingRepository.findByuID(userId.intValue()));
     }
-    public Booking createBooking(BookingDTO bookingdto) {
-        if(!listingRepository.existsById(bookingdto.getListingId())){
+    public BookingDTO createBooking(BookingDTO bookingDTO) {
+        if(!listingRepository.existsById(bookingDTO.getListingId())){
             throw new IllegalArgumentException("Listing not found");
         }
         Booking booking = new Booking();
-        booking.setLID(bookingdto.getListingId());
-        booking.setStatus(bookingdto.getStatus());
-        booking.setEndDate(bookingdto.getEndDate());
-        booking.setUID(bookingdto.getUserId());
-        return bookingRepository.save(booking);
+        booking.setLID(bookingDTO.getListingId());
+        booking.setStatus(bookingDTO.getStatus());
+        booking.setEndDate(bookingDTO.getEndDate());
+        booking.setUID(bookingDTO.getUserId());
+        bookingRepository.save(booking);
+        return BookingMapper.toDTO(booking);
     }
     @Transactional
-    public Booking updateBooking(Long id, Booking updatedBooking) {
+    public BookingDTO updateBooking(Long id, BookingDTO updatedBookingDTO) {
+        Booking updatedBooking = BookingMapper.toEntity(updatedBookingDTO);
         Booking existingBooking = bookingRepository.findById(id.intValue())
                 .orElseThrow(() -> new RuntimeException("Booking not found"));
 
@@ -49,8 +53,8 @@ public class BookingService {
         // Add additional field updates as appropriate (e.g. bookingDate, status, etc.)
         existingBooking.setStartDate(updatedBooking.getStartDate());
         existingBooking.setStatus(updatedBooking.getStatus());
-
-        return bookingRepository.save(existingBooking);
+        bookingRepository.save(existingBooking);
+        return BookingMapper.toDTO(existingBooking);
     }
     @Transactional
     public void deleteBooking(Long id){
