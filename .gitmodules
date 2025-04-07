@@ -1,3 +1,4 @@
 [submodule "IDATA2301_12"]
 	path = IDATA2301_12
 	url = https://github.com/SebasoOlsen/IDATA2301_12
+    branch = Thymeleaf-html
