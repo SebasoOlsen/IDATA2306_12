@@ -11,22 +11,22 @@ public class MainController {
 
     @GetMapping("/")
     public String index() {
-        return "index.html";
+        return "index";
     }
     @GetMapping("/login")
     public String login() {
-        return "login.html";
+        return "login";
     }
     @GetMapping("/search")
     public String search() {
-        return "SearchResults.html";
+        return "SearchResults";
     }
     @GetMapping("/product")
     public String product() {
-        return "ProductPage.html";
+        return "ProductPage";
     }
     @GetMapping("/booking")
     public String booking() {
-        return "BookingPage.html";
+        return "BookingPage";
     }
 }

@@ -61,7 +61,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
 		<dependency>
@@ -82,12 +81,55 @@
 	</dependencies>
 
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
+    <resources>
+
+        <!-- Copy Thymeleaf templates from the submodule -->
+        <resource>
+            <directory>${project.basedir}/IDATA2301_12/src/main/resources/templates</directory>
+            <targetPath>templates</targetPath>
+            <includes>
+                <include>**/*.html</include>
+            </includes>
+        </resource>
+
+        <!-- Copy static resources from the submodule -->
+        <resource>
+            <directory>${project.basedir}/IDATA2301_12/src/main/resources/static/css</directory>
+            <targetPath>css</targetPath>
+            <includes>
+                <include>**/*.css</include>
+            </includes>
+        </resource>
+
+        <resource>
+            <directory>${project.basedir}/IDATA2301_12/src/main/resources/static/js</directory>
+            <targetPath>js</targetPath>
+            <includes>
+                <include>**/*.js</include>
+            </includes>
+        </resource>
+
+        <resource>
+            <directory>${project.basedir}/IDATA2301_12/src/main/resources/static/pictures</directory>
+            <targetPath>pictures</targetPath>
+            <includes>
+                <include>**/*.*</include>
+            </includes>
+        </resource>
+
+        <!-- 3. Keep original backend resources too -->
+        <resource>
+            <directory>src/main/resources</directory>
+        </resource>
+
+    </resources>
+
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+        </plugin>
+    </plugins>
 	</build>
 
 </project>
