@@ -95,7 +95,7 @@
         <!-- Copy static resources from the submodule -->
         <resource>
             <directory>${project.basedir}/IDATA2301_12/src/main/resources/static/css</directory>
-            <targetPath>css</targetPath>
+            <targetPath>static/css</targetPath>
             <includes>
                 <include>**/*.css</include>
             </includes>
@@ -103,7 +103,7 @@
 
         <resource>
             <directory>${project.basedir}/IDATA2301_12/src/main/resources/static/js</directory>
-            <targetPath>js</targetPath>
+            <targetPath>static/js</targetPath>
             <includes>
                 <include>**/*.js</include>
             </includes>
@@ -111,7 +111,7 @@
 
         <resource>
             <directory>${project.basedir}/IDATA2301_12/src/main/resources/static/pictures</directory>
-            <targetPath>pictures</targetPath>
+            <targetPath>static/pictures</targetPath>
             <includes>
                 <include>**/*.*</include>
             </includes>
