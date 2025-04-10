@@ -1,6 +1,6 @@
 package IDATA2306.Group12.controller;
 
-import IDATA2306.Group12.dto.ProviderDTO;
+import IDATA2306.Group12.dto.provider.ProviderDTO;
 import IDATA2306.Group12.service.ProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

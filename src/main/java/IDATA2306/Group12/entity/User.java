@@ -18,7 +18,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
-    @Column(name = "uID")
+    @Column(name = "userId")
     private int id;
 
     /**

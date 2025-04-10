@@ -16,22 +16,18 @@ public class Listing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
-    @Column(name = "listID")
+    @Column(name = "listId")
     private int id;
 
-    /**
-     * The provider of the listing.
-     */
-    @JsonProperty("pID")
-    @Column(name = "pID")
-    private int pID;
+    @ManyToOne
+    @JoinColumn(name = "providerId", nullable = false)
+    @JsonProperty("provider")
+    private Provider provider;
 
-    /**
-     * The hotel associated with the listing.
-     */
-    @JsonProperty("hID")
-    @Column(name = "hID")
-    private int hID;
+    @ManyToOne
+    @JoinColumn(name = "hotelId", nullable = false)
+    @JsonProperty("hotel")
+    private Hotel hotel;
 
     /**
      * The price of the listing.
@@ -59,11 +55,11 @@ public class Listing {
     public int getId() {return id;}
     public void setId(int id) {this.id = id;}
 
-    public int getPID() {return pID;}
-    public void setPID(int pID) {this.pID = pID;}
+    public Provider getProvider() { return provider; }
+    public void setProvider(Provider provider) { this.provider = provider; }
 
-    public int getHID() {return hID;}
-    public void setHID(int hID) {this.hID = hID;}
+    public Hotel getHotel() { return hotel; }
+    public void setHotel(Hotel hotel) { this.hotel = hotel; }
 
     public int getPrice() {return price;}
     public void setPrice(int price) {this.price = price;}

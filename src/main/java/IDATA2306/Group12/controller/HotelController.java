@@ -1,6 +1,6 @@
 package IDATA2306.Group12.controller;
 
-import IDATA2306.Group12.dto.HotelDTO;
+import IDATA2306.Group12.dto.hotel.HotelDTO;
 import IDATA2306.Group12.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

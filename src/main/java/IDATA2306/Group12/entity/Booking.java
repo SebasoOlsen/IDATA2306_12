@@ -19,22 +19,19 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
-    @Column(name = "bID")
+    @Column(name = "bookingId")
     private int id;;
 
-    /**
-     * The id of the user who made the booking.
-     */
-    @JsonProperty("uID")
-    @Column(name = "uID")
-    private int uID;
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = false)
+    @JsonProperty("user")
+    private User user;
 
-    /**
-     * The listing that is being booked.
-     */
-    @JsonProperty("listID")
-    @Column(name="listID")
-    private int listID;
+    @ManyToOne
+    @JoinColumn(name = "listingId", nullable = false)
+    @JsonProperty("listing")
+    private Listing listing;
+
 
     /**
      * The status of the booking.
@@ -67,11 +64,11 @@ public class Booking {
     public int getId() {return id;}
     public void setId(int id) {this.id = id;}
 
-    public int getUID() {return uID;}
-    public void setUID(int uID) {this.uID = uID;}
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 
-    public int getLID() {return listID;}
-    public void setLID(int listID) {this.listID = listID;}
+    public Listing getListing() { return listing; }
+    public void setListing(Listing listing) { this.listing = listing; }
 
     public String getStatus() {return status;}
     public void setStatus(String status) {this.status = status;}
@@ -81,4 +78,10 @@ public class Booking {
 
     public LocalDate getEndDate() {return endDate;}
     public void setEndDate(LocalDate endDate) {this.endDate = endDate;}
+
+
+
+
+
+    
 }

@@ -8,37 +8,31 @@ import jakarta.persistence.*;
 @Table(name = "Favourites")
 public class Favourite {
 
-    /**
-     * ID of the user that has favourited a listing
-     */
-    @Id
-    @JsonProperty("uID")
-    @Column(name = "uID")
-    private int uID;
+    @EmbeddedId
+    private FavouriteId id;
 
-    /**
-     * ID of the favourited listing.
-     */
-    @Id
-    @JsonProperty("listingID")
-    @Column(name = "listingID")
-    private int listingID;
+    @MapsId("userId")
+    @ManyToOne
+    @JsonProperty("user")
+    @JoinColumn(name = "userId")
+    private User user;
 
-    /**
-     * Create a new favourite using parameters.
-     * @param uID id of the user
-     * @param listingID id of the listing
-     */
-    public Favourite(int uID, int listingID) {
-        this.uID = uID;
-        this.listingID = listingID;
+    @MapsId("listingId")
+    @ManyToOne
+    @JsonProperty("listing")
+    @JoinColumn(name = "listingId")
+    private Listing listing;
+
+    public Favourite(User user, Listing listing){
+        this.user = user;
+        this.listing = listing;
     }
 
     public Favourite() {}
 
-    public int getuID() {return uID;}
-    public void setuID(int uID) {this.uID = uID;}
+    public User getUser() {return this.user;}
+    public void setUser(User user) {this.user = user;}
 
-    public int getListingID() {return listingID;}
-    public void setListingID(int listingID) {this.listingID = listingID;}
+    public Listing getListing() {return this.listing;}
+    public void setListingId(Listing listing) {this.listing = listing;}
 }

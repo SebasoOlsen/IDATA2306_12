@@ -16,7 +16,7 @@ public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
-    @Column(name = "hID")
+    @Column(name = "hotelId")
     private int id;
 
     /**

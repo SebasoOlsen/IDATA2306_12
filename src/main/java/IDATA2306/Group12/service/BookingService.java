@@ -1,10 +1,15 @@
 package IDATA2306.Group12.service;
 
-import IDATA2306.Group12.dto.BookingDTO;
+import IDATA2306.Group12.dto.booking.BookingCreateDTO;
+import IDATA2306.Group12.dto.booking.BookingResponseDTO;
 import IDATA2306.Group12.entity.Booking;
+import IDATA2306.Group12.entity.Listing;
+import IDATA2306.Group12.entity.User;
 import IDATA2306.Group12.mapper.BookingMapper;
 import IDATA2306.Group12.repository.BookingRepository;
 import IDATA2306.Group12.repository.ListingRepository;
+import IDATA2306.Group12.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,50 +19,69 @@ import java.util.List;
 @Service
 public class BookingService {
 
-    @Autowired
-    private BookingRepository bookingRepository;
+    private final BookingRepository bookingRepository;
+    private final ListingRepository listingRepository;
+    private final UserRepository userRepository;
+    private final BookingMapper bookingMapper;
 
-    @Autowired
-    private ListingRepository listingRepository;
+    public BookingService(
+        BookingRepository bookingRepository,
+        ListingRepository listingRepository,
+        UserRepository userRepository,
+        BookingMapper bookingMapper) {
+        this.bookingRepository = bookingRepository;
+        this.listingRepository = listingRepository;
+        this.userRepository = userRepository;
+        this.bookingMapper = bookingMapper;
+    }
 
-    public List<BookingDTO> getAllBookings() {
-        return bookingRepository.findAll().stream()
-                .map(booking -> BookingMapper.toDTO(booking)).toList();
+    public List<BookingResponseDTO> getAllBookings() {
+        return bookingRepository.findAll()
+                .stream()
+                .map(this.bookingMapper::toResponseDTO)
+                .toList();
     }
-    public BookingDTO getBookingById(Long id) {
-        return BookingMapper.toDTO(bookingRepository.findById(id.intValue()).orElse(null));
+
+    public BookingResponseDTO getBookingById(Long id) {
+        Booking booking = bookingRepository.findById(id.intValue())
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+        return bookingMapper.toResponseDTO(booking);
     }
-    public BookingDTO getBookingByUserId(Long userId) {
-        return BookingMapper.toDTO(bookingRepository.findByuID(userId.intValue()));
+
+    public BookingResponseDTO createBooking(BookingCreateDTO dto) {
+        User user = userRepository.findById(dto.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Listing listing = listingRepository.findById(dto.getListingId())
+                .orElseThrow(() -> new RuntimeException("Listing not found"));
+
+        Booking booking = bookingMapper.toEntity(dto, user, listing);
+        Booking saved = bookingRepository.save(booking);
+        return bookingMapper.toResponseDTO(saved);
     }
-    public BookingDTO createBooking(BookingDTO bookingDTO) {
-        if(!listingRepository.existsById(bookingDTO.getListingId())){
-            throw new IllegalArgumentException("Listing not found");
-        }
-        Booking booking = new Booking();
-        booking.setLID(bookingDTO.getListingId());
-        booking.setStatus(bookingDTO.getStatus());
-        booking.setEndDate(bookingDTO.getEndDate());
-        booking.setUID(bookingDTO.getUserId());
-        bookingRepository.save(booking);
-        return BookingMapper.toDTO(booking);
-    }
+
     @Transactional
-    public BookingDTO updateBooking(Long id, BookingDTO updatedBookingDTO) {
-        Booking updatedBooking = BookingMapper.toEntity(updatedBookingDTO);
+    public BookingResponseDTO updateBooking(Long id, BookingCreateDTO dto) {
         Booking existingBooking = bookingRepository.findById(id.intValue())
                 .orElseThrow(() -> new RuntimeException("Booking not found"));
 
-        // Update fields except the identifier.
-        existingBooking.setUID(updatedBooking.getUID());
-        // Add additional field updates as appropriate (e.g. bookingDate, status, etc.)
-        existingBooking.setStartDate(updatedBooking.getStartDate());
-        existingBooking.setStatus(updatedBooking.getStatus());
-        bookingRepository.save(existingBooking);
-        return BookingMapper.toDTO(existingBooking);
+        User user = userRepository.findById(dto.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Listing listing = listingRepository.findById(dto.getListingId())
+                .orElseThrow(() -> new RuntimeException("Listing not found"));
+
+        // Update fields
+        existingBooking.setUser(user);
+        existingBooking.setListing(listing);
+        existingBooking.setStartDate(dto.getStartDate());
+        existingBooking.setEndDate(dto.getEndDate());
+
+        return bookingMapper.toResponseDTO(existingBooking);
     }
+
     @Transactional
-    public void deleteBooking(Long id){
+    public void deleteBooking(Long id) {
         bookingRepository.deleteById(id.intValue());
     }
 }

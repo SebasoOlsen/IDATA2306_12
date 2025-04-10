@@ -17,5 +17,7 @@ public class StayFinderApplication {
 		finally {
 			System.out.println("Application started successfully.");
 		}
+
+		
 	}
 }

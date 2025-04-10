@@ -1,50 +1,45 @@
 package IDATA2306.Group12.mapper;
 
+import org.springframework.stereotype.Component;
+
+import IDATA2306.Group12.dto.listing.ListingCreateDTO;
+import IDATA2306.Group12.dto.listing.ListingDTO;
+import IDATA2306.Group12.entity.Hotel;
 import IDATA2306.Group12.entity.Listing;
-import IDATA2306.Group12.dto.ListingDTO;
+import IDATA2306.Group12.entity.Provider;
 
 /**
  * Mapper class for converting between Listings entity and ListingDTO.
  */
+@Component
 public class ListingMapper {
 
-    /**
-     * Converts a Listings entity to a ListingDTO.
-     *
-     * @param listings the Listings entity to convert
-     * @return the corresponding ListingDTO
-     */
-    public static ListingDTO toDTO(Listing listings) {
-        if (listings == null) {
-            throw new IllegalArgumentException("Listings cannot be null");
-        }
-        return new ListingDTO(
-            listings.getId(),
-            listings.getPID(),
-            listings.getHID(),
-            listings.getPrice(),
-            listings.getCurrency(),
-            listings.getLink()
-        );
+    private HotelMapper hotelMapper;
+    private ProviderMapper providerMapper;
+
+    public ListingMapper (HotelMapper hotelMapper, ProviderMapper providerMapper) {
+        this.hotelMapper = hotelMapper;
+        this.providerMapper = providerMapper;
     }
 
-    /**
-     * Converts a ListingDTO to a Listings entity.
-     *
-     * @param listingDTO the ListingDTO to convert
-     * @return the corresponding Listings entity
-     */
-    public static Listing toEntity(ListingDTO listingDTO) {
-        if (listingDTO == null) {
-            throw new IllegalArgumentException("ListingDTO cannot be null");
-        }
-        Listing listings = new Listing();
-        listings.setId(listingDTO.getId());
-        listings.setPID(listingDTO.getPID());
-        listings.setHID(listingDTO.getHID());
-        listings.setPrice(listingDTO.getPrice());
-        listings.setCurrency(listingDTO.getCurrency());
-        listings.setLink(listingDTO.getLink());
-        return listings;
+    public Listing toEntity(ListingCreateDTO dto, Hotel hotel, Provider provider) {
+        Listing listing = new Listing();
+        listing.setHotel(hotel);
+        listing.setProvider(provider);
+        listing.setPrice(dto.getPrice());
+        listing.setCurrency(dto.getCurrency());
+        listing.setLink(dto.getLink());
+        return listing;
+    }
+
+    public ListingDTO toDTO(Listing listing) {
+        ListingDTO dto = new ListingDTO();
+        dto.setId(listing.getId());
+        dto.setPrice(listing.getPrice());
+        dto.setCurrency(listing.getCurrency());
+        dto.setLink(listing.getLink());
+        dto.setHotel(hotelMapper.toDTO(listing.getHotel()));
+        dto.setProvider(providerMapper.toDTO(listing.getProvider()));
+        return dto;
     }
 }

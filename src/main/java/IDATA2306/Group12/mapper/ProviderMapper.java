@@ -1,12 +1,17 @@
 package IDATA2306.Group12.mapper;
 
+import org.springframework.stereotype.Component;
+
+import IDATA2306.Group12.dto.provider.ProviderDTO;
 import IDATA2306.Group12.entity.Provider;
-import IDATA2306.Group12.dto.ProviderDTO;
 
 /**
  * Mapper class for converting between Provider entity and ProviderDTO.
  */
+@Component
 public class ProviderMapper {
+
+    public ProviderMapper () {}
 
     /**
      * Converts a Provider entity to a ProviderDTO.
@@ -14,14 +19,14 @@ public class ProviderMapper {
      * @param provider the Provider entity to convert
      * @return the corresponding ProviderDTO
      */
-    public static ProviderDTO toDTO(Provider provider) {
+    public ProviderDTO toDTO(Provider provider) {
         if (provider == null) {
             throw new IllegalArgumentException("Provider cannot be null");
         }
-        return new ProviderDTO(
-            provider.getId(),
-            provider.getName()
-        );
+        ProviderDTO dto = new ProviderDTO();
+        dto.setId(provider.getId());
+        dto.setName(provider.getName());
+        return dto;
     }
 
     /**
@@ -30,7 +35,7 @@ public class ProviderMapper {
      * @param providerDTO the ProviderDTO to convert
      * @return the corresponding Provider entity
      */
-    public static Provider toEntity(ProviderDTO providerDTO) {
+    public Provider toEntity(ProviderDTO providerDTO) {
         if (providerDTO == null) {
             throw new IllegalArgumentException("ProviderDTO cannot be null");
         }

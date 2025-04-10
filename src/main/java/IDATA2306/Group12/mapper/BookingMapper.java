@@ -1,47 +1,45 @@
 package IDATA2306.Group12.mapper;
 
+import org.springframework.stereotype.Component;
+
+import IDATA2306.Group12.dto.booking.BookingCreateDTO;
+import IDATA2306.Group12.dto.booking.BookingResponseDTO;
 import IDATA2306.Group12.entity.Booking;
-import IDATA2306.Group12.dto.BookingDTO;
+import IDATA2306.Group12.entity.Listing;
+import IDATA2306.Group12.entity.User;
 
 /**
  * Mapper class for converting between Booking entity and BookingDTO.
  */
+@Component
 public class BookingMapper {
 
-    /**
-     * Converts a Booking entity to a BookingDTO.
-     *
-     * @param booking the Booking entity to convert
-     * @return the corresponding BookingDTO
-     */
-    public static BookingDTO toDTO(Booking booking) {
-        if (booking == null) {
-            throw new IllegalArgumentException("Booking cannot be null");
-        }
-        return new BookingDTO(
-            booking.getId(),
-            booking.getUID(),
-            booking.getStatus(),
-            booking.getStartDate(),
-            booking.getEndDate()
-        );
+    private final UserMapper userMapper;
+    private final ListingMapper listingMapper;
+
+    public BookingMapper(UserMapper userMapper, ListingMapper listingMapper){
+        this.userMapper = userMapper;
+        this.listingMapper = listingMapper;
     }
 
-    /**
-     * Converts a BookingDTO to a Booking entity.
-     *
-     * @param bookingDTO the BookingDTO to convert
-     * @return the corresponding Booking entity
-     */
-    public static Booking toEntity(BookingDTO bookingDTO) {
-        if (bookingDTO == null) {
-            throw new IllegalArgumentException("BookingDTO cannot be null");
-        }
+    public Booking toEntity(BookingCreateDTO dto, User user, Listing listing) {
         Booking booking = new Booking();
-        booking.setId(bookingDTO.getId());
-        booking.setStatus(bookingDTO.getStatus());
-        booking.setStartDate(bookingDTO.getStartDate());
-        booking.setEndDate(bookingDTO.getEndDate());
+        booking.setUser(user);
+        booking.setListing(listing);
+        booking.setStartDate(dto.getStartDate());
+        booking.setEndDate(dto.getEndDate());
+        booking.setStatus("PENDING");
         return booking;
+    }
+
+    public BookingResponseDTO toResponseDTO(Booking booking) {
+        BookingResponseDTO dto = new BookingResponseDTO();
+        dto.setId(booking.getId());
+        dto.setStatus(booking.getStatus());
+        dto.setStartDate(booking.getStartDate());
+        dto.setEndDate(booking.getEndDate());
+        dto.setUser(userMapper.toDTO(booking.getUser()));
+        dto.setListing(listingMapper.toDTO(booking.getListing()));
+        return dto;
     }
 }

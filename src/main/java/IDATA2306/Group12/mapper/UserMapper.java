@@ -1,50 +1,57 @@
 package IDATA2306.Group12.mapper;
 
+import IDATA2306.Group12.dto.user.UserCreateDTO;
+import IDATA2306.Group12.dto.user.UserDTO;
+import IDATA2306.Group12.dto.user.UserResponseDTO;
 import IDATA2306.Group12.entity.User;
-import IDATA2306.Group12.dto.UserDTO;
+import org.springframework.stereotype.Component;
 
-/**
- * Mapper class for converting between User entity and UserDTO.
- */
+@Component
 public class UserMapper {
 
+    public UserMapper() {}
+
     /**
-     * Converts a User entity to a UserDTO.
-     *
-     * @param user the User entity to convert
-     * @return the corresponding UserDTO
+     * Maps a User entity to a UserResponseDTO.
      */
-    public static UserDTO toDTO(User user) {
+    public UserResponseDTO toResponseDTO(User user) {
         if (user == null) {
             throw new IllegalArgumentException("User cannot be null");
         }
-        return new UserDTO(
-            user.getId(),
-            user.getFirstName(),
-            user.getLastName(),
-            user.getEmail(),
-            user.getTelephone(),
-            user.getAreaCode()
-        );
+
+        UserResponseDTO dto = new UserResponseDTO();
+        dto.setId(user.getId());
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        dto.setEmail(user.getEmail());
+        return dto;
+    }
+
+    public UserDTO toDTO(User user){
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
+
+        UserDTO dto = new UserDTO();
+        dto.setId(user.getId());
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        dto.setEmail(user.getEmail());
+        return dto;
     }
 
     /**
-     * Converts a UserDTO to a User entity.
-     *
-     * @param userDTO the UserDTO to convert
-     * @return the corresponding User entity
+     * Maps a UserCreateDTO to a User entity.
      */
-    public static User toEntity(UserDTO userDTO) {
-        if (userDTO == null) {
-            throw new IllegalArgumentException("UserDTO cannot be null");
+    public User toEntity(UserCreateDTO dto) {
+        if (dto == null) {
+            throw new IllegalArgumentException("UserCreateDTO cannot be null");
         }
+
         User user = new User();
-        user.setId(userDTO.getId());
-        user.setFirstName(userDTO.getFirstName());
-        user.setLastName(userDTO.getLastName());
-        user.setEmail(userDTO.getEmail());
-        user.setTelephone(userDTO.getTelephone());
-        user.setAreaCode(userDTO.getAreaCode());
+        user.setFirstName(dto.getFirstName());
+        user.setLastName(dto.getLastName());
+        user.setEmail(dto.getEmail());
         return user;
     }
 }
