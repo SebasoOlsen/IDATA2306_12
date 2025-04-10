@@ -19,14 +19,14 @@ public class MainController {
     }
     @GetMapping("/search")
     public String search() {
-        return "SearchResults";
+        return "search-results";
     }
     @GetMapping("/product")
     public String product() {
-        return "ProductPage";
+        return "product-Page";
     }
     @GetMapping("/booking")
     public String booking() {
-        return "BookingPage";
+        return "booking-page";
     }
 }
