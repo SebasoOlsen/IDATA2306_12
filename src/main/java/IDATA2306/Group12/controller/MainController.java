@@ -29,4 +29,9 @@ public class MainController {
     public String booking() {
         return "BookingPage.html";
     }
+    @GetMapping("/myPage")
+    public String myPage() {
+        return "MyPage.html";
+    }
+
 }
