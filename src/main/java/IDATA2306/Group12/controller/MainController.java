@@ -33,5 +33,9 @@ public class MainController {
     public String myPage() {
         return "MyPage.html";
     }
+    @GetMapping("/register")
+    public String register() {
+        return "register.html";
+    }
 
 }
