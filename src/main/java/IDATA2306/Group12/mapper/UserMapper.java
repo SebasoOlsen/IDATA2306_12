@@ -52,6 +52,9 @@ public class UserMapper {
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
         user.setEmail(dto.getEmail());
+        user.setPassword(dto.getPassword());
+        user.setTelephone(dto.getTelephone());
+        user.setAreaCode(dto.getAreaCode());
         return user;
     }
 }
