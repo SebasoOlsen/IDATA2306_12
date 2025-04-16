@@ -33,6 +33,10 @@ public class UserCreateDTO {
     @JsonProperty("areaCode")
     private String areaCode;
 
+    @NotBlank
+    @JsonProperty("role")
+    private String role;
+
     // Constructors
     public UserCreateDTO() {}
 
@@ -54,4 +58,7 @@ public class UserCreateDTO {
 
     public String getAreaCode() { return areaCode; }
     public void setAreaCode(String areaCode) { this.areaCode = areaCode; }
+
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
 }

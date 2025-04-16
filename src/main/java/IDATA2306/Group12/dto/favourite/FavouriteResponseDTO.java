@@ -1,15 +1,15 @@
 package IDATA2306.Group12.dto.favourite;
 
-import IDATA2306.Group12.dto.listing.ListingDTO;
-import IDATA2306.Group12.dto.user.UserDTO;
+import IDATA2306.Group12.dto.listing.ListingResponseDTO;
+import IDATA2306.Group12.dto.user.UserResponseDTO;
 
 public class FavouriteResponseDTO {
-    private UserDTO user;
-    private ListingDTO listing;
+    private UserResponseDTO user;
+    private ListingResponseDTO listing;
 
-    public UserDTO getUser() { return user; }
-    public void setUser(UserDTO user) { this.user = user; }
+    public UserResponseDTO getUser() { return user; }
+    public void setUser(UserResponseDTO user) { this.user = user; }
 
-    public ListingDTO getListing() { return listing; }
-    public void setListing(ListingDTO listing) { this.listing = listing; }
+    public ListingResponseDTO getListing() { return listing; }
+    public void setListing(ListingResponseDTO listing) { this.listing = listing; }
 }

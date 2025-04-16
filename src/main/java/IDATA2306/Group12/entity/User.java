@@ -63,6 +63,10 @@ public class User {
     @JsonProperty("areaCode")
     private String areaCode;
 
+    @Column(name = "role")
+    @JsonProperty("role")
+    private String role;
+
     public User() {}
 
     public int getId() { return id;}
@@ -85,4 +89,7 @@ public class User {
 
     public String getAreaCode() {return areaCode;}
     public void setAreaCode(String areaCode) {this.areaCode = areaCode;}
+
+    public String getRole() {return role;}
+    public void setRole(String role) {this.role = role;}
 }

@@ -1,21 +1,24 @@
 package IDATA2306.Group12.dto.listing;
 
-import IDATA2306.Group12.dto.hotel.HotelDTO;
-import IDATA2306.Group12.dto.provider.ProviderDTO;
+import IDATA2306.Group12.dto.hotel.HotelResponseDTO;
+import IDATA2306.Group12.dto.provider.ProviderResponseDTO;
 
-/**
- * Data Transfer Object (DTO) for Listings entity.
- */
-public class ListingDTO {
+public class ListingResponseDTO {
     private int id;
+    private ProviderResponseDTO provider;
+    private HotelResponseDTO hotel;
     private int price;
     private String currency;
     private String link;
-    private HotelDTO hotel;
-    private ProviderDTO provider;
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
+
+    public ProviderResponseDTO getProvider() { return provider; }
+    public void setProvider(ProviderResponseDTO provider) { this.provider = provider; }
+
+    public HotelResponseDTO getHotel() { return hotel; }
+    public void setHotel(HotelResponseDTO hotel) { this.hotel = hotel; }
 
     public int getPrice() { return price; }
     public void setPrice(int price) { this.price = price; }
@@ -25,10 +28,5 @@ public class ListingDTO {
 
     public String getLink() { return link; }
     public void setLink(String link) { this.link = link; }
-
-    public HotelDTO getHotel() { return hotel; }
-    public void setHotel(HotelDTO hotel) { this.hotel = hotel; }
-
-    public ProviderDTO getProvider() { return provider; }
-    public void setProvider(ProviderDTO provider) { this.provider = provider; }
+    
 }

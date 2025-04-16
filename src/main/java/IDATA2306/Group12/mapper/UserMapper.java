@@ -1,7 +1,6 @@
 package IDATA2306.Group12.mapper;
 
 import IDATA2306.Group12.dto.user.UserCreateDTO;
-import IDATA2306.Group12.dto.user.UserDTO;
 import IDATA2306.Group12.dto.user.UserResponseDTO;
 import IDATA2306.Group12.entity.User;
 import org.springframework.stereotype.Component;
@@ -24,19 +23,7 @@ public class UserMapper {
         dto.setFirstName(user.getFirstName());
         dto.setLastName(user.getLastName());
         dto.setEmail(user.getEmail());
-        return dto;
-    }
-
-    public UserDTO toDTO(User user){
-        if (user == null) {
-            throw new IllegalArgumentException("User cannot be null");
-        }
-
-        UserDTO dto = new UserDTO();
-        dto.setId(user.getId());
-        dto.setFirstName(user.getFirstName());
-        dto.setLastName(user.getLastName());
-        dto.setEmail(user.getEmail());
+        dto.setRole(user.getRole());
         return dto;
     }
 

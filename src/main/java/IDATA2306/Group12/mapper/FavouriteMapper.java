@@ -25,8 +25,8 @@ public class FavouriteMapper {
 
     public FavouriteResponseDTO toResponseDTO(Favourite favourite) {
         FavouriteResponseDTO dto = new FavouriteResponseDTO();
-        dto.setUser(userMapper.toDTO(favourite.getUser()));
-        dto.setListing(listingMapper.toDTO(favourite.getListing()));
+        dto.setUser(userMapper.toResponseDTO(favourite.getUser()));
+        dto.setListing(listingMapper.toResponseDTO(favourite.getListing()));
         return dto;
     }
 }

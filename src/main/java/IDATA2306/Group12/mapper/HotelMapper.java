@@ -2,7 +2,7 @@ package IDATA2306.Group12.mapper;
 
 import org.springframework.stereotype.Component;
 
-import IDATA2306.Group12.dto.hotel.HotelDTO;
+import IDATA2306.Group12.dto.hotel.HotelResponseDTO;
 import IDATA2306.Group12.entity.Hotel;
 
 /**
@@ -13,8 +13,8 @@ public class HotelMapper {
 
     public HotelMapper () {}
 
-    public HotelDTO toDTO(Hotel hotel) {
-        HotelDTO dto = new HotelDTO();
+    public HotelResponseDTO toResponseDTO(Hotel hotel) {
+        HotelResponseDTO dto = new HotelResponseDTO();
         dto.setId(hotel.getId());
         dto.setName(hotel.getName());
         dto.setLocationTypes(hotel.getLocationType());
@@ -23,7 +23,7 @@ public class HotelMapper {
         return dto;
     }
 
-    public Hotel toEntity(HotelDTO hotelDTO){
+    public Hotel toEntity(HotelResponseDTO hotelDTO){
         Hotel hotel = new Hotel();
         hotel.setId(hotelDTO.getId());
         hotel.setName(hotelDTO.getName());

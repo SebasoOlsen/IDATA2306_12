@@ -38,8 +38,8 @@ public class BookingMapper {
         dto.setStatus(booking.getStatus());
         dto.setStartDate(booking.getStartDate());
         dto.setEndDate(booking.getEndDate());
-        dto.setUser(userMapper.toDTO(booking.getUser()));
-        dto.setListing(listingMapper.toDTO(booking.getListing()));
+        dto.setUser(userMapper.toResponseDTO(booking.getUser()));
+        dto.setListing(listingMapper.toResponseDTO(booking.getListing()));
         return dto;
     }
 }

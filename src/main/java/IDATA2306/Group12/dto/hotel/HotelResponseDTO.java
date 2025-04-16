@@ -1,9 +1,6 @@
 package IDATA2306.Group12.dto.hotel;
 
-/**
- * Data Transfer Object (DTO) for Hotel entity.
- */
-public class HotelDTO {
+public class HotelResponseDTO {
     private int id;
     private String name;
     private String locationType;
@@ -25,4 +22,3 @@ public class HotelDTO {
     public String getExtraFeatures() { return this.extraFeatures; }
     public void setExtraFeatures(String extraFeatures) { this.extraFeatures = extraFeatures;}
 }
-

@@ -1,6 +1,6 @@
 package IDATA2306.Group12.service;
 
-import IDATA2306.Group12.dto.provider.ProviderDTO;
+import IDATA2306.Group12.dto.provider.ProviderResponseDTO;
 import IDATA2306.Group12.entity.Provider;
 import IDATA2306.Group12.mapper.ProviderMapper;
 import IDATA2306.Group12.repository.ProviderRepository;
@@ -21,33 +21,33 @@ public class ProviderService {
         this.providerMapper = providerMapper;
     }
 
-    public List<ProviderDTO> getAllProviders() {
+    public List<ProviderResponseDTO> getAllProviders() {
         return providerRepository.findAll().stream()
-                .map(providerMapper::toDTO)
+                .map(providerMapper::toResponseDTO)
                 .toList();
     }
 
-    public ProviderDTO getProviderById(int id) {
+    public ProviderResponseDTO getProviderById(int id) {
         Provider provider = providerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Provider not found"));
-        return providerMapper.toDTO(provider);
+        return providerMapper.toResponseDTO(provider);
     }
 
-    public ProviderDTO createProvider(ProviderDTO providerDTO) {
+    public ProviderResponseDTO createProvider(ProviderResponseDTO providerDTO) {
         Provider provider = providerMapper.toEntity(providerDTO);
         Provider saved = providerRepository.save(provider);
-        return providerMapper.toDTO(saved);
+        return providerMapper.toResponseDTO(saved);
     }
 
     @Transactional
-    public ProviderDTO updateProvider(int id, ProviderDTO providerDTO) {
+    public ProviderResponseDTO updateProvider(int id, ProviderResponseDTO providerDTO) {
         Provider existingProvider = providerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Provider not found"));
 
         existingProvider.setName(providerDTO.getName());
 
         Provider saved = providerRepository.save(existingProvider);
-        return providerMapper.toDTO(saved);
+        return providerMapper.toResponseDTO(saved);
     }
 
     @Transactional
@@ -58,45 +58,5 @@ public class ProviderService {
     public List<Provider> getProvidersByName(String name) {
         return providerRepository.findByName(name);
     }
-
-
-
-
-
-//    @Autowired
-//    private ProviderRepository providerRepository;
-//
-//    public List<ProviderDTO> getAllProviders() {
-//        return providerRepository.findAll().stream()
-//            .map(provider -> ProviderMapper.toDTO(provider)).toList();
-//    }
-//
-//    public ProviderDTO getProviderById(int id) {
-//        return ProviderMapper.toDTO(providerRepository.findById(id).orElse(null));
-//    }
-//
-//    public ProviderDTO createProvider(ProviderDTO providerDTO) {
-//        providerRepository.save(ProviderMapper.toEntity(providerDTO));
-//        return providerDTO;
-//    }
-//
-//    @Transactional
-//    public ProviderDTO updateProvider(int id, ProviderDTO providerDTO) {
-//        Provider provider = ProviderMapper.toEntity(providerDTO);
-//        Provider existingProvider = providerRepository.findById(id).orElseThrow(() -> new RuntimeException("Provider not found"));
-//        existingProvider.setId(provider.getId());
-//        existingProvider.setName(provider.getName());
-//        providerRepository.save(existingProvider);
-//        return ProviderMapper.toDTO(existingProvider);
-//    }
-//
-//    @Transactional
-//    public void deleteProvider(int id) {
-//        providerRepository.deleteById(id);
-//    }
-//
-//    public List<Provider> getProvidersByName(String name) {
-//        return providerRepository.findByName(name);
-//    }
 
 }

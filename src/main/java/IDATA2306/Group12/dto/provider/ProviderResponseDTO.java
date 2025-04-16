@@ -1,11 +1,6 @@
 package IDATA2306.Group12.dto.provider;
 
-import jakarta.validation.constraints.NotBlank;
-
-/**
- * Data Transfer Object (DTO) for Provider entity.
- */
-public class ProviderDTO {
+public class ProviderResponseDTO {
     private int id;
     private String name;
 
@@ -15,4 +10,3 @@ public class ProviderDTO {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 }
-

@@ -1,5 +1,5 @@
 package IDATA2306.Group12.service;
-import IDATA2306.Group12.dto.hotel.HotelDTO;
+import IDATA2306.Group12.dto.hotel.HotelResponseDTO;
 import IDATA2306.Group12.entity.Hotel;
 import IDATA2306.Group12.mapper.HotelMapper;
 import IDATA2306.Group12.repository.HotelRepository;
@@ -20,42 +20,42 @@ public class HotelService {
         this.hotelMapper = hotelMapper;
     }
 
-    public List<HotelDTO> getAllHotels() {
+    public List<HotelResponseDTO> getAllHotels() {
         return hotelRepository.findAll().stream()
-                .map(hotelMapper::toDTO)
+                .map(hotelMapper::toResponseDTO)
                 .toList();
     }
 
-    public HotelDTO getHotelById(Long id) {
+    public HotelResponseDTO getHotelById(Long id) {
         Hotel hotel = hotelRepository.findById(id.intValue())
                 .orElseThrow(() -> new RuntimeException("Hotel not found"));
-        return hotelMapper.toDTO(hotel);
+        return hotelMapper.toResponseDTO(hotel);
     }
 
-    public List<HotelDTO> getHotelByName(String name) {
+    public List<HotelResponseDTO> getHotelByName(String name) {
         return hotelRepository.findByName(name).stream()
-                .map(hotelMapper::toDTO)
+                .map(hotelMapper::toResponseDTO)
                 .toList();
     }
 
-    public HotelDTO createHotel(HotelDTO hotelDTO) {
+    public HotelResponseDTO createHotel(HotelResponseDTO hotelDTO) {
         Hotel hotel = hotelMapper.toEntity(hotelDTO);
         Hotel saved = hotelRepository.save(hotel);
-        return hotelMapper.toDTO(saved);
+        return hotelMapper.toResponseDTO(saved);
     }
 
     @Transactional
-    public HotelDTO updateHotel(Long id, HotelDTO hotelDTO) {
+    public HotelResponseDTO updateHotel(Long id, HotelResponseDTO hotelResponseDTO) {
         Hotel existingHotel = hotelRepository.findById(id.intValue())
                 .orElseThrow(() -> new RuntimeException("Hotel not found"));
 
-        existingHotel.setName(hotelDTO.getName());
-        existingHotel.setLocationType(hotelDTO.getLocationTypes());
-        existingHotel.setRoomTypes(hotelDTO.getRoomTypes());
-        existingHotel.setExtraFeatures(hotelDTO.getExtraFeatures());
+        existingHotel.setName(hotelResponseDTO.getName());
+        existingHotel.setLocationType(hotelResponseDTO.getLocationTypes());
+        existingHotel.setRoomTypes(hotelResponseDTO.getRoomTypes());
+        existingHotel.setExtraFeatures(hotelResponseDTO.getExtraFeatures());
 
         Hotel updated = hotelRepository.save(existingHotel);
-        return hotelMapper.toDTO(updated);
+        return hotelMapper.toResponseDTO(updated);
     }
 
     @Transactional
