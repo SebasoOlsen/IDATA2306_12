@@ -31,11 +31,15 @@ public class MainController {
     }
     @GetMapping("/myPage")
     public String myPage() {
-        return "MyPage.html";
+        return "my-page.html";
     }
     @GetMapping("/register")
     public String register() {
         return "register.html";
+    }
+    @GetMapping("/contactInformation")
+    public String contactInformation() {
+        return "contact-information.html";
     }
 
 }
