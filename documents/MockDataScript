@@ -1,0 +1,47 @@
+-- 1) Users
+INSERT INTO `Users` (`userId`, `areaCode`, `email`,                     `firstName`, `lastName`, `password`,  `role`,   `telephone`) VALUES
+  (1, '47',      'john.doe@example.com',    'John',      'Doe',     'pass123',  'guest',  '91234567'),
+  (2, '47',      'jane.smith@example.com',  'Jane',      'Smith',   'secure456','guest',  '98765432'),
+  (3, '44',      'bob.jones@example.co.uk', 'Bob',       'Jones',   'qwerty',   'guest',  '0712345678'),
+  (4, '1',       'alice.wonder@example.com','Alice',     'Wonder',  'alicepwd', 'admin',  '5551234'),
+  (5, '46',      'soren.karl@example.no',   'Soren',     'Karl',    'sorenpass','guest',  '12345678');
+
+-- 2) Providers
+INSERT INTO `Providers` (`providerId`, `name`) VALUES
+  (1, 'Booking.com'),
+  (2, 'Agoda'),
+  (3, 'Expedia'),
+  (4, 'Momondo'),
+  (5, 'Airbnb');
+
+-- 3) Hotels
+INSERT INTO `Hotels` (`hotelId`, `extraFeatures`,             `locationType`,       `name`,               `roomTypes`) VALUES
+  (1, 'Free WiFi, Rooftop Pool',            'City Center',      'Andante Hotel',       'Standard,Deluxe,Suite'),
+  (2, 'Free Breakfast, Fitness Center',     'Coastal/Fjord View','Thon Hotel Ålesund',  'Single,Double'),
+  (3, 'Gym, In‑house Restaurant',           'Park Proximity',   'Scandic Parken',      'Standard,Family'),
+  (4, 'Spa, Conference Rooms',              'Downtown',         'Radisson Blu',        'Executive,Suite'),
+  (5, 'Bar, Lounge',                        'Waterfront',       'Clarion Hotel',       'Studio,Apartment');
+
+-- 4) Listings
+INSERT INTO `Listings` (`listId`, `currency`, `link`,                                   `price`, `hotelId`, `providerId`) VALUES
+  (1, 'NOK', 'https://booking.com/andante',         1500,   1, 1),
+  (2, 'NOK', 'https://agoda.com/andante',           1600,   1, 2),
+  (3, 'NOK', 'https://booking.com/thon-alesund',    1200,   2, 1),
+  (4, 'NOK', 'https://expedia.com/scandic-parken',  1500,   3, 3),
+  (5, 'USD', 'https://airbnb.com/clarion',            180,   5, 5);
+
+-- 5) Favourites
+INSERT INTO `Favourites` (`listingId`, `userId`) VALUES
+  (1, 1),
+  (2, 2),
+  (3, 3),
+  (4, 4),
+  (5, 5);
+
+-- 6) Bookings
+INSERT INTO `Bookings` (`bookingId`, `endDate`,    `startDate`,   `status`,     `listingId`, `userId`) VALUES
+  (1, '2025-05-05','2025-05-01','confirmed',   1, 1),
+  (2, '2025-06-07','2025-06-03','pending',     2, 2),
+  (3, '2025-07-20','2025-07-15','cancelled',   3, 3),
+  (4, '2025-08-15','2025-08-10','confirmed',   4, 4),
+  (5, '2025-09-10','2025-09-05','pending',     5, 5);
