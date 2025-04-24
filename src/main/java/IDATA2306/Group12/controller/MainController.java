@@ -41,5 +41,14 @@ public class MainController {
     public String contactInformation() {
         return "contact-information.html";
     }
+    @GetMapping("/adminLogin")
+    public String adminLogin() {
+        return "admin-login";
+    }
+
+    @GetMapping("/adminDashboard")
+    public String adminDashboard() {
+        return "admin-dashboard";
+    }
 
 }
