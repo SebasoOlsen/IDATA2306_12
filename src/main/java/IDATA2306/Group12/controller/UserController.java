@@ -48,4 +48,20 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/check_email")
+    public ResponseEntity<?> checkEmail(@RequestParam String email) {
+        if (userService.emailExists(email)) {
+            return ResponseEntity.badRequest().body("Email already registered.");
+        }
+        return ResponseEntity.ok("Email available.");
+    }
+
+    @GetMapping("/check_telephone")
+    public ResponseEntity<?> checkTelephone(@RequestParam String telephone) {
+        if (userService.telephoneExists(telephone)) {
+            return ResponseEntity.badRequest().body("Telephone number already registered.");
+        }
+        return ResponseEntity.ok("Telephone number available");
+    }
 }

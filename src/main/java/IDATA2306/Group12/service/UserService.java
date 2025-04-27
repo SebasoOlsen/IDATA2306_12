@@ -3,6 +3,7 @@ package IDATA2306.Group12.service;
 import IDATA2306.Group12.dto.user.UserCreateDTO;
 import IDATA2306.Group12.dto.user.UserResponseDTO;
 import IDATA2306.Group12.entity.User;
+import IDATA2306.Group12.exception.UserExistsException;
 import IDATA2306.Group12.mapper.UserMapper;
 import IDATA2306.Group12.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,13 @@ public class UserService {
     }
 
     public UserResponseDTO createUser(UserCreateDTO userCreateDTO) {
+
+        if (userRepository.existsByEmail(userCreateDTO.getEmail())) {
+            throw new UserExistsException("This email is already registered.");
+        }
+        if (userRepository.existsByTelephone(userCreateDTO.getTelephone())) {
+            throw new UserExistsException("This telephone number is already registered.");
+        }
         User user = userMapper.toEntity(userCreateDTO);
         User saved = userRepository.save(user);
         return userMapper.toResponseDTO(saved);
@@ -60,6 +68,14 @@ public class UserService {
     @Transactional
     public void deleteUser(Long id) {
         userRepository.deleteById(id.intValue());
+    }
+
+    public boolean emailExists(String email) {
+        return this.userRepository.existsByEmail(email);
+    }
+
+    public boolean telephoneExists(String telephone) {
+        return this.userRepository.existsByTelephone(telephone);
     }
 
 }
