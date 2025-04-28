@@ -51,4 +51,9 @@ public class MainController {
         return "admin-dashboard";
     }
 
+    @GetMapping("/AdminUsers")
+    public String adminUsers() {
+        return "admin-users";
+    }
+
 }

@@ -19,7 +19,6 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
-    @Column(name = "bookingId")
     private int id;;
 
     @ManyToOne

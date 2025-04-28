@@ -21,7 +21,8 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping("")
+    @ResponseBody
     public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }

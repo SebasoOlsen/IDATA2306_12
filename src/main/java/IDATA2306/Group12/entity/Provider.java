@@ -16,7 +16,6 @@ public class Provider {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
-    @Column(name="providerId")
     private int id;
 
     /**

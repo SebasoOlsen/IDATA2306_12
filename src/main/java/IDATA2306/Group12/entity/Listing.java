@@ -16,7 +16,6 @@ public class Listing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
-    @Column(name = "listId")
     private int id;
 
     @ManyToOne
