@@ -1,4 +1,4 @@
-package IDATA2306.Group12.controller;
+package IDATA2306.Group12.api;
 
 import IDATA2306.Group12.dto.hotel.HotelResponseDTO;
 import IDATA2306.Group12.service.HotelService;

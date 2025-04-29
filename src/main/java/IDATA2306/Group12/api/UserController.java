@@ -1,4 +1,4 @@
-package IDATA2306.Group12.controller;
+package IDATA2306.Group12.api;
 
 import IDATA2306.Group12.dto.user.UserCreateDTO;
 import IDATA2306.Group12.dto.user.UserResponseDTO;
