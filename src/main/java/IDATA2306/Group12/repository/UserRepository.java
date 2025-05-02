@@ -6,5 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    User findByEmail(String email);
+    boolean existsByEmail(String email);
+    boolean existsByTelephone(String telephone);
 }

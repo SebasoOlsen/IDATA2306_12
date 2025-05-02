@@ -6,6 +6,7 @@ public class UserResponseDTO {
     private String firstName;
     private String lastName;
     private String email;
+    private String telephone;
     private String role;
 
     public UserResponseDTO() {}
@@ -21,6 +22,9 @@ public class UserResponseDTO {
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+
+    public String getTelephone() { return telephone; }
+    public void setTelephone(String telephone) { this.telephone = telephone; }
 
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
