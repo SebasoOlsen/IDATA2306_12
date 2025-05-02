@@ -6,6 +6,8 @@ public class HotelResponseDTO {
     private String locationType;
     private String roomTypes;
     private String extraFeatures;
+    public String country;
+    public String city;
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
@@ -21,4 +23,10 @@ public class HotelResponseDTO {
 
     public String getExtraFeatures() { return this.extraFeatures; }
     public void setExtraFeatures(String extraFeatures) { this.extraFeatures = extraFeatures;}
+
+    public String getCountry() { return this.country; }
+    public void setCountry(String country) { this.country = country; }
+
+    public String getCity() { return this.city; }
+    public void setCity(String city) { this.city = city;}
 }

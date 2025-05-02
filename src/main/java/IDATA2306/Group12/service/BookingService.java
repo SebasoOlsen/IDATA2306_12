@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingService {
@@ -83,5 +84,25 @@ public class BookingService {
     @Transactional
     public void deleteBooking(Long id) {
         bookingRepository.deleteById(id.intValue());
+    }
+
+    private BookingResponseDTO convertToResponseDTO(Booking booking) {
+        BookingResponseDTO dto = new BookingResponseDTO();
+        // Map fields from booking to dto
+        dto.setId(booking.getId());
+        dto.setStartDate(booking.getStartDate());
+        dto.setEndDate(booking.getEndDate());
+        dto.setStatus(booking.getStatus());
+        return dto;
+    }
+
+    public List<BookingResponseDTO> getBookingsByUser(User user) {
+        System.out.println("User ID: " + user.getId());
+        System.out.println("User Email: " + user.getEmail());
+
+        List<Booking> bookings = bookingRepository.findByUserId(user.getId());
+        return bookings.stream()
+                .map(bookingMapper::toResponseDTO)
+                .collect(Collectors.toList());
     }
 }

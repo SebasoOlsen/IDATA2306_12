@@ -60,7 +60,17 @@ public class Booking {
     protected void onCreate(){
         this.startDate = LocalDate.now(); ;
     }
-
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "id=" + id +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", status='" + status + '\'' +
+                ", user=" + user +
+                ", listing=" + listing +
+                '}';
+    }
     public int getId() {return id;}
     public void setId(int id) {this.id = id;}
 

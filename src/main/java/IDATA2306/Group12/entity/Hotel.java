@@ -33,6 +33,14 @@ public class Hotel {
     @Column(name = "locationType")
     private String locationType;
 
+    @JsonProperty("country")
+    @Column(name = "country")
+    private String country;
+
+    @JsonProperty("city")
+    @Column(name = "city")
+    private String city;
+
     /**
      * The types of rooms available in the hotel.
      */
@@ -63,4 +71,10 @@ public class Hotel {
 
     public String getExtraFeatures() {return extraFeatures;}
     public void setExtraFeatures(String extraFeatures) {this.extraFeatures = extraFeatures;}
+
+    public String getCountry() {return country;}
+    public void setCountry(String country) {this.country = country;}
+
+    public String getCity() {return city;}
+    public void setCity(String city) {this.city = city;}
 }

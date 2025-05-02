@@ -1,8 +1,13 @@
 package IDATA2306.Group12;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.SessionCookieConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletContextInitializer;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class StayFinderApplication {
@@ -17,7 +22,16 @@ public class StayFinderApplication {
 		finally {
 			System.out.println("Application started successfully.");
 		}
-
-		
+	}
+	@Bean
+	public ServletContextInitializer servletContextInitializer() {
+		return new ServletContextInitializer() {
+			@Override
+			public void onStartup(ServletContext servletContext) throws ServletException {
+				SessionCookieConfig sessionCookieConfig = servletContext.getSessionCookieConfig();
+				// Set cookie lifetime to 30 days (in seconds)
+				sessionCookieConfig.setMaxAge(60 * 60 * 24 * 30);
+			}
+		};
 	}
 }

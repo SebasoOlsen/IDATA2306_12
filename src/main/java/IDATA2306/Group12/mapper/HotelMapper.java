@@ -20,6 +20,8 @@ public class HotelMapper {
         dto.setLocationTypes(hotel.getLocationType());
         dto.setExtraFeatures(hotel.getExtraFeatures());
         dto.setRoomTypes(hotel.getRoomTypes());
+        dto.setCountry(hotel.getCountry());
+        dto.setCity(hotel.getCity());
         return dto;
     }
 

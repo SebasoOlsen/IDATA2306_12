@@ -53,6 +53,8 @@ public class HotelService {
         existingHotel.setLocationType(hotelResponseDTO.getLocationTypes());
         existingHotel.setRoomTypes(hotelResponseDTO.getRoomTypes());
         existingHotel.setExtraFeatures(hotelResponseDTO.getExtraFeatures());
+        existingHotel.setCountry(hotelResponseDTO.getCountry());
+        existingHotel.setCity(hotelResponseDTO.getCity());
 
         Hotel updated = hotelRepository.save(existingHotel);
         return hotelMapper.toResponseDTO(updated);
