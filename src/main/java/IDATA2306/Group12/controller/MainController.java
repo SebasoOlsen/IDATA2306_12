@@ -3,7 +3,6 @@ package IDATA2306.Group12.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @Controller
 @RequestMapping("/")
@@ -40,20 +39,6 @@ public class MainController {
     @GetMapping("/contactInformation")
     public String contactInformation() {
         return "contact-information";
-    }
-    @GetMapping("/adminLogin")
-    public String adminLogin() {
-        return "admin-login";
-    }
-
-    @GetMapping("/adminDashboard")
-    public String adminDashboard() {
-        return "admin-dashboard";
-    }
-
-    @GetMapping("/AdminUsers")
-    public String adminUsers() {
-        return "admin-users";
     }
 
 }

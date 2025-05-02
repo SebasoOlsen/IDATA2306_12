@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The UserService class provides methods for managing user data in the system.
@@ -31,6 +32,26 @@ public class UserService {
         return userRepository.findAll().stream()
                 .map(userMapper::toResponseDTO)
                 .toList();
+    }
+
+    /**
+     * Searches for users based on a query string. The search is performed on
+     * the first name, last name, email, telephone, and role fields of the user.
+     * The search is case-insensitive for string fields and exact match for telephone.
+     * 
+     * @param query the search query string
+     * @return a list of UserResponseDTO objects that match the search criteria
+     */
+    public List<UserResponseDTO> searchUsers(String query) {
+    return getAllUsers().stream()
+        .filter(user ->
+            (user.getFirstName() != null && user.getFirstName().toLowerCase().contains(query.toLowerCase())) ||
+            (user.getLastName() != null && user.getLastName().toLowerCase().contains(query.toLowerCase())) ||
+            (user.getEmail() != null && user.getEmail().toLowerCase().contains(query.toLowerCase())) ||
+            (user.getTelephone() != null && user.getTelephone().contains(query)) ||
+            (user.getRole() != null && user.getRole().toLowerCase().contains(query.toLowerCase()))
+        )
+        .collect(Collectors.toList());
     }
 
     public UserResponseDTO getUserById(Long id) {
