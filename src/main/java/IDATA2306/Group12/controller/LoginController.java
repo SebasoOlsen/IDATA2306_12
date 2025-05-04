@@ -24,12 +24,15 @@ public class LoginController {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     @Autowired
     public LoginController(UserRepository userRepository,
-                           PasswordEncoder passwordEncoder) {
+                           PasswordEncoder passwordEncoder,
+                           JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping("/login")
@@ -37,11 +40,11 @@ public class LoginController {
         System.out.println("GET /login requested.");
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
-                System.out.println("Found cookie: \\{{}\\}"+ cookie.getName());
+                System.out.println("Found cookie: \\{{}\\}" + cookie.getName());
                 if ("token".equals(cookie.getName())) {
                     String token = cookie.getValue();
-                    System.out.println("Token from cookie found: \\{{}\\}"+ token);
-                    if (token != null && token.split("\\.").length == 3 && JwtUtil.validateToken(token)) {
+                    System.out.println("Token from cookie found: \\{{}\\}" + token);
+                    if (token != null && token.split("\\.").length == 3 && jwtUtil.validateToken(token)) {
                         System.out.println("Valid token detected, redirecting to /myPage.");
                         return "redirect:/myPage";
                     }
@@ -56,15 +59,16 @@ public class LoginController {
     public void processLogin(@RequestParam String email,
                              @RequestParam String password,
                              HttpServletResponse response) throws IOException {
-        System.out.println("POST /login called with email: \\{{}\\}"+ email);
+        System.out.println("POST /login called with email: \\{{}\\}" + email);
         User user = userRepository.findByEmail(email);
         if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
             log.warn("Authentication failed for email: \\{{}\\}", email);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid email or password");
             return;
         }
-        String token = JwtUtil.createToken(email);
-        System.out.println("Token created successfully for email: \\{{}\\}"+ email);
+        // Use generateToken (not createToken) from the injected JwtUtil instance.
+        String token = jwtUtil.generateToken(email);
+        System.out.println("Token created successfully for email: \\{{}\\}" + email);
         Cookie cookie = new Cookie("token", token);
         cookie.setHttpOnly(true);
         cookie.setPath("/");

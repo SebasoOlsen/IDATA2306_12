@@ -80,6 +80,7 @@ public class UserService {
 
     @Transactional
     public UserResponseDTO updateUser(Long id, UserCreateDTO userCreateDTO) {
+        System.out.println("Updating user with ID: " + id);
         User existingUser = userRepository.findById(id.intValue())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
