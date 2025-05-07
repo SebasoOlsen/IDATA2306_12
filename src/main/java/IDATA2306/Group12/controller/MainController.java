@@ -44,5 +44,5 @@ public class MainController {
     @GetMapping("/terms-and-conditions")
     public String termsAndConditions() {return "terms-and-conditions.html";}
     @GetMapping("/privacy-policy")
-    public String privacyPolicy() {return "privacy_policy.html";}
+    public String privacyPolicy() {return "privacy-policy.html";}
 }
