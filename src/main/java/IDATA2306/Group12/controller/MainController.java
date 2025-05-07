@@ -41,4 +41,8 @@ public class MainController {
     public String favourites() {
         return "favourites.html";
     }
+    @GetMapping("/terms-and-conditions")
+    public String termsAndConditions() {return "terms-and-conditions.html";}
+    @GetMapping("/privacy-policy")
+    public String privacyPolicy() {return "privacy_policy.html";}
 }
