@@ -4,9 +4,10 @@ Sprint master: Sebastian
 Sprint stenographer: Sebastian
 
 ## **Sprint Overview**
+
 - **Sprint Number:** Sprint 5
 - **Duration:** 14.04.2025 - 21.04.2025
-- **Sprint Goal:** Start on making the frontend responsive.
+- **Sprint Goal:**
 - **Team Members:**
   - Sebastian Olsen - SebasoOlsen
   - Knut Olav Leknes - Knut Olav
@@ -16,13 +17,16 @@ Sprint stenographer: Sebastian
 ---
 
 ## **Sprint Summary**
+
 - **Total Planned Work:**
+
   - Make user registration and tie it into the database. - Jonas
   - Fix pictures on the webpage. - Sebastian
   - Fix serach function on the webpage. - Knut
   - Make HTML page for "My page". - Oskar
 
 - **Completed Work:**
+
   - Make Loging page. - Oskar
   - Fix registration process and make tests for it. - Jonas
   - Make admin role. - Sebastian
@@ -30,11 +34,12 @@ Sprint stenographer: Sebastian
 
 - **Comments::**
   - Had some issues with how we should handle the admin role. We have now discussed this and it will be handled in the next sprint.
-  - 
+  -
 
 ---
 
 ## **Next Steps**
+
 - **Upcoming Goals:**
   - Continue with login functionality and make favorite page. - Oskar
   - Make payment page. - Knut

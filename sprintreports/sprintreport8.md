@@ -5,8 +5,8 @@ Sprint stenographer: Sebastian
 
 ## **Sprint Overview**
 
-- **Sprint Number:** Sprint 7
-- **Duration:** 21.04.2025 - 04.05.2025
+- **Sprint Number:** Sprint 8
+- **Duration:** 04.05.2025 - 12.05.2025
 - **Sprint Goal:**
 - **Team Members:**
   - Sebastian Olsen - SebasoOlsen
@@ -30,19 +30,17 @@ Sprint stenographer: Sebastian
 
   -
 
-- **Comments::**
-  -
+- ## **Comments::**
 
 ---
 
 ## **Next Steps**
 
 - **Upcoming Goals:**
-  - Research how to store pictures in the database. - Oskar
-  - Dynamic product page. - Oskar
-  - Fix login page links. - Jonas
-  - Do lighthouse test on every pages - Jonas
-  - Do what should have been done in prevous sprints. - Knut
-  - Implement functionality for admin to manage listings. - Sebastian
+  - Refactor pages to react:
+    - Login, favourites, my page - Oskar
+    - All admin pages, product page - Sebastian
+    - Register page, serach resoults - Jonas
+    - TOS page, proivacy policy, booking page, contact information - Knut
 
 ---
