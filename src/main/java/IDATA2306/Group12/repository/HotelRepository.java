@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface HotelRepository extends JpaRepository<Hotel, Integer> {
     List<Hotel> findByName(String name);
+
+    List<Hotel> findByCityIgnoreCaseOrCountryIgnoreCase(String city, String country);
 }

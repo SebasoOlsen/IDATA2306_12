@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
+
+@CrossOrigin(origins = "http://localhost:5174")
 @RestController
 @RequestMapping("/hotels")
 public class HotelController {
@@ -83,6 +86,19 @@ public class HotelController {
                     .limit(Math.min(count, modifiableList.size()))
                     .toList();
             return ResponseEntity.ok(randomHotels);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<HotelResponseDTO>> getHotelsBySearch(@RequestParam Map<String, String> params) {
+        try {
+            List<HotelResponseDTO> searchResults = hotelService.getHotelsBySearch(params);
+            if (searchResults == null || searchResults.isEmpty()) {
+                return ResponseEntity.ok(List.of());
+            }
+            return ResponseEntity.ok(searchResults);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }

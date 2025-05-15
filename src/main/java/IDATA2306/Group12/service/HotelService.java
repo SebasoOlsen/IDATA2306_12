@@ -7,8 +7,11 @@ import IDATA2306.Group12.repository.HotelRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class HotelService {
@@ -77,6 +80,18 @@ public class HotelService {
         List<HotelResponseDTO> allHotels = getAllHotels();
         Collections.shuffle(allHotels);
         return allHotels.stream().limit(count).toList();
+    }
+
+    public List<HotelResponseDTO> getHotelsBySearch(Map<String, String> params) {
+        String destination = params.getOrDefault("destination", "");
+        //LocalDate checkin = LocalDate.parse(params.get("checkin"));
+        //LocalDate checkout = LocalDate.parse(params.get("checkout"));
+        //String rooms = params.get("rooms");
+
+        return hotelRepository.findByCityIgnoreCaseOrCountryIgnoreCase(destination, destination).stream()
+                .map(hotelMapper::toResponseDTO)
+                .toList();
+
     }
 
 }
