@@ -24,6 +24,7 @@ public class OpenAPIConfig {
                 .description("StayFinder API for StayFinder Web App");
 
         return new OpenAPI()
+                .openapi("3.1.0")
                 .info(info)
                 .tags(List.of(
                         new Tag().name("User Management").description("APIs for managing users.")
