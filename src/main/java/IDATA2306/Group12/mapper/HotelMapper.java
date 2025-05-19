@@ -1,8 +1,15 @@
 package IDATA2306.Group12.mapper;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
+import IDATA2306.Group12.dto.hotel.HotelCreateDTO;
 import IDATA2306.Group12.dto.hotel.HotelResponseDTO;
+import IDATA2306.Group12.entity.ExtraFeature;
 import IDATA2306.Group12.entity.Hotel;
 
 /**
@@ -26,8 +33,12 @@ public class HotelMapper {
         dto.setLocationType(
                 hotel.getLocationType() != null ? hotel.getLocationType() : "");
 
-        dto.setExtraFeature(
-                hotel.getExtraFeatures() != null ? hotel.getExtraFeatures() : "");
+        List<String> extraFeatureNames = hotel.getExtraFeatures() != null
+                ? hotel.getExtraFeatures().stream()
+                        .map(ExtraFeature::getName)
+                        .collect(Collectors.toList())
+                : new ArrayList<>();
+        dto.setExtraFeature(extraFeatureNames);
 
         dto.setRoomType(
                 hotel.getRoomTypes() != null ? hotel.getRoomTypes() : "");
@@ -38,12 +49,11 @@ public class HotelMapper {
         return dto;
     }
 
-    public Hotel toEntity(HotelResponseDTO hotelDTO) {
+    public Hotel toEntity(HotelCreateDTO hotelDTO, Set<ExtraFeature> featuresFromDb) {
         Hotel hotel = new Hotel();
-        hotel.setId(hotelDTO.getId());
         hotel.setName(hotelDTO.getName());
         hotel.setLocationType(hotelDTO.getLocationType());
-        hotel.setExtraFeatures(hotelDTO.getExtraFeature());
+        hotel.setExtraFeatures(featuresFromDb);
         hotel.setRoomTypes(hotelDTO.getRoomType());
         hotel.setCity(hotelDTO.getCity());
         hotel.setCountry(hotelDTO.getCountry());

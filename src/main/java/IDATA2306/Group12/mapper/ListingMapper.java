@@ -14,17 +14,18 @@ import IDATA2306.Group12.entity.Provider;
 @Component
 public class ListingMapper {
 
-    private HotelMapper hotelMapper;
+    private RoomsMapper roomsMapper;
     private ProviderMapper providerMapper;
+    private HotelMapper hotelMapper;
 
-    public ListingMapper (HotelMapper hotelMapper, ProviderMapper providerMapper) {
-        this.hotelMapper = hotelMapper;
+    public ListingMapper (RoomsMapper roomsMapper, ProviderMapper providerMapper, HotelMapper hotelMapper) {
+        this.roomsMapper = roomsMapper;
         this.providerMapper = providerMapper;
+        this.hotelMapper = hotelMapper;
     }
 
     public Listing toEntity(ListingCreateDTO dto, Hotel hotel, Provider provider) {
         Listing listing = new Listing();
-        listing.setHotel(hotel);
         listing.setProvider(provider);
         listing.setPrice(dto.getPrice());
         listing.setCurrency(dto.getCurrency());
@@ -38,7 +39,7 @@ public class ListingMapper {
         dto.setPrice(listing.getPrice());
         dto.setCurrency(listing.getCurrency());
         dto.setLink(listing.getLink());
-        dto.setHotel(hotelMapper.toResponseDTO(listing.getHotel()));
+        dto.setRooms(roomsMapper.toResponseDTO(listing.getRooms()));
         dto.setProvider(providerMapper.toResponseDTO(listing.getProvider()));
         return dto;
     }

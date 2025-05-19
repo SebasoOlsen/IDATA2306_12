@@ -37,10 +37,10 @@ public class MainController {
     public String contactInformation() {
         return "contact-information.html";
     }
-    @GetMapping("/favourites")
-    public String favourites() {
-        return "favourites.html";
-    }
+//    @GetMapping("/favourites")
+//    public String favourites() {
+//        return "favourites.html";
+//    }
     @GetMapping("/terms-and-conditions")
     public String termsAndConditions() {return "terms-and-conditions.html";}
     @GetMapping("/privacy-policy")

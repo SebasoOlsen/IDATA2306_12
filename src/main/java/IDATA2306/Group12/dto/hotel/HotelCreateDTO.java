@@ -1,13 +1,11 @@
 package IDATA2306.Group12.dto.hotel;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+public class HotelCreateDTO {
 
-public class HotelResponseDTO {
-
-    private int id;
-
+    @JsonProperty("name")
     private String name;
 
     @JsonProperty("locationType")
@@ -16,8 +14,8 @@ public class HotelResponseDTO {
     @JsonProperty("roomType")
     private String roomType;
 
-    @JsonProperty("extraFeature")
-    private List<String> extraFeature;
+    @JsonProperty("extraFeatures")
+    private List<String> extraFeatures;
 
     @JsonProperty("country")
     private String country;
@@ -25,12 +23,7 @@ public class HotelResponseDTO {
     @JsonProperty("city")
     private String city;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public HotelCreateDTO() {
     }
 
     public String getName() {
@@ -57,12 +50,12 @@ public class HotelResponseDTO {
         this.roomType = roomType;
     }
 
-    public List<String> getExtraFeature() {
-        return extraFeature;
+    public List<String> getExtraFeatures() {
+        return extraFeatures;
     }
 
-    public void setExtraFeature(List<String> extraFeature) {
-        this.extraFeature = extraFeature;
+    public void setExtraFeatures(List<String> extraFeatures) {
+        this.extraFeatures = extraFeatures;
     }
 
     public String getCountry() {
