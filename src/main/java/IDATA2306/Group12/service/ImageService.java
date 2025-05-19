@@ -45,6 +45,8 @@ public class ImageService {
 
     public List<String> getImageUrlsByTypeAndId(String type, String typeId) {
         List<Image> images = imageRepository.findByTypeAndTypeId(type.toUpperCase(), typeId);
+        System.out.println("Image type: " + type);
+        System.out.println("Image typeId: " + typeId);
         return images.stream()
                 .map(image -> serverBaseUrl + image.getUrl()) // prepend full server URL
                 .toList();

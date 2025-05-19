@@ -49,7 +49,7 @@ public class ListingService {
     }
 
     public ListingResponseDTO createListing(ListingCreateDTO createDTO) {
-        Hotel hotel = hotelRepository.findById(createDTO.getHotelId())
+        Hotel hotel = hotelRepository.findById(createDTO.getHotel().getId())
                 .orElseThrow(() -> new RuntimeException("Hotel not found"));
         Provider provider = providerRepository.findById(createDTO.getProviderId())
                 .orElseThrow(() -> new RuntimeException("Provider not found"));
@@ -65,13 +65,12 @@ public class ListingService {
         Listing existingListing = listingRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Listing not found"));
 
-        Hotel hotel = hotelRepository.findById(updateDTO.getHotelId())
+        Hotel hotel = hotelRepository.findById(updateDTO.getHotel().getId())
                 .orElseThrow(() -> new RuntimeException("Hotel not found"));
         Provider provider = providerRepository.findById(updateDTO.getProviderId())
                 .orElseThrow(() -> new RuntimeException("Provider not found"));
 
         // Update the fields
-        existingListing.setHotel(hotel);
         existingListing.setProvider(provider);
         existingListing.setPrice(updateDTO.getPrice());
         existingListing.setCurrency(updateDTO.getCurrency());

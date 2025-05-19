@@ -10,6 +10,8 @@ import IDATA2306.Group12.repository.BookingRepository;
 import IDATA2306.Group12.repository.ListingRepository;
 import IDATA2306.Group12.repository.UserRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class BookingService {
+
+    private static final Logger log = LoggerFactory.getLogger(BookingService.class);
 
     private final BookingRepository bookingRepository;
     private final ListingRepository listingRepository;
@@ -88,7 +92,6 @@ public class BookingService {
 
     private BookingResponseDTO convertToResponseDTO(Booking booking) {
         BookingResponseDTO dto = new BookingResponseDTO();
-        // Map fields from booking to dto
         dto.setId(booking.getId());
         dto.setStartDate(booking.getStartDate());
         dto.setEndDate(booking.getEndDate());
@@ -97,10 +100,9 @@ public class BookingService {
     }
 
     public List<BookingResponseDTO> getBookingsByUser(User user) {
-        System.out.println("User ID: " + user.getId());
-        System.out.println("User Email: " + user.getEmail());
-
+        log.info("Fetching bookings for user: {} (id: {})", user.getEmail(), user.getId());
         List<Booking> bookings = bookingRepository.findByUserId(user.getId());
+        log.info("Found {} bookings for user id: {}", bookings.size(), user.getId());
         return bookings.stream()
                 .map(bookingMapper::toResponseDTO)
                 .collect(Collectors.toList());

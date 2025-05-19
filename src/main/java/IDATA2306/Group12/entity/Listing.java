@@ -23,10 +23,12 @@ public class Listing {
     @JsonProperty("provider")
     private Provider provider;
 
-    @ManyToOne
-    @JoinColumn(name = "hotelId", nullable = false)
-    @JsonProperty("hotel")
-    private Hotel hotel;
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "roomId")
+    @JsonProperty("rooms")
+    private Rooms rooms;
+
+
 
     /**
      * The price of the listing.
@@ -57,8 +59,8 @@ public class Listing {
     public Provider getProvider() { return provider; }
     public void setProvider(Provider provider) { this.provider = provider; }
 
-    public Hotel getHotel() { return hotel; }
-    public void setHotel(Hotel hotel) { this.hotel = hotel; }
+    public Rooms getRooms() { return rooms; }
+    public void setRooms(Rooms rooms) { this.rooms = rooms; }
 
     public int getPrice() {return price;}
     public void setPrice(int price) {this.price = price;}

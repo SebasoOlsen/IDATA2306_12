@@ -76,12 +76,53 @@ public class LoginController {
         log.info("Token created successfully for email: \\{{}\\}", email);
         Cookie cookie = new Cookie("token", token);
         cookie.setHttpOnly(true);
-        cookie.setPath("/");
+        cookie.setMaxAge(36000); // Set to ten hours
         response.addCookie(cookie);
         log.info("Cookie added. Sending JSON response with redirect URL.");
 
         Map<String, String> body = new HashMap<>();
         body.put("redirect", "/myPage");
+        return ResponseEntity.ok(body);
+    }
+
+    @GetMapping("/isLoggedIn")
+    @ResponseBody
+    public ResponseEntity<Map<String, Boolean>> isLoggedIn(HttpServletRequest request) {
+        boolean loggedIn = false;
+        log.info("isLoggedIn endpoint called.");
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if ("token".equals(cookie.getName())) {
+                    String token = cookie.getValue();
+                    if (token != null && token.split("\\.").length == 3 && jwtUtil.validateToken(token)) {
+                        loggedIn = true;
+                        break;
+                    }
+                }
+            }
+        }
+        log.info("isLoggedIn called. User logged in: \\{{}\\}", loggedIn);
+        Map<String, Boolean> responseBody = new HashMap<>();
+        responseBody.put("loggedIn", loggedIn);
+        return ResponseEntity.ok(responseBody);
+    }
+
+    @PostMapping("/logout")
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> logout(HttpServletResponse response) {
+        log.info("Logout endpoint called.");
+
+        // Clear the token cookie - match properties if needed
+        Cookie cookie = new Cookie("token", null);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        log.info("Token cookie cleared and added to response.");
+
+        Map<String, String> body = new HashMap<>();
+        body.put("redirect", "/login");
+        log.info("Responding with redirect to /login.");
+
         return ResponseEntity.ok(body);
     }
 }
