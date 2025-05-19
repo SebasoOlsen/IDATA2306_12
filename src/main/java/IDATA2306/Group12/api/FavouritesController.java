@@ -1,17 +1,10 @@
-package IDATA2306.Group12.controller;
+package IDATA2306.Group12.api;
 
-import java.security.Principal;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import IDATA2306.Group12.dto.booking.BookingResponseDTO;
-import IDATA2306.Group12.dto.favourite.FavouriteResponseDTO;
 import IDATA2306.Group12.entity.User;
 import IDATA2306.Group12.repository.FavouritesRepository;
 import IDATA2306.Group12.repository.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import IDATA2306.Group12.entity.Favourite;
 import IDATA2306.Group12.service.FavouritesService;
 
 @RestController

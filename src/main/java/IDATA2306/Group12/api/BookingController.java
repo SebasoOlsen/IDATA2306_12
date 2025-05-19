@@ -3,70 +3,119 @@ package IDATA2306.Group12.api;
 import IDATA2306.Group12.dto.booking.BookingCreateDTO;
 import IDATA2306.Group12.dto.booking.BookingResponseDTO;
 import IDATA2306.Group12.entity.User;
-import IDATA2306.Group12.repository.BookingRepository;
 import IDATA2306.Group12.repository.UserRepository;
 import IDATA2306.Group12.service.BookingService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/bookings")
+@Tag(name = "Booking Management", description = "APIs for managing bookings.")
 public class BookingController {
 
-    @Autowired
     private final BookingService bookingService;
+    private final UserRepository userRepository;
 
-    private final BookingRepository bookingRepository;
-    @Autowired
-    private UserRepository userRepository;
-
-
-    @Autowired
-    public BookingController(BookingService bookingService, BookingRepository bookingRepository){
+    public BookingController(BookingService bookingService, UserRepository userRepository){
+        this.userRepository = userRepository;
         this.bookingService = bookingService;
-        this.bookingRepository = bookingRepository;
     }
 
 
+    @Operation(
+            summary = "Get a list of all bookings",
+            description = "Get a list of all bookings."
+            )
+    @ApiResponse(responseCode = "200", description = "List of all bookings.")
     @GetMapping
     public ResponseEntity<List<BookingResponseDTO>> getAllBookings() {
         return ResponseEntity.ok(bookingService.getAllBookings());
     }
 
+    @Operation(
+            summary = "Search for a booking using ID",
+            description = "Search for a booking using ID"
+    )
+    @ApiResponse(responseCode = "200", description = "Booking with the matching ID.")
+    @ApiResponse(responseCode = "404", description = "Booking not found.")
     @GetMapping("/{id}")
     public ResponseEntity<BookingResponseDTO> getBookingById(@PathVariable Long id) {
-        return ResponseEntity.ok(bookingService.getBookingById(id));
+        try {
+            return ResponseEntity.ok(bookingService.getBookingById(id));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
+    @Operation(
+            summary = "Create a new booking",
+            description = "Create a new booking."
+    )
+    @ApiResponse(responseCode = "201", description = "Booking created successfully.")
+    @ApiResponse(responseCode = "404", description = "Listing not found.")
+    @ApiResponse(responseCode = "500", description = "Internal server error.")
     @PostMapping
     public ResponseEntity<BookingResponseDTO> createBooking(@Valid @RequestBody BookingCreateDTO bookingCreateDTO) {
-        BookingResponseDTO created = bookingService.createBooking(bookingCreateDTO);
-        return ResponseEntity.status(201).body(created);
+        try {
+            BookingResponseDTO created = bookingService.createBooking(bookingCreateDTO);
+            return ResponseEntity.status(201).body(created);
+        } catch (RuntimeException e) {
+            String message = e.getMessage();
+            if (message.contains("not found")) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        }
     }
 
+    @Operation(
+            summary = "Update an existing booking",
+            description = "Update an existing booking."
+    )
+    @ApiResponse(responseCode = "200", description = "Booking updated successfully.")
+    @ApiResponse(responseCode = "404", description = "Booking not found.")
+    @ApiResponse(responseCode = "400", description = "Invalid input.")
     @PutMapping("/{id}")
     public ResponseEntity<BookingResponseDTO> updateBooking(@PathVariable Long id, 
                                                             @Valid @RequestBody BookingCreateDTO bookingCreateDTO) {
         BookingResponseDTO updated = bookingService.updateBooking(id, bookingCreateDTO);
+        if (updated == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(updated);
     }
 
+    @Operation(
+            summary = "Delete an existing booking",
+            description = "Delete an existing booking."
+    )
+    @ApiResponse(responseCode = "204", description = "Booking deleted successfully.")
+    @ApiResponse(responseCode = "404", description = "Booking not found.")
+    @ApiResponse(responseCode = "403", description = "Not authorized to delete this booking.")
+    @ApiResponse(responseCode = "400", description = "Invalid input.")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBooking(@PathVariable Long id) {
         bookingService.deleteBooking(id);
         return ResponseEntity.noContent().build();
     }
+
+    @Operation(
+            summary = "Get a list of bookings for a user",
+            description = "Get a list of bookings for a user."
+            )
+    @ApiResponse(responseCode = "200", description = "List of bookings for the user.")
+    @ApiResponse(responseCode = "404", description = "User not found.")
+    @ApiResponse(responseCode = "401", description = "User is not authenticated.")
+    @ApiResponse(responseCode = "403", description = "User is not authorized to view this list of bookings.")
     @GetMapping("/user")
     public ResponseEntity<?> getUserBookings() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

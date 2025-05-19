@@ -1,5 +1,6 @@
 package IDATA2306.Group12.security;
 
+import IDATA2306.Group12.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -59,12 +60,28 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String generateToken(String username) {
+    public String generateToken(User user) {
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(user.getEmail())
+                .claim("role", user.getRole())
+                .claim("id", user.getId())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 60 * 60 * 1000))
                 .signWith(SignatureAlgorithm.HS256, jwtConfig.getSecret())
                 .compact();
     }
+
+    /**
+     * Get the role from the token.
+     * @param token The token to extract the role from.
+     * @return The users role as a string. If the token is invalid, returns null.
+     */
+    public String getRoleFromToken(String token) {
+        return Jwts.parser()
+                .setSigningKey(jwtConfig.getSecret())
+                .parseClaimsJws(token)
+                .getBody()
+                .get("role", String.class);
+    }
+
 }

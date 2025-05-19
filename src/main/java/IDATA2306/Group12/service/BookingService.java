@@ -43,13 +43,13 @@ public class BookingService {
                 .toList();
     }
 
-    public BookingResponseDTO getBookingById(Long id) {
+    public BookingResponseDTO getBookingById(Long id) throws RuntimeException {
         Booking booking = bookingRepository.findById(id.intValue())
                 .orElseThrow(() -> new RuntimeException("Booking not found"));
         return bookingMapper.toResponseDTO(booking);
     }
 
-    public BookingResponseDTO createBooking(BookingCreateDTO dto) {
+    public BookingResponseDTO createBooking(BookingCreateDTO dto) throws RuntimeException {
         User user = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
