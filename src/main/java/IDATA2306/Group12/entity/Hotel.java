@@ -1,5 +1,8 @@
 package IDATA2306.Group12.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
@@ -47,12 +50,9 @@ public class Hotel {
     @Column(name = "roomTypes")
     private String roomTypes;
 
-    /**
-     * The extra features offered by the hotel.
-     */
-    @JsonProperty("extraFeatures")
-    @Column(name = "extraFeatures")
-    private String extraFeatures;
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "hotel_extra_features", joinColumns = @JoinColumn(name = "hotel_id"), inverseJoinColumns = @JoinColumn(name = "feature_id"))
+    private Set<ExtraFeature> extraFeatures = new HashSet<>();
 
     private float averageReview;
 
@@ -91,11 +91,21 @@ public class Hotel {
         this.roomTypes = roomTypes;
     }
 
-    public String getExtraFeatures() {
+    public void addFeature(ExtraFeature feature) {
+        this.extraFeatures.add(feature);
+        feature.getHotels().add(this);
+    }
+
+    public void removeFeature(ExtraFeature feature) {
+        this.extraFeatures.remove(feature);
+        feature.getHotels().remove(this);
+    }
+
+    public Set<ExtraFeature> getExtraFeatures() {
         return extraFeatures;
     }
 
-    public void setExtraFeatures(String extraFeatures) {
+    public void setExtraFeatures(Set<ExtraFeature> extraFeatures) {
         this.extraFeatures = extraFeatures;
     }
 
