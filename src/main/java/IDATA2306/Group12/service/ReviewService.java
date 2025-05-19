@@ -31,8 +31,7 @@ public class ReviewService {
                 review.getUser().getId(),
                 review.getReview(),
                 review.getStars(),
-                review.getPostDate()
-        )).collect(Collectors.toList());
+                review.getPostDate())).collect(Collectors.toList());
     }
 
     public ReviewResponseDTO createReview(ReviewCreateDTO createDTO) {
@@ -45,13 +44,15 @@ public class ReviewService {
 
         Review savedReview = reviewRepository.save(review);
 
+        // TODO: add update average review.
+
         return new ReviewResponseDTO(
                 savedReview.getId(),
                 savedReview.getHotel().getId(),
                 savedReview.getUser().getId(),
                 savedReview.getReview(),
                 savedReview.getStars(),
-                savedReview.getPostDate()
-        );
+                savedReview.getPostDate());
     }
+
 }

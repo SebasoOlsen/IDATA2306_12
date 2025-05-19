@@ -1,5 +1,6 @@
 package IDATA2306.Group12.api;
 
+import IDATA2306.Group12.dto.hotel.HotelCreateDTO;
 import IDATA2306.Group12.dto.hotel.HotelResponseDTO;
 import IDATA2306.Group12.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
 
 @CrossOrigin(origins = "http://localhost:5174")
 @RestController
@@ -42,12 +42,12 @@ public class HotelController {
     }
 
     @PostMapping
-    public ResponseEntity<HotelResponseDTO> createHotel(@RequestBody HotelResponseDTO hotel) {
-        System.out.println("✅ RECEIVED: city=" + hotel.getCity() + ", country=" + hotel.getCountry());
+    public ResponseEntity<HotelResponseDTO> createHotel(@RequestBody HotelCreateDTO hotel) {
         try {
             HotelResponseDTO created = hotelService.createHotel(hotel);
             return ResponseEntity.ok(created);
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }
