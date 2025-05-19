@@ -8,14 +8,19 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class LoginController {
@@ -56,24 +61,27 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public void processLogin(@RequestParam String email,
-                             @RequestParam String password,
-                             HttpServletResponse response) throws IOException {
-        System.out.println("POST /login called with email: \\{{}\\}" + email);
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> processLogin(@RequestParam String email,
+                                                            @RequestParam String password,
+                                                            HttpServletResponse response) throws IOException {
+        log.info("POST /login called with email: \\{{}\\}" + email);
         User user = userRepository.findByEmail(email);
         if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
             log.warn("Authentication failed for email: \\{{}\\}", email);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid email or password");
-            return;
+            return null;
         }
-        // Use generateToken (not createToken) from the injected JwtUtil instance.
         String token = jwtUtil.generateToken(email);
-        System.out.println("Token created successfully for email: \\{{}\\}" + email);
+        log.info("Token created successfully for email: \\{{}\\}", email);
         Cookie cookie = new Cookie("token", token);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         response.addCookie(cookie);
-        System.out.println("Cookie added. Redirecting to /myPage.");
-        response.sendRedirect("/myPage");
+        log.info("Cookie added. Sending JSON response with redirect URL.");
+
+        Map<String, String> body = new HashMap<>();
+        body.put("redirect", "/myPage");
+        return ResponseEntity.ok(body);
     }
 }
