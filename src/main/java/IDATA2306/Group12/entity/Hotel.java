@@ -54,6 +54,8 @@ public class Hotel {
     @Column(name = "extraFeatures")
     private String extraFeatures;
 
+    private float averageReview;
+
     public Hotel() {
     }
 
