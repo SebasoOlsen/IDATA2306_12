@@ -51,13 +51,13 @@ public class ListingService {
         return listingMapper.toResponseDTO(listing);
     }
 
-    public ListingResponseDTO createListing(ListingCreateDTO createDTO) {
+    public ListingResponseDTO createListing(ListingCreateDTO createDTO) throws IllegalArgumentException{
         Hotel hotel = hotelRepository.findById(createDTO.getHotelId())
-                .orElseThrow(() -> new RuntimeException("Hotel not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Hotel not found"));
         Provider provider = providerRepository.findById(createDTO.getProviderId())
-                .orElseThrow(() -> new RuntimeException("Provider not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Provider not found"));
         Room room = roomRepository.findById(createDTO.getRoomId())
-                .orElseThrow(() -> new RuntimeException("Room not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Room not found"));
 
         Listing listing = listingMapper.toEntity(createDTO, hotel, room, provider);
         Listing saved = listingRepository.save(listing);
