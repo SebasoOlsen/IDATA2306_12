@@ -54,7 +54,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             //TODO: Decide if username or email should be used for the user
 
             //Create authority based on role
-            GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role);
+            GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role.toUpperCase());
 
             //Create an authentication token
             UsernamePasswordAuthenticationToken authentication =
