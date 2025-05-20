@@ -18,18 +18,16 @@ import java.util.List;
 @Service
 public class ListingService {
 
-
     private final ListingRepository listingRepository;
     private final ListingMapper listingMapper;
     private final HotelRepository hotelRepository;
     private final ProviderRepository providerRepository;
 
     public ListingService(
-        ListingRepository listingRepository,
-        ListingMapper listingMapper,
-        HotelRepository hotelRepository,
-        ProviderRepository providerRepository
-    ) {
+            ListingRepository listingRepository,
+            ListingMapper listingMapper,
+            HotelRepository hotelRepository,
+            ProviderRepository providerRepository) {
         this.listingRepository = listingRepository;
         this.listingMapper = listingMapper;
         this.hotelRepository = hotelRepository;
@@ -82,5 +80,17 @@ public class ListingService {
     @Transactional
     public void deleteListing(int id) {
         listingRepository.deleteById(id);
+    }
+
+    /**
+     * Get all listings by a specific hotel id
+     *
+     * @param hotelId the id of the hotel
+     * @return a list of ListingResponseDTO
+     */
+    public List<ListingResponseDTO> getRoomsByHotelId(int hotelId) {
+        return listingRepository.findByRooms_Hotel_Id(hotelId).stream()
+                .map(listingMapper::toResponseDTO)
+                .toList();
     }
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/listings")
+@RequestMapping("/api/listings")
 public class ListingController {
 
     private final ListingService listingService;
@@ -38,7 +38,8 @@ public class ListingController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ListingResponseDTO> updateListing(@PathVariable int id, @Valid @RequestBody ListingCreateDTO listingCreateDTO) {
+    public ResponseEntity<ListingResponseDTO> updateListing(@PathVariable int id,
+            @Valid @RequestBody ListingCreateDTO listingCreateDTO) {
         ListingResponseDTO updated = listingService.updateListing(id, listingCreateDTO);
         return ResponseEntity.ok(updated);
     }
@@ -47,6 +48,18 @@ public class ListingController {
     public ResponseEntity<Void> deleteListing(@PathVariable int id) {
         listingService.deleteListing(id);
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Get all rooms by hotel id
+     * 
+     * @param hotelId
+     * @return
+     */
+    @GetMapping("/rooms/{hotelId}")
+    public ResponseEntity<List<ListingResponseDTO>> getRoomsByHotelId(@PathVariable int hotelId) {
+        List<ListingResponseDTO> rooms = listingService.getRoomsByHotelId(hotelId);
+        return ResponseEntity.ok(rooms);
     }
 
 }
