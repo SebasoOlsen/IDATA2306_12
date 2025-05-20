@@ -6,6 +6,9 @@ import IDATA2306.Group12.dto.room.RoomResponseDTO;
 import IDATA2306.Group12.service.HotelService;
 import IDATA2306.Group12.service.RoomService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,18 +18,27 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:5174")
 @RestController
 @RequestMapping("/hotels")
+@Tag(name = "Hotel Management", description = "APIs for managing hotels.")
 public class HotelController {
 
-    @Autowired
-    private HotelService hotelService;
+    private final HotelService hotelService;
+    private final RoomService roomService;
 
-    @Autowired
-    private RoomService roomService;
+    public HotelController(HotelService hotelService, RoomService roomService) {
+        this.hotelService = hotelService;
+        this.roomService = roomService;
+    }
 
-    @GetMapping
+    @Operation(
+            summary = "Get all hotels",
+            description = "Get a list of all hotels"
+    )
+    @ApiResponse(responseCode = "200", description = "List of all hotels.")
+    @ApiResponse(responseCode = "500", description = "Internal server error.")
+    @ApiResponse(responseCode = "403", description = "Not authorized to view this list of hotels.")
+    @GetMapping("/admin/allHotels")
     public ResponseEntity<List<HotelResponseDTO>> getAllHotels() {
         try {
             List<HotelResponseDTO> hotels = hotelService.getAllHotels();
@@ -37,7 +49,14 @@ public class HotelController {
         }
     }
 
-    @GetMapping("/{id}")
+    @Operation(
+            summary = "Search for a hotel",
+            description = "Search for a hotel using the hotel ID."
+    )
+    @GetMapping("public/searchByID/{id}")
+    @ApiResponse(responseCode = "200", description = "Hotel with the matching ID.")
+    @ApiResponse(responseCode = "404", description = "Hotel not found.")
+    @ApiResponse(responseCode = "500", description = "Internal server error.")
     public ResponseEntity<HotelResponseDTO> getHotelById(@PathVariable Long id) {
         try {
             HotelResponseDTO hotel = hotelService.getHotelById(id);
@@ -47,18 +66,32 @@ public class HotelController {
         }
     }
 
-    @PostMapping
+    @Operation(
+            summary = "Create a new hotel",
+            description = "Create a new hotel using a HotelCreateDTO."
+    )
+    @ApiResponse(responseCode = "201", description = "Hotel created successfully.")
+    @ApiResponse(responseCode = "400", description = "Invalid input.")
+    @ApiResponse(responseCode = "403", description = "Not authorized to create a hotel.")
+    @PostMapping("/admin/createHotel")
     public ResponseEntity<HotelResponseDTO> createHotel(@RequestBody HotelCreateDTO hotel) {
         try {
             HotelResponseDTO created = hotelService.createHotel(hotel);
             return ResponseEntity.ok(created);
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }
 
-    @PutMapping("/{id}")
+    @Operation(
+            summary = "Update a hotel",
+            description = "Update a hotel using a HotelCreateDTO."
+    )
+    @ApiResponse(responseCode = "200", description = "Hotel updated successfully.")
+    @ApiResponse(responseCode = "404", description = "Hotel not found.")
+    @ApiResponse(responseCode = "400", description = "Invalid input.")
+    @ApiResponse(responseCode = "403", description = "Not authorized to update this hotel.")
+    @PutMapping("/admin/updateHotel/{id}")
     public ResponseEntity<HotelResponseDTO> updateHotel(@PathVariable Long id, @RequestBody HotelResponseDTO hotel) {
         try {
             HotelResponseDTO updated = hotelService.updateHotel(id, hotel);
@@ -68,17 +101,13 @@ public class HotelController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteHotel(@PathVariable Long id) {
-        try {
-            hotelService.deleteHotel(id);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
-    }
-
-    @GetMapping("/random")
+    @Operation(
+            summary = "Get a list of random hotels",
+            description = "Get a list of random hotels."
+    )
+    @ApiResponse(responseCode = "200", description = "List of random hotels.")
+    @ApiResponse(responseCode = "500", description = "Internal server error.")
+    @GetMapping("/public/randomHotels")
     public ResponseEntity<List<HotelResponseDTO>> getRandomHotels(
             @RequestParam(name = "count", defaultValue = "3") int count) {
         try {
@@ -97,12 +126,19 @@ public class HotelController {
         }
     }
 
-    @GetMapping("/search")
+    @Operation(
+            summary = "Get hotels by search",
+            description = "Get hotels by search using the search parameters."
+    )
+    @ApiResponse(responseCode = "200", description = "List of hotels matching the search parameters.")
+    @ApiResponse(responseCode = "500", description = "Internal server error.")
+    @ApiResponse(responseCode = "404", description = "Hotel not found.")
+    @GetMapping("/public/search")
     public ResponseEntity<List<HotelResponseDTO>> getHotelsBySearch(@RequestParam Map<String, String> params) {
         try {
             List<HotelResponseDTO> searchResults = hotelService.getHotelsBySearch(params);
             if (searchResults == null || searchResults.isEmpty()) {
-                return ResponseEntity.ok(List.of());
+                return ResponseEntity.notFound().build();
             }
             return ResponseEntity.ok(searchResults);
         } catch (Exception e) {
@@ -110,7 +146,14 @@ public class HotelController {
         }
     }
 
-    @GetMapping("/{id}/rooms")
+    @Operation(
+            summary = "Get a list of rooms by hotel ID",
+            description = "Get a list of rooms by hotel ID."
+    )
+    @ApiResponse(responseCode = "200", description = "List of rooms for the hotel.")
+    @ApiResponse(responseCode = "500", description = "Internal server error.")
+    @ApiResponse(responseCode = "404", description = "Hotel not found.")
+    @GetMapping("/public/{id}/rooms")
     public ResponseEntity<List<RoomResponseDTO>> getRoomsByHotelId(@PathVariable Long id) {
         try {
             List<RoomResponseDTO> rooms = roomService.getRoomsByHotelId(id);

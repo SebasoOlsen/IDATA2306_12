@@ -37,6 +37,7 @@ public class RoomService {
 
     public List<RoomResponseDTO> getRoomsByHotelId(Long hotelId) {
         List<Room> rooms = repository.findByHotels_id(hotelId);
+        //TODO: Throw IllegalArgumentException if hotel does not exist
         return rooms.stream().map(roomMapper::toResponseDTO).collect(Collectors.toList());
     }
 
