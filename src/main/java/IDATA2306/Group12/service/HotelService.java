@@ -4,7 +4,9 @@ import IDATA2306.Group12.dto.hotel.HotelCreateDTO;
 import IDATA2306.Group12.dto.hotel.HotelResponseDTO;
 import IDATA2306.Group12.entity.ExtraFeature;
 import IDATA2306.Group12.entity.Hotel;
+import IDATA2306.Group12.entity.Room;
 import IDATA2306.Group12.mapper.HotelMapper;
+import IDATA2306.Group12.mapper.RoomMapper;
 import IDATA2306.Group12.repository.HotelRepository;
 import IDATA2306.Group12.service.ExtraFeatureService;
 import org.springframework.stereotype.Service;
@@ -23,12 +25,14 @@ public class HotelService {
     private final HotelRepository hotelRepository;
     private final HotelMapper hotelMapper;
     private final ExtraFeatureService extraFeatureService;
+    private final RoomService roomService;
 
     public HotelService(HotelRepository hotelRepository, HotelMapper hotelMapper,
-            ExtraFeatureService extraFeatureService) {
+            ExtraFeatureService extraFeatureService, RoomService roomService) {
         this.hotelRepository = hotelRepository;
         this.hotelMapper = hotelMapper;
         this.extraFeatureService = extraFeatureService;
+        this.roomService = roomService;
     }
 
     public List<HotelResponseDTO> getAllHotels() {
@@ -62,8 +66,12 @@ public class HotelService {
                 .map(extraFeatureService::getOrCreateByName)
                 .collect(Collectors.toSet());
 
+        Set<Room> resolvedRooms = hotelDTO.getRooms().stream()
+                .map(roomService::getOrCreateByName)
+                .collect(Collectors.toSet());
+
         // Pass features to mapper
-        Hotel hotel = hotelMapper.toEntity(hotelDTO, resolvedFeatures);
+        Hotel hotel = hotelMapper.toEntity(hotelDTO, resolvedFeatures, resolvedRooms);
         Hotel saved = hotelRepository.save(hotel);
         return hotelMapper.toResponseDTO(saved);
     }
@@ -75,12 +83,15 @@ public class HotelService {
 
         existingHotel.setName(hotelResponseDTO.getName());
         existingHotel.setLocationType(hotelResponseDTO.getLocationType());
-        existingHotel.setRoomTypes(hotelResponseDTO.getRoomType());
         Set<ExtraFeature> resolvedFeatures = hotelResponseDTO.getExtraFeature().stream()
                 .map(extraFeatureService::getOrCreateByName)
                 .collect(Collectors.toSet());
 
+        Set<Room> resolvedRooms = hotelResponseDTO.getRoom().stream()
+                .map(roomService::getOrCreateByName)
+                .collect(Collectors.toSet());
         existingHotel.setExtraFeatures(resolvedFeatures);
+        existingHotel.setRooms(resolvedRooms);
         existingHotel.setCountry(hotelResponseDTO.getCountry());
         existingHotel.setCity(hotelResponseDTO.getCity());
 

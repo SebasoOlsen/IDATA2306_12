@@ -5,10 +5,12 @@ import IDATA2306.Group12.dto.listing.ListingResponseDTO;
 import IDATA2306.Group12.entity.Hotel;
 import IDATA2306.Group12.entity.Listing;
 import IDATA2306.Group12.entity.Provider;
+import IDATA2306.Group12.entity.Room;
 import IDATA2306.Group12.mapper.ListingMapper;
 import IDATA2306.Group12.repository.HotelRepository;
 import IDATA2306.Group12.repository.ListingRepository;
 import IDATA2306.Group12.repository.ProviderRepository;
+import IDATA2306.Group12.repository.RoomRepository;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,16 +24,19 @@ public class ListingService {
     private final ListingMapper listingMapper;
     private final HotelRepository hotelRepository;
     private final ProviderRepository providerRepository;
+    private final RoomRepository roomRepository;
 
     public ListingService(
             ListingRepository listingRepository,
             ListingMapper listingMapper,
             HotelRepository hotelRepository,
-            ProviderRepository providerRepository) {
+            ProviderRepository providerRepository,
+            RoomRepository roomRepository) {
         this.listingRepository = listingRepository;
         this.listingMapper = listingMapper;
         this.hotelRepository = hotelRepository;
         this.providerRepository = providerRepository;
+        this.roomRepository = roomRepository;
     }
 
     public List<ListingResponseDTO> getAllListings() {
@@ -47,35 +52,37 @@ public class ListingService {
     }
 
     public ListingResponseDTO createListing(ListingCreateDTO createDTO) {
-        Hotel hotel = hotelRepository.findById(createDTO.getHotel().getId())
+        Hotel hotel = hotelRepository.findById(createDTO.getHotelId())
                 .orElseThrow(() -> new RuntimeException("Hotel not found"));
         Provider provider = providerRepository.findById(createDTO.getProviderId())
                 .orElseThrow(() -> new RuntimeException("Provider not found"));
+        Room room = roomRepository.findById(createDTO.getRoomId())
+                .orElseThrow(() -> new RuntimeException("Room not found"));
 
-        Listing listing = listingMapper.toEntity(createDTO, hotel, provider);
+        Listing listing = listingMapper.toEntity(createDTO, hotel, room, provider);
         Listing saved = listingRepository.save(listing);
 
         return listingMapper.toResponseDTO(saved);
     }
 
-    @Transactional
-    public ListingResponseDTO updateListing(int id, ListingCreateDTO updateDTO) {
-        Listing existingListing = listingRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Listing not found"));
-
-        Hotel hotel = hotelRepository.findById(updateDTO.getHotel().getId())
-                .orElseThrow(() -> new RuntimeException("Hotel not found"));
-        Provider provider = providerRepository.findById(updateDTO.getProviderId())
-                .orElseThrow(() -> new RuntimeException("Provider not found"));
-
-        // Update the fields
-        existingListing.setProvider(provider);
-        existingListing.setPrice(updateDTO.getPrice());
-        existingListing.setCurrency(updateDTO.getCurrency());
-        existingListing.setLink(updateDTO.getLink());
-
-        return listingMapper.toResponseDTO(existingListing);
-    }
+    // @Transactional
+    // public ListingResponseDTO updateListing(int id, ListingCreateDTO updateDTO) {
+    // Listing existingListing = listingRepository.findById(id)
+    // .orElseThrow(() -> new RuntimeException("Listing not found"));
+    //
+    // Hotel hotel = hotelRepository.findById(updateDTO.getHotel().getId())
+    // .orElseThrow(() -> new RuntimeException("Hotel not found"));
+    // Provider provider = providerRepository.findById(updateDTO.getProviderId())
+    // .orElseThrow(() -> new RuntimeException("Provider not found"));
+    //
+    // // Update the fields
+    // existingListing.setProvider(provider);
+    // existingListing.setPrice(updateDTO.getPrice());
+    // existingListing.setCurrency(updateDTO.getCurrency());
+    // existingListing.setLink(updateDTO.getLink());
+    //
+    // return listingMapper.toResponseDTO(existingListing);
+    // }
 
     @Transactional
     public void deleteListing(int id) {
@@ -88,8 +95,8 @@ public class ListingService {
      * @param hotelId the id of the hotel
      * @return a list of ListingResponseDTO
      */
-    public List<ListingResponseDTO> getRoomsByHotelId(int hotelId) {
-        return listingRepository.findByRooms_Hotel_Id(hotelId).stream()
+    public List<ListingResponseDTO> getListingsByHotelId(int hotelId) {
+        return listingRepository.findByHotel_Id(hotelId).stream()
                 .map(listingMapper::toResponseDTO)
                 .toList();
     }

@@ -11,8 +11,8 @@ public class HotelCreateDTO {
     @JsonProperty("locationType")
     private String locationType;
 
-    @JsonProperty("roomType")
-    private String roomType;
+    @JsonProperty("roomTypes")
+    private List<String> rooms;
 
     @JsonProperty("extraFeatures")
     private List<String> extraFeatures;
@@ -27,7 +27,7 @@ public class HotelCreateDTO {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -35,23 +35,23 @@ public class HotelCreateDTO {
     }
 
     public String getLocationType() {
-        return locationType;
+        return this.locationType;
     }
 
     public void setLocationType(String locationType) {
         this.locationType = locationType;
     }
 
-    public String getRoomType() {
-        return roomType;
+    public List<String> getRooms() {
+        return this.rooms;
     }
 
-    public void setRoomType(String roomType) {
-        this.roomType = roomType;
+    public void setRooms(List<String> rooms) {
+        this.rooms = rooms;
     }
 
     public List<String> getExtraFeatures() {
-        return extraFeatures;
+        return this.extraFeatures;
     }
 
     public void setExtraFeatures(List<String> extraFeatures) {
@@ -59,7 +59,7 @@ public class HotelCreateDTO {
     }
 
     public String getCountry() {
-        return country;
+        return this.country;
     }
 
     public void setCountry(String country) {
@@ -67,7 +67,7 @@ public class HotelCreateDTO {
     }
 
     public String getCity() {
-        return city;
+        return this.city;
     }
 
     public void setCity(String city) {

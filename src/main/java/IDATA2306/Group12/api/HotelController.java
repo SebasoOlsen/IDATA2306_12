@@ -2,7 +2,10 @@ package IDATA2306.Group12.api;
 
 import IDATA2306.Group12.dto.hotel.HotelCreateDTO;
 import IDATA2306.Group12.dto.hotel.HotelResponseDTO;
+import IDATA2306.Group12.dto.room.RoomResponseDTO;
 import IDATA2306.Group12.service.HotelService;
+import IDATA2306.Group12.service.RoomService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,9 @@ public class HotelController {
 
     @Autowired
     private HotelService hotelService;
+
+    @Autowired
+    private RoomService roomService;
 
     @GetMapping
     public ResponseEntity<List<HotelResponseDTO>> getAllHotels() {
@@ -99,6 +105,16 @@ public class HotelController {
                 return ResponseEntity.ok(List.of());
             }
             return ResponseEntity.ok(searchResults);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/{id}/rooms")
+    public ResponseEntity<List<RoomResponseDTO>> getRoomsByHotelId(@PathVariable Long id) {
+        try {
+            List<RoomResponseDTO> rooms = roomService.getRoomsByHotelId(id);
+            return ResponseEntity.ok(rooms);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }

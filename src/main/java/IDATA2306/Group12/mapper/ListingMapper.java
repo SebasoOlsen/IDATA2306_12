@@ -7,6 +7,7 @@ import IDATA2306.Group12.dto.listing.ListingResponseDTO;
 import IDATA2306.Group12.entity.Hotel;
 import IDATA2306.Group12.entity.Listing;
 import IDATA2306.Group12.entity.Provider;
+import IDATA2306.Group12.entity.Room;
 
 /**
  * Mapper class for converting between Listings entity and ListingDTO.
@@ -14,22 +15,23 @@ import IDATA2306.Group12.entity.Provider;
 @Component
 public class ListingMapper {
 
-    private RoomsMapper roomsMapper;
+    private RoomMapper roomMapper;
     private ProviderMapper providerMapper;
     private HotelMapper hotelMapper;
 
-    public ListingMapper (RoomsMapper roomsMapper, ProviderMapper providerMapper, HotelMapper hotelMapper) {
-        this.roomsMapper = roomsMapper;
+    public ListingMapper(RoomMapper roomMapper, ProviderMapper providerMapper, HotelMapper hotelMapper) {
+        this.roomMapper = roomMapper;
         this.providerMapper = providerMapper;
         this.hotelMapper = hotelMapper;
     }
 
-    public Listing toEntity(ListingCreateDTO dto, Hotel hotel, Provider provider) {
+    public Listing toEntity(ListingCreateDTO dto, Hotel hotel, Room room, Provider provider) {
         Listing listing = new Listing();
         listing.setProvider(provider);
         listing.setPrice(dto.getPrice());
         listing.setCurrency(dto.getCurrency());
-        listing.setLink(dto.getLink());
+        listing.setRoom(room);
+        listing.setHotel(hotel);
         return listing;
     }
 
@@ -38,8 +40,8 @@ public class ListingMapper {
         dto.setId(listing.getId());
         dto.setPrice(listing.getPrice());
         dto.setCurrency(listing.getCurrency());
-        dto.setLink(listing.getLink());
-        dto.setRooms(roomsMapper.toResponseDTO(listing.getRooms()));
+        dto.setRoom(roomMapper.toResponseDTO(listing.getRoom()));
+        dto.setHotel(hotelMapper.toResponseDTO(listing.getHotel()));
         dto.setProvider(providerMapper.toResponseDTO(listing.getProvider()));
         return dto;
     }

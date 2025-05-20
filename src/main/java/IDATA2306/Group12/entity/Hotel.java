@@ -43,12 +43,9 @@ public class Hotel {
     @Column(name = "city")
     private String city;
 
-    /**
-     * The types of rooms available in the hotel.
-     */
-    @JsonProperty("roomTypes")
-    @Column(name = "roomTypes")
-    private String roomTypes;
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "hotel_rooms", joinColumns = @JoinColumn(name = "hotel_id"), inverseJoinColumns = @JoinColumn(name = "room_id"))
+    private Set<Room> rooms = new HashSet<>();
 
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "hotel_extra_features", joinColumns = @JoinColumn(name = "hotel_id"), inverseJoinColumns = @JoinColumn(name = "feature_id"))
@@ -83,12 +80,22 @@ public class Hotel {
         this.locationType = locationType;
     }
 
-    public String getRoomTypes() {
-        return roomTypes;
+    public void addRoom(Room room) {
+        this.rooms.add(room);
+        room.getHotels().add(this);
     }
 
-    public void setRoomTypes(String roomTypes) {
-        this.roomTypes = roomTypes;
+    public void removeRoom(Room room) {
+        this.rooms.remove(room);
+        room.getHotels().remove(this);
+    }
+
+    public Set<Room> getRooms() {
+        return this.rooms;
+    }
+
+    public void setRooms(Set<Room> rooms) {
+        this.rooms = rooms;
     }
 
     public void addFeature(ExtraFeature feature) {
@@ -123,5 +130,13 @@ public class Hotel {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public float getAverageReview() {
+        return this.averageReview;
+    }
+
+    public void setAverageReview(float averageReview) {
+        this.averageReview = averageReview;
     }
 }

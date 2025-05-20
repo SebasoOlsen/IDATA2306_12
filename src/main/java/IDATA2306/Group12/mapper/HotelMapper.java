@@ -11,6 +11,7 @@ import IDATA2306.Group12.dto.hotel.HotelCreateDTO;
 import IDATA2306.Group12.dto.hotel.HotelResponseDTO;
 import IDATA2306.Group12.entity.ExtraFeature;
 import IDATA2306.Group12.entity.Hotel;
+import IDATA2306.Group12.entity.Room;
 
 /**
  * Mapper class for converting between Hotel entity and HotelDTO.
@@ -40,8 +41,12 @@ public class HotelMapper {
                 : new ArrayList<>();
         dto.setExtraFeature(extraFeatureNames);
 
-        dto.setRoomType(
-                hotel.getRoomTypes() != null ? hotel.getRoomTypes() : "");
+        List<String> roomNames = hotel.getRooms() != null
+                ? hotel.getRooms().stream()
+                        .map(Room::getName)
+                        .collect(Collectors.toList())
+                : new ArrayList<>();
+        dto.setRoom(roomNames);
 
         dto.setCountry(hotel.getCountry() != null ? hotel.getCountry() : "Unknown");
         dto.setCity(hotel.getCity() != null ? hotel.getCity() : "Unknown");
@@ -49,12 +54,12 @@ public class HotelMapper {
         return dto;
     }
 
-    public Hotel toEntity(HotelCreateDTO hotelDTO, Set<ExtraFeature> featuresFromDb) {
+    public Hotel toEntity(HotelCreateDTO hotelDTO, Set<ExtraFeature> featuresFromDb, Set<Room> roomsFromDb) {
         Hotel hotel = new Hotel();
         hotel.setName(hotelDTO.getName());
         hotel.setLocationType(hotelDTO.getLocationType());
         hotel.setExtraFeatures(featuresFromDb);
-        hotel.setRoomTypes(hotelDTO.getRoomType());
+        hotel.setRooms(roomsFromDb);
         hotel.setCity(hotelDTO.getCity());
         hotel.setCountry(hotelDTO.getCountry());
         return hotel;

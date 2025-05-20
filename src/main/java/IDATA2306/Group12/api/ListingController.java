@@ -37,12 +37,13 @@ public class ListingController {
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ListingResponseDTO> updateListing(@PathVariable int id,
-            @Valid @RequestBody ListingCreateDTO listingCreateDTO) {
-        ListingResponseDTO updated = listingService.updateListing(id, listingCreateDTO);
-        return ResponseEntity.ok(updated);
-    }
+    // @PutMapping("/{id}")
+    // public ResponseEntity<ListingResponseDTO> updateListing(@PathVariable int id,
+    // @Valid @RequestBody ListingCreateDTO listingCreateDTO) {
+    // ListingResponseDTO updated = listingService.updateListing(id,
+    // listingCreateDTO);
+    // return ResponseEntity.ok(updated);
+    // }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteListing(@PathVariable int id) {
@@ -56,10 +57,10 @@ public class ListingController {
      * @param hotelId
      * @return
      */
-    @GetMapping("/rooms/{hotelId}")
-    public ResponseEntity<List<ListingResponseDTO>> getRoomsByHotelId(@PathVariable int hotelId) {
-        List<ListingResponseDTO> rooms = listingService.getRoomsByHotelId(hotelId);
-        return ResponseEntity.ok(rooms);
+    @GetMapping("/public/hotel/{hotelId}")
+    public ResponseEntity<List<ListingResponseDTO>> getListingsByHotelId(@PathVariable int hotelId) {
+        List<ListingResponseDTO> listings = listingService.getListingsByHotelId(hotelId);
+        return ResponseEntity.ok(listings);
     }
 
 }
