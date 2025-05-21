@@ -6,6 +6,10 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tags;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/login")
+@Tag(name = "Login Management", description = "APIs for managing login.")
 public class LoginController {
 
     private final LoginService loginService;
@@ -26,7 +31,13 @@ public class LoginController {
         this.jwtUtil = jwtUtil;
     }
 
-    @PostMapping("/")
+    @Operation(
+            summary = "Process a login",
+            description = "Process a login using email and password."
+    )
+    @ApiResponse(responseCode = "200", description = "Login successful.")
+    @ApiResponse(responseCode = "400", description = "Invalid input.")
+    @PostMapping("/public/process")
     @ResponseBody
     public ResponseEntity<String> processLogin(@RequestParam String email,
                                                @RequestParam String password) {
@@ -51,7 +62,12 @@ public class LoginController {
 
     }
 
-    @GetMapping("/isLoggedIn")
+    @Operation(
+            summary = "Check if user is logged in",
+            description = "Check if user is logged in by checking if a token cookie is present."
+    )
+    @ApiResponse(responseCode = "200", description = "Boolean: loggedIn true/false")
+    @GetMapping("/public/isLoggedIn")
     @ResponseBody
     public ResponseEntity<Map<String, Boolean>> isLoggedIn(HttpServletRequest request) {
         boolean loggedIn = false;
@@ -73,7 +89,13 @@ public class LoginController {
         return ResponseEntity.ok(responseBody);
     }
 
-    @PostMapping("/logout")
+    @Operation(
+            summary = "Logout",
+            description = "Logout the current user by clearing the token cookie."
+    )
+    @ApiResponse(responseCode = "200", description = "Logout successful. Redirect to login page.")
+    @ApiResponse(responseCode = "403", description = "Not authorized to logout (not logged in).")
+    @PostMapping("/account/logout")
     @ResponseBody
     public ResponseEntity<Map<String, String>> logout(HttpServletResponse response) {
         //log.info("Logout endpoint called.");

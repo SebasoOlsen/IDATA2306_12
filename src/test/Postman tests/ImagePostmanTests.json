@@ -1,0 +1,144 @@
+{
+  "info": {
+    "name": "Image API Test Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Login - Get JWT Token",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"adminpassword\"\n}"
+        },
+        "url": {
+          "raw": "https://localhost:8443/login",
+          "protocol": "https",
+          "host": ["localhost"],
+          "port": "8443",
+          "path": ["login"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Login successful\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Save token\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.collectionVariables.set(\"token\", json.token);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Upload Image",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": "/path/to/sample.jpg"
+            },
+            {
+              "key": "type",
+              "value": "HOTEL",
+              "type": "text"
+            },
+            {
+              "key": "typeId",
+              "value": "1",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://localhost:8443/api/images/admin/upload",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "8443",
+          "path": [
+            "api",
+            "images",
+            "admin",
+            "upload"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Image URLs by Type and ID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "https://localhost:8443/api/images/public/urls?type=HOTEL&typeId=1",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "8443",
+          "path": [
+            "api",
+            "images",
+            "public",
+            "urls"
+          ],
+          "query": [
+            {
+              "key": "type",
+              "value": "HOTEL"
+            },
+            {
+              "key": "typeId",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Should return array of image URLs\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.be.an('array');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "token",
+      "value": ""
+    }
+  ]
+}

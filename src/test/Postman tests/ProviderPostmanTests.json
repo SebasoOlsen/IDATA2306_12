@@ -1,0 +1,199 @@
+{
+  "info": {
+    "name": "ProviderPostmanTests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Login - Get JWT Token",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"adminpassword\"\n}"
+        },
+        "url": {
+          "raw": "https://localhost:8443/login",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "8443",
+          "path": [
+            "login"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Login successful\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "var json = pm.response.json();",
+              "pm.collectionVariables.set(\"token\", json.token);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Provider",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"TestProvider\"\n}"
+        },
+        "url": {
+          "raw": "https://localhost:8443/api/providers/admin/createProvider",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "8443",
+          "path": [
+            "api",
+            "providers",
+            "admin",
+            "createProvider"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get All Providers",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "https://localhost:8443/api/providers/admin/allProviders",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "8443",
+          "path": [
+            "api",
+            "providers",
+            "admin",
+            "allProviders"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Provider By ID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "https://localhost:8443/api/providers/public/search/1",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "8443",
+          "path": [
+            "api",
+            "providers",
+            "public",
+            "search",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update Provider",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": 1,\n  \"name\": \"UpdatedProvider\"\n}"
+        },
+        "url": {
+          "raw": "https://localhost:8443/api/providers/admin/updateProvider/1",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "8443",
+          "path": [
+            "api",
+            "providers",
+            "admin",
+            "updateProvider",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Delete Provider",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "https://localhost:8443/api/providers/admin/deleteProvider/1",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "8443",
+          "path": [
+            "api",
+            "providers",
+            "admin",
+            "deleteProvider",
+            "1"
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "token",
+      "value": ""
+    }
+  ]
+}

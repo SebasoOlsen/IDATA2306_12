@@ -1,0 +1,243 @@
+{
+  "info": {
+    "name": "UserPostmanTests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Register New User",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"securePass123\",\n  \"telephone\": \"123456789\",\n  \"areaCode\": \"+47\",\n  \"role\": \"USER\"\n}"
+        },
+        "url": {
+          "raw": "https://localhost:8443/api/users/public/register",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "8443",
+          "path": [
+            "api",
+            "users",
+            "public",
+            "register"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Check Email Availability",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "https://localhost:8443/api/users/public/check_email?email=john.doe@example.com",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "8443",
+          "path": [
+            "api",
+            "users",
+            "public",
+            "check_email"
+          ],
+          "query": [
+            {
+              "key": "email",
+              "value": "john.doe@example.com"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Check Telephone Availability",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "https://localhost:8443/api/users/public/check_telephone?telephone=123456789",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "8443",
+          "path": [
+            "api",
+            "users",
+            "public",
+            "check_telephone"
+          ],
+          "query": [
+            {
+              "key": "telephone",
+              "value": "123456789"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get All Users (Admin)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "https://localhost:8443/api/users/admin/getAllUsers",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "8443",
+          "path": [
+            "api",
+            "users",
+            "admin",
+            "getAllUsers"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Search Users (Admin)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "https://localhost:8443/api/users/admin/search?query=john",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "8443",
+          "path": [
+            "api",
+            "users",
+            "admin",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "query",
+              "value": "john"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get User by ID (Admin)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "https://localhost:8443/api/users/admin/search/1",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "8443",
+          "path": [
+            "api",
+            "users",
+            "admin",
+            "search",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update User (Admin)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"Johnny\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"securePass123\",\n  \"telephone\": \"123456789\",\n  \"areaCode\": \"+47\",\n  \"role\": \"USER\"\n}"
+        },
+        "url": {
+          "raw": "https://localhost:8443/api/users/admin/edit/1",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "8443",
+          "path": [
+            "api",
+            "users",
+            "admin",
+            "edit",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Delete User (Admin)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "https://localhost:8443/api/users/admin/delete/1",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "8443",
+          "path": [
+            "api",
+            "users",
+            "admin",
+            "delete",
+            "1"
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "token",
+      "value": ""
+    }
+  ]
+}
