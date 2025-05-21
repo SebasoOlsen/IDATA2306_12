@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/hotels")
+@RequestMapping("/api/hotels")
 @Tag(name = "Hotel Management", description = "APIs for managing hotels.")
 public class HotelController {
 
@@ -47,7 +47,7 @@ public class HotelController {
     }
 
     @Operation(summary = "Search for a hotel", description = "Search for a hotel using the hotel ID.")
-    @GetMapping("public/searchByID/{id}")
+    @GetMapping("public/searchById/{id}")
     @ApiResponse(responseCode = "200", description = "Hotel with the matching ID.")
     @ApiResponse(responseCode = "404", description = "Hotel not found.")
     @ApiResponse(responseCode = "500", description = "Internal server error.")
@@ -133,7 +133,7 @@ public class HotelController {
     @ApiResponse(responseCode = "500", description = "Internal server error.")
     @ApiResponse(responseCode = "404", description = "Hotel not found.")
     @GetMapping("/public/{id}/rooms")
-    public ResponseEntity<List<RoomResponseDTO>> getRoomsByHotelId(@PathVariable Long id) {
+    public ResponseEntity<List<RoomResponseDTO>> getRoomsByHotelId(@PathVariable Integer id) {
         try {
             List<RoomResponseDTO> rooms = roomService.getRoomsByHotelId(id);
             return ResponseEntity.ok(rooms);
