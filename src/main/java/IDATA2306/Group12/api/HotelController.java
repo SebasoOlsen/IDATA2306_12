@@ -31,10 +31,7 @@ public class HotelController {
         this.roomService = roomService;
     }
 
-    @Operation(
-            summary = "Get all hotels",
-            description = "Get a list of all hotels"
-    )
+    @Operation(summary = "Get all hotels", description = "Get a list of all hotels")
     @ApiResponse(responseCode = "200", description = "List of all hotels.")
     @ApiResponse(responseCode = "500", description = "Internal server error.")
     @ApiResponse(responseCode = "403", description = "Not authorized to view this list of hotels.")
@@ -49,10 +46,7 @@ public class HotelController {
         }
     }
 
-    @Operation(
-            summary = "Search for a hotel",
-            description = "Search for a hotel using the hotel ID."
-    )
+    @Operation(summary = "Search for a hotel", description = "Search for a hotel using the hotel ID.")
     @GetMapping("public/searchByID/{id}")
     @ApiResponse(responseCode = "200", description = "Hotel with the matching ID.")
     @ApiResponse(responseCode = "404", description = "Hotel not found.")
@@ -66,10 +60,7 @@ public class HotelController {
         }
     }
 
-    @Operation(
-            summary = "Create a new hotel",
-            description = "Create a new hotel using a HotelCreateDTO."
-    )
+    @Operation(summary = "Create a new hotel", description = "Create a new hotel using a HotelCreateDTO.")
     @ApiResponse(responseCode = "201", description = "Hotel created successfully.")
     @ApiResponse(responseCode = "400", description = "Invalid input.")
     @ApiResponse(responseCode = "403", description = "Not authorized to create a hotel.")
@@ -83,10 +74,7 @@ public class HotelController {
         }
     }
 
-    @Operation(
-            summary = "Update a hotel",
-            description = "Update a hotel using a HotelCreateDTO."
-    )
+    @Operation(summary = "Update a hotel", description = "Update a hotel using a HotelCreateDTO.")
     @ApiResponse(responseCode = "200", description = "Hotel updated successfully.")
     @ApiResponse(responseCode = "404", description = "Hotel not found.")
     @ApiResponse(responseCode = "400", description = "Invalid input.")
@@ -101,10 +89,7 @@ public class HotelController {
         }
     }
 
-    @Operation(
-            summary = "Get a list of random hotels",
-            description = "Get a list of random hotels."
-    )
+    @Operation(summary = "Get a list of random hotels", description = "Get a list of random hotels.")
     @ApiResponse(responseCode = "200", description = "List of random hotels.")
     @ApiResponse(responseCode = "500", description = "Internal server error.")
     @GetMapping("/public/randomHotels")
@@ -126,10 +111,7 @@ public class HotelController {
         }
     }
 
-    @Operation(
-            summary = "Get hotels by search",
-            description = "Get hotels by search using the search parameters."
-    )
+    @Operation(summary = "Get hotels by search", description = "Get hotels by search using the search parameters.")
     @ApiResponse(responseCode = "200", description = "List of hotels matching the search parameters.")
     @ApiResponse(responseCode = "500", description = "Internal server error.")
     @ApiResponse(responseCode = "404", description = "Hotel not found.")
@@ -146,10 +128,7 @@ public class HotelController {
         }
     }
 
-    @Operation(
-            summary = "Get a list of rooms by hotel ID",
-            description = "Get a list of rooms by hotel ID."
-    )
+    @Operation(summary = "Get a list of rooms by hotel ID", description = "Get a list of rooms by hotel ID.")
     @ApiResponse(responseCode = "200", description = "List of rooms for the hotel.")
     @ApiResponse(responseCode = "500", description = "Internal server error.")
     @ApiResponse(responseCode = "404", description = "Hotel not found.")
