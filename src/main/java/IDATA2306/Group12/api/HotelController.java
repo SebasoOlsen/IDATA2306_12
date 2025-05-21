@@ -111,7 +111,7 @@ public class HotelController {
     }
 
     @GetMapping("/{id}/rooms")
-    public ResponseEntity<List<RoomResponseDTO>> getRoomsByHotelId(@PathVariable Long id) {
+    public ResponseEntity<List<RoomResponseDTO>> getRoomsByHotelId(@PathVariable Integer id) {
         try {
             List<RoomResponseDTO> rooms = roomService.getRoomsByHotelId(id);
             return ResponseEntity.ok(rooms);

@@ -35,8 +35,8 @@ public class RoomService {
                 .orElseThrow(() -> new RuntimeException("Room not found"));
     }
 
-    public List<RoomResponseDTO> getRoomsByHotelId(Long hotelId) {
-        List<Room> rooms = repository.findByHotels_id(hotelId);
+    public List<RoomResponseDTO> getRoomsByHotelId(Integer hotelId) {
+        List<Room> rooms = repository.findAllByHotelId(hotelId);
         return rooms.stream().map(roomMapper::toResponseDTO).collect(Collectors.toList());
     }
 
