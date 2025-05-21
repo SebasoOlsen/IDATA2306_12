@@ -1,0 +1,150 @@
+{
+  "info": {
+    "name": "Login API Test Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Process Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "user@example.com",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "password123",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://localhost:8443/api/login/public/process",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "8443",
+          "path": [
+            "api",
+            "login",
+            "public",
+            "process"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Login should be successful\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "const tokenCookie = pm.response.headers.get('Set-Cookie');",
+              "pm.collectionVariables.set('token_cookie', tokenCookie);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Check if User is Logged In",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Cookie",
+            "value": "{{token_cookie}}"
+          }
+        ],
+        "url": {
+          "raw": "https://localhost:8443/api/login/public/isLoggedIn",
+          "protocol": "https",
+          "host": ["localhost"],
+          "port": "8443",
+          "path": [
+            "api",
+            "login",
+            "public",
+            "isLoggedIn"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response should be OK\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"User should be logged in\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData.loggedIn).to.be.true;",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Logout User",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Cookie",
+            "value": "{{token_cookie}}"
+          }
+        ],
+        "url": {
+          "raw": "https://localhost:8443/api/login/account/logout",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "8443",
+          "path": [
+            "api",
+            "login",
+            "account",
+            "logout"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Logout should be successful\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "token_cookie",
+      "value": ""
+    }
+  ]
+}
