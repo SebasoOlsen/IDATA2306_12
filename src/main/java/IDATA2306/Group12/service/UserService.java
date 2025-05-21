@@ -58,13 +58,13 @@ public class UserService {
         .collect(Collectors.toList());
     }
 
-    public UserResponseDTO getUserById(Long id) {
+    public UserResponseDTO getUserById(Long id) throws IllegalArgumentException{
         User user = userRepository.findById(id.intValue())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
         return userMapper.toResponseDTO(user);
     }
 
-    public UserResponseDTO createUser(UserCreateDTO userCreateDTO) {
+    public UserResponseDTO createUser(UserCreateDTO userCreateDTO) throws UserExistsException{
 
         if (userRepository.existsByEmail(userCreateDTO.getEmail())) {
             throw new UserExistsException("This email is already registered.");
@@ -79,10 +79,10 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponseDTO updateUser(Long id, UserCreateDTO userCreateDTO) {
+    public UserResponseDTO updateUser(Long id, UserCreateDTO userCreateDTO) throws IllegalArgumentException{
         System.out.println("Updating user with ID: " + id);
         User existingUser = userRepository.findById(id.intValue())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         existingUser.setFirstName(userCreateDTO.getFirstName());
         existingUser.setLastName(userCreateDTO.getLastName());

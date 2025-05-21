@@ -13,8 +13,8 @@ public class HotelResponseDTO {
     @JsonProperty("locationType")
     private String locationType;
 
-    @JsonProperty("roomType")
-    private String roomType;
+    @JsonProperty("room")
+    private List<String> room;
 
     @JsonProperty("extraFeature")
     private List<String> extraFeature;
@@ -24,6 +24,9 @@ public class HotelResponseDTO {
 
     @JsonProperty("city")
     private String city;
+
+    public HotelResponseDTO() {
+    }
 
     public int getId() {
         return id;
@@ -49,12 +52,12 @@ public class HotelResponseDTO {
         this.locationType = locationType;
     }
 
-    public String getRoomType() {
-        return roomType;
+    public List<String> getRoom() {
+        return room;
     }
 
-    public void setRoomType(String roomType) {
-        this.roomType = roomType;
+    public void setRoom(List<String> room) {
+        this.room = room;
     }
 
     public List<String> getExtraFeature() {

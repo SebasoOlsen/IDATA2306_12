@@ -27,9 +27,9 @@ public class ProviderService {
                 .toList();
     }
 
-    public ProviderResponseDTO getProviderById(int id) {
+    public ProviderResponseDTO getProviderById(int id) throws IllegalArgumentException{
         Provider provider = providerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Provider not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Provider not found"));
         return providerMapper.toResponseDTO(provider);
     }
 
@@ -40,9 +40,9 @@ public class ProviderService {
     }
 
     @Transactional
-    public ProviderResponseDTO updateProvider(int id, ProviderResponseDTO providerDTO) {
+    public ProviderResponseDTO updateProvider(int id, ProviderResponseDTO providerDTO) throws IllegalArgumentException{
         Provider existingProvider = providerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Provider not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Provider not found"));
 
         existingProvider.setName(providerDTO.getName());
 

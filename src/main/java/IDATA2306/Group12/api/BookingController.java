@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/bookings")
+@RequestMapping("/api/bookings")
 @Tag(name = "Booking Management", description = "APIs for managing bookings.")
 public class BookingController {
 
@@ -35,7 +35,7 @@ public class BookingController {
             description = "Get a list of all bookings."
             )
     @ApiResponse(responseCode = "200", description = "List of all bookings.")
-    @GetMapping
+    @GetMapping("/admin/allBookings")
     public ResponseEntity<List<BookingResponseDTO>> getAllBookings() {
         return ResponseEntity.ok(bookingService.getAllBookings());
     }
@@ -46,7 +46,7 @@ public class BookingController {
     )
     @ApiResponse(responseCode = "200", description = "Booking with the matching ID.")
     @ApiResponse(responseCode = "404", description = "Booking not found.")
-    @GetMapping("/{id}")
+    @GetMapping("/admin/search/{id}")
     public ResponseEntity<BookingResponseDTO> getBookingById(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(bookingService.getBookingById(id));
@@ -62,7 +62,7 @@ public class BookingController {
     @ApiResponse(responseCode = "201", description = "Booking created successfully.")
     @ApiResponse(responseCode = "404", description = "Listing not found.")
     @ApiResponse(responseCode = "500", description = "Internal server error.")
-    @PostMapping
+    @PostMapping("/account/createBooking")
     public ResponseEntity<BookingResponseDTO> createBooking(@Valid @RequestBody BookingCreateDTO bookingCreateDTO) {
         try {
             BookingResponseDTO created = bookingService.createBooking(bookingCreateDTO);
@@ -77,6 +77,8 @@ public class BookingController {
         }
     }
 
+
+    //TODO: Can users update their own bookings? If so: implement a new controller with auth check to filter editable bookings.
     @Operation(
             summary = "Update an existing booking",
             description = "Update an existing booking."
@@ -84,7 +86,7 @@ public class BookingController {
     @ApiResponse(responseCode = "200", description = "Booking updated successfully.")
     @ApiResponse(responseCode = "404", description = "Booking not found.")
     @ApiResponse(responseCode = "400", description = "Invalid input.")
-    @PutMapping("/{id}")
+    @PutMapping("/admin/editBooking/{id}")
     public ResponseEntity<BookingResponseDTO> updateBooking(@PathVariable Long id, 
                                                             @Valid @RequestBody BookingCreateDTO bookingCreateDTO) {
         BookingResponseDTO updated = bookingService.updateBooking(id, bookingCreateDTO);
@@ -99,13 +101,11 @@ public class BookingController {
             description = "Delete an existing booking."
     )
     @ApiResponse(responseCode = "204", description = "Booking deleted successfully.")
-    @ApiResponse(responseCode = "404", description = "Booking not found.")
     @ApiResponse(responseCode = "403", description = "Not authorized to delete this booking.")
-    @ApiResponse(responseCode = "400", description = "Invalid input.")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBooking(@PathVariable Long id) {
+    @DeleteMapping("/admin/deleteBooking/{id}")
+    public ResponseEntity<String> deleteBooking(@PathVariable Long id) {
         bookingService.deleteBooking(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(204).body("Booking deleted successfully.");
     }
 
     @Operation(
@@ -116,8 +116,11 @@ public class BookingController {
     @ApiResponse(responseCode = "404", description = "User not found.")
     @ApiResponse(responseCode = "401", description = "User is not authenticated.")
     @ApiResponse(responseCode = "403", description = "User is not authorized to view this list of bookings.")
-    @GetMapping("/user")
+    @GetMapping("/account/user")
     public ResponseEntity<?> getUserBookings() {
+
+        //TODO: Move this logic to service. Throw IllegalArgumentExceptions if user is not auth or not found.
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null || !auth.isAuthenticated()) {
             return ResponseEntity.status(401).build();
