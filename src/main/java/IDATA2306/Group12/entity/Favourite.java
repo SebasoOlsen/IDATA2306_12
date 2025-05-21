@@ -12,10 +12,12 @@ public class Favourite {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "userId", nullable = false)
     @JsonProperty("user")
     private User user;
 
     @ManyToOne
+    @JoinColumn(name = "listingId", nullable = false)
     @JsonProperty("listing")
     private Listing listing;
 

@@ -48,7 +48,7 @@ public class ImageController {
             description = "Get an image by type and ID."
     )
     @ApiResponse(responseCode = "200", description = "Image with matching type and ID.")
-    @GetMapping("public/urls")
+    @GetMapping("/public/urls")
     public ResponseEntity<List<String>> getImageUrls(@RequestParam String type, @RequestParam String typeId) {
         return ResponseEntity.ok(imageService.getImageUrlsByTypeAndId(type, typeId));
     }

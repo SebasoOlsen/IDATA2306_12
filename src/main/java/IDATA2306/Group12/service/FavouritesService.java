@@ -73,6 +73,7 @@ public class FavouritesService {
                 .map(favouriteMapper :: toResponseDTO)
                 .collect(Collectors.toList());
     }
+
 //
 //    public Object getFavouriteById(Long aLong) {
 //    }

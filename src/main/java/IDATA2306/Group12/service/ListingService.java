@@ -95,9 +95,9 @@ public class ListingService {
      * @param hotelId the id of the hotel
      * @return a list of ListingResponseDTO
      */
-    public List<ListingResponseDTO> getListingsByHotelId(int hotelId) {
-        return listingRepository.findByHotel_Id(hotelId).stream()
-                .map(listingMapper::toResponseDTO)
-                .toList();
-    }
+//    public List<ListingResponseDTO> getListingsByHotelId(int hotelId) {
+//        return listingRepository.findByHotel_Id(hotelId).stream()
+//                .map(listingMapper::toResponseDTO)
+//                .toList();
+//    }
 }

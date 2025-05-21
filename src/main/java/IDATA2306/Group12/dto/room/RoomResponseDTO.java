@@ -1,8 +1,14 @@
 package IDATA2306.Group12.dto.room;
 
+import IDATA2306.Group12.dto.hotel.HotelResponseDTO;
+
+import java.util.Set;
+
 public class RoomResponseDTO {
     private int id;
     private String name;
+    private Set<HotelResponseDTO> hotels;
+
 
     public int getId() {
         return id;
@@ -19,4 +25,13 @@ public class RoomResponseDTO {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Set<HotelResponseDTO> getHotels(){
+        return hotels;
+    }
+
+    public void setHotels(Set<HotelResponseDTO> hotels){
+        this.hotels = hotels;
+    }
+
 }

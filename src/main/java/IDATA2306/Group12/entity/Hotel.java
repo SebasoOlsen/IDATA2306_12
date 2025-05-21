@@ -45,6 +45,7 @@ public class Hotel {
 
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "hotel_rooms", joinColumns = @JoinColumn(name = "hotel_id"), inverseJoinColumns = @JoinColumn(name = "room_id"))
+    @JsonProperty("hotelRooms")
     private Set<Room> rooms = new HashSet<>();
 
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
