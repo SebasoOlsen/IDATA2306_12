@@ -1,5 +1,6 @@
 package IDATA2306.Group12.mapper;
 
+import IDATA2306.Group12.entity.Rooms;
 import org.springframework.stereotype.Component;
 
 import IDATA2306.Group12.dto.listing.ListingCreateDTO;
@@ -16,20 +17,19 @@ public class ListingMapper {
 
     private RoomsMapper roomsMapper;
     private ProviderMapper providerMapper;
-    private HotelMapper hotelMapper;
 
-    public ListingMapper (RoomsMapper roomsMapper, ProviderMapper providerMapper, HotelMapper hotelMapper) {
+    public ListingMapper (RoomsMapper roomsMapper, ProviderMapper providerMapper) {
         this.roomsMapper = roomsMapper;
         this.providerMapper = providerMapper;
-        this.hotelMapper = hotelMapper;
     }
 
-    public Listing toEntity(ListingCreateDTO dto, Hotel hotel, Provider provider) {
+    public Listing toEntity(ListingCreateDTO dto, Provider provider, Rooms rooms) {
         Listing listing = new Listing();
         listing.setProvider(provider);
         listing.setPrice(dto.getPrice());
         listing.setCurrency(dto.getCurrency());
         listing.setLink(dto.getLink());
+        listing.setRooms(rooms);
         return listing;
     }
 

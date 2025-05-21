@@ -25,7 +25,4 @@ public class ListingCreateDTO {
 
     public String getLink() { return link; }
     public void setLink(String link) { this.link = link; }
-
-    public Hotel getHotel() { return hotel; }
-    public void setHotel(Hotel hotel) { this.hotel = hotel;}
 }

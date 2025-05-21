@@ -6,14 +6,15 @@ import jakarta.persistence.*;
 @Entity
 @Table(name="Rooms")
 public class Rooms {
+
     @Id
-    @GeneratedValue
-    @JsonProperty
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name= "id")
     private int id;
 
     @ManyToOne
     @JoinColumn(name = "hotelId", nullable = false)
-    @JsonProperty
+    @JsonProperty("hotel")
     private Hotel hotel;
 
     @JsonProperty("roomName")
@@ -21,6 +22,7 @@ public class Rooms {
     private String roomName;
 
     public Rooms(){}
+
     public int getId() {
         return id;
     }

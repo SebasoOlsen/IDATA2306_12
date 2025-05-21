@@ -24,7 +24,7 @@ public class Listing {
     private Provider provider;
 
     @ManyToOne(optional = true)
-    @JoinColumn(name = "roomId")
+    @JoinColumn(name = "roomId", nullable = false)
     @JsonProperty("rooms")
     private Rooms rooms;
 

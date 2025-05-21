@@ -30,8 +30,9 @@ public class LoginController {
     @ResponseBody
     public ResponseEntity<String> processLogin(@RequestParam String email,
                                                @RequestParam String password) {
+        System.out.println("Login attempt with email: " + email);
+        System.out.println("Login attempt with password: " + password);
         try {
-
             String token = loginService.login(email, password);
 
             ResponseCookie cookie = ResponseCookie.from("token", token)

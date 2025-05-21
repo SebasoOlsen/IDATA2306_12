@@ -32,7 +32,6 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authz -> authz.anyRequest().permitAll())
-                // Disable Spring Security's default logout to allow your custom controller to handle logout
                 .logout(logout -> logout.disable());
         return http.build();
     }
