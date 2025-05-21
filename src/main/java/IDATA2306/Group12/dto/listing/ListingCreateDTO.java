@@ -1,28 +1,49 @@
 package IDATA2306.Group12.dto.listing;
 
-import IDATA2306.Group12.entity.Hotel;
-import IDATA2306.Group12.entity.Rooms;
-
 public class ListingCreateDTO {
-    private Rooms rooms;
+    private int roomId;
     private int providerId;
     private int price;
     private String currency;
-    private String link;
-    private Hotel hotel;
+    private int hotelId;
 
-    public Rooms getRooms() { return rooms; }
-    public void setRooms(Rooms rooms) { this.rooms = rooms; }
+    public int getRoomId() {
+        return this.roomId;
+    }
 
-    public int getProviderId() { return providerId; }
-    public void setProviderId(int providerId) { this.providerId = providerId; }
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
+    }
 
-    public int getPrice() { return price; }
-    public void setPrice(int price) { this.price = price; }
+    public int getProviderId() {
+        return this.providerId;
+    }
 
-    public String getCurrency() { return currency; }
-    public void setCurrency(String currency) { this.currency = currency; }
+    public void setProviderId(int providerId) {
+        this.providerId = providerId;
+    }
 
-    public String getLink() { return link; }
-    public void setLink(String link) { this.link = link; }
+    public int getPrice() {
+        return this.price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public String getCurrency() {
+        return this.currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public int getHotelId() {
+        return this.hotelId;
+    }
+
+    public void setHotelId(int hotelId) {
+        this.hotelId = hotelId;
+    }
 }

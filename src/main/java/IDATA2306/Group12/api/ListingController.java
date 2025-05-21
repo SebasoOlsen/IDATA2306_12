@@ -68,15 +68,16 @@ public class ListingController {
      * @param hotelId
      * @return
      */
-    @Operation(
-            summary = "Search for listings using hotel ID.",
-            description = "Returns a list of all listings for the specified hotel ID."
-    )
-    @ApiResponse(responseCode = "200", description = "List of listings matching the query.")
-    @GetMapping("/public/hotel/{hotelId}")
-    public ResponseEntity<List<ListingResponseDTO>> getListingsByHotelId(@PathVariable int hotelId) {
-        List<ListingResponseDTO> listings = listingService.getListingsByHotelId(hotelId);
-        return ResponseEntity.ok(listings);
-    }
+    //TODO find out if its needed
+//    @Operation(
+//            summary = "Search for listings using hotel ID.",
+//            description = "Returns a list of all listings for the specified hotel ID."
+//    )
+//    @ApiResponse(responseCode = "200", description = "List of listings matching the query.")
+//    @GetMapping("/public/hotel/{hotelId}")
+//    public ResponseEntity<List<ListingResponseDTO>> getListingsByHotelId(@PathVariable int hotelId) {
+//        List<ListingResponseDTO> listings = listingService.getListingsByHotelId(hotelId);
+//        return ResponseEntity.ok(listings);
+//    }
 
 }

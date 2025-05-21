@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(/*authz -> authz.anyRequest().permitAll()*/ authz -> authz
                         //Public Endpoints
-                        .requestMatchers("/**/public/**").permitAll()
+                        .requestMatchers("/**/public/**","/images/**").permitAll()
                         //Logged in restricted endpoints
                         .requestMatchers("/**/account/**)").hasAnyRole("USER", "ADMIN")
                         //Admin restricted endpoints

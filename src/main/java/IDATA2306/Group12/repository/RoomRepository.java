@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RoomsRepository extends JpaRepository<Room, Integer> {
+public interface RoomRepository extends JpaRepository<Room, Integer> {
     List<Room> findByName(String name);
 
     List<Room> findByHotels_id(Long hotelId);
