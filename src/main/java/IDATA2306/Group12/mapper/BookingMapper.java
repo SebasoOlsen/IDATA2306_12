@@ -1,5 +1,6 @@
 package IDATA2306.Group12.mapper;
 
+import IDATA2306.Group12.dto.booking.BookedDatesDTO;
 import org.springframework.stereotype.Component;
 
 import IDATA2306.Group12.dto.booking.BookingCreateDTO;
@@ -40,6 +41,13 @@ public class BookingMapper {
         dto.setEndDate(booking.getEndDate());
         dto.setUser(userMapper.toResponseDTO(booking.getUser()));
         dto.setListing(listingMapper.toResponseDTO(booking.getListing()));
+        return dto;
+    }
+
+    public BookedDatesDTO toBookedDatesDTO(Booking booking) {
+        BookedDatesDTO dto = new BookedDatesDTO();
+        dto.setStartDate(booking.getStartDate());
+        dto.setEndDate(booking.getEndDate());
         return dto;
     }
 }

@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -135,6 +136,21 @@ public class BookingController {
         }
 
         return ResponseEntity.ok(bookingService.getBookingsByUser(user));
+    }
+
+    @Operation(
+            summary = "Get a list of booked dates for a listing",
+            description = "Get a list of booked dates for a listing."
+    )
+    @ApiResponse(responseCode = "200", description = "List of booked dates for the listing.")
+    @ApiResponse(responseCode = "404", description = "Listing not found.")
+    @GetMapping("/public/bookedDatesForListing/{id}")
+    public ResponseEntity<?> getBookedDatesForListing(@PathVariable long id) {
+        try {
+            return ResponseEntity.ok(bookingService.getBookedDatesByListingId(id));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     // OLD METHODS:
