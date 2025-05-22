@@ -62,6 +62,21 @@ public class ListingController {
         return ResponseEntity.status(204).body("Listing deleted successfully.");
     }
 
+    @Operation(
+            summary = "Get a listing by ID.",
+            description = "Returns a ListingResponseDTO if it exists."
+    )
+    @ApiResponse(responseCode = "200", description = "Listing with the specified ID.")
+    @ApiResponse(responseCode = "404", description = "Listing not found.")
+    @GetMapping("/public/search/{id}")
+    public ResponseEntity<ListingResponseDTO> getListingById(@PathVariable int id) {
+        try {
+            return ResponseEntity.ok(listingService.getListingById(id));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
     /**
      * Get all rooms by hotel id
      * 
@@ -69,15 +84,15 @@ public class ListingController {
      * @return
      */
     //TODO find out if its needed
-//    @Operation(
-//            summary = "Search for listings using hotel ID.",
-//            description = "Returns a list of all listings for the specified hotel ID."
-//    )
-//    @ApiResponse(responseCode = "200", description = "List of listings matching the query.")
-//    @GetMapping("/public/hotel/{hotelId}")
-//    public ResponseEntity<List<ListingResponseDTO>> getListingsByHotelId(@PathVariable int hotelId) {
-//        List<ListingResponseDTO> listings = listingService.getListingsByHotelId(hotelId);
-//        return ResponseEntity.ok(listings);
-//    }
+    @Operation(
+            summary = "Search for listings using hotel ID.",
+            description = "Returns a list of all listings for the specified hotel ID."
+    )
+    @ApiResponse(responseCode = "200", description = "List of listings matching the query.")
+    @GetMapping("/public/hotel/{hotelId}")
+    public ResponseEntity<List<ListingResponseDTO>> getListingsByHotelId(@PathVariable int hotelId) {
+        List<ListingResponseDTO> listings = listingService.getListingsByHotelId(hotelId);
+        return ResponseEntity.ok(listings);
+    }
 
 }

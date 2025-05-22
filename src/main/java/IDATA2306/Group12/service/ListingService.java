@@ -45,9 +45,9 @@ public class ListingService {
                 .toList();
     }
 
-    public ListingResponseDTO getListingById(int id) {
+    public ListingResponseDTO getListingById(int id) throws IllegalArgumentException{
         Listing listing = listingRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Listing not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Listing not found"));
         return listingMapper.toResponseDTO(listing);
     }
 
@@ -95,9 +95,9 @@ public class ListingService {
      * @param hotelId the id of the hotel
      * @return a list of ListingResponseDTO
      */
-//    public List<ListingResponseDTO> getListingsByHotelId(int hotelId) {
-//        return listingRepository.findByHotel_Id(hotelId).stream()
-//                .map(listingMapper::toResponseDTO)
-//                .toList();
-//    }
+    public List<ListingResponseDTO> getListingsByHotelId(int hotelId) {
+        return listingRepository.findByHotel_Id(hotelId).stream()
+                .map(listingMapper::toResponseDTO)
+                .toList();
+    }
 }

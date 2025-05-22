@@ -110,7 +110,7 @@ public class UserService {
         existingUser.setFirstName(userCreateDTO.getFirstName());
         existingUser.setLastName(userCreateDTO.getLastName());
         existingUser.setEmail(userCreateDTO.getEmail());
-        existingUser.setRole(userCreateDTO.getRole());
+        existingUser.setRole(existingUser.getRole());
         existingUser.setTelephone(userCreateDTO.getTelephone());
 
         User saved = userRepository.save(existingUser);
