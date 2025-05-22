@@ -19,18 +19,7 @@
           "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"securePass123\",\n  \"telephone\": \"123456789\",\n  \"areaCode\": \"+47\",\n  \"role\": \"USER\"\n}"
         },
         "url": {
-          "raw": "https://localhost:8443/api/users/public/register",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "users",
-            "public",
-            "register"
-          ]
+          "raw": "{{base_url}}/api/users/public/register"
         }
       }
     },
@@ -39,24 +28,7 @@
       "request": {
         "method": "GET",
         "url": {
-          "raw": "https://localhost:8443/api/users/public/check_email?email=john.doe@example.com",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "users",
-            "public",
-            "check_email"
-          ],
-          "query": [
-            {
-              "key": "email",
-              "value": "john.doe@example.com"
-            }
-          ]
+          "raw": "{{base_url}}/api/users/public/check_email?email=john.doe@example.com"
         }
       }
     },
@@ -65,24 +37,7 @@
       "request": {
         "method": "GET",
         "url": {
-          "raw": "https://localhost:8443/api/users/public/check_telephone?telephone=123456789",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "users",
-            "public",
-            "check_telephone"
-          ],
-          "query": [
-            {
-              "key": "telephone",
-              "value": "123456789"
-            }
-          ]
+          "raw": "{{base_url}}/api/users/public/check_telephone?telephone=123456789"
         }
       }
     },
@@ -97,18 +52,7 @@
           }
         ],
         "url": {
-          "raw": "https://localhost:8443/api/users/admin/getAllUsers",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "users",
-            "admin",
-            "getAllUsers"
-          ]
+          "raw": "{{base_url}}/api/users/admin/getAllUsers"
         }
       }
     },
@@ -123,24 +67,7 @@
           }
         ],
         "url": {
-          "raw": "https://localhost:8443/api/users/admin/search?query=john",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "users",
-            "admin",
-            "search"
-          ],
-          "query": [
-            {
-              "key": "query",
-              "value": "john"
-            }
-          ]
+          "raw": "{{base_url}}/api/users/admin/search?query=john"
         }
       }
     },
@@ -155,19 +82,7 @@
           }
         ],
         "url": {
-          "raw": "https://localhost:8443/api/users/admin/search/1",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "users",
-            "admin",
-            "search",
-            "1"
-          ]
+          "raw": "{{base_url}}/api/users/admin/search/1"
         }
       }
     },
@@ -190,19 +105,7 @@
           "raw": "{\n  \"firstName\": \"Johnny\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"securePass123\",\n  \"telephone\": \"123456789\",\n  \"areaCode\": \"+47\",\n  \"role\": \"USER\"\n}"
         },
         "url": {
-          "raw": "https://localhost:8443/api/users/admin/edit/1",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "users",
-            "admin",
-            "edit",
-            "1"
-          ]
+          "raw": "{{base_url}}/api/users/admin/edit/1"
         }
       }
     },
@@ -217,19 +120,7 @@
           }
         ],
         "url": {
-          "raw": "https://localhost:8443/api/users/admin/delete/1",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "users",
-            "admin",
-            "delete",
-            "1"
-          ]
+          "raw": "{{base_url}}/api/users/admin/delete/1"
         }
       }
     }

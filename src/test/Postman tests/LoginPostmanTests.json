@@ -30,18 +30,7 @@
           ]
         },
         "url": {
-          "raw": "https://localhost:8443/api/login/public/process",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "login",
-            "public",
-            "process"
-          ]
+          "raw": "{{base_url}}/api/login/public/process"
         }
       },
       "event": [
@@ -71,16 +60,7 @@
           }
         ],
         "url": {
-          "raw": "https://localhost:8443/api/login/public/isLoggedIn",
-          "protocol": "https",
-          "host": ["localhost"],
-          "port": "8443",
-          "path": [
-            "api",
-            "login",
-            "public",
-            "isLoggedIn"
-          ]
+          "raw": "{{base_url}}/api/login/public/isLoggedIn"
         }
       },
       "event": [
@@ -112,18 +92,7 @@
           }
         ],
         "url": {
-          "raw": "https://localhost:8443/api/login/account/logout",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "login",
-            "account",
-            "logout"
-          ]
+          "raw": "{{base_url}}/api/login/account/logout"
         }
       },
       "event": [

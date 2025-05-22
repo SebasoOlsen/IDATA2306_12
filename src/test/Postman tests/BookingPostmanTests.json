@@ -1,9 +1,11 @@
-{"info": {
+{
+  "info": {
     "name": "BookingPostmanTests",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
-    {"name": "Login - Get JWT Token",
+    {
+      "name": "Login - Get JWT Token",
       "request": {
         "method": "POST",
         "header": [
@@ -17,19 +19,12 @@
           "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\"\n}"
         },
         "url": {
-          "raw": "https://localhost:8443/login",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "login"
-          ]
+          "raw": "{{base_url}}/login"
         }
       },
       "event": [
-        {"listen": "test",
+        {
+          "listen": "test",
           "script": {
             "exec": [
               "pm.test(\"Login successful\", function () {",
@@ -45,7 +40,8 @@
         }
       ]
     },
-    {"name": "Create Booking",
+    {
+      "name": "Create Booking",
       "request": {
         "method": "POST",
         "header": [
@@ -53,7 +49,8 @@
             "key": "Content-Type",
             "value": "application/json"
           },
-          { "key": "Authorization",
+          {
+            "key": "Authorization",
             "value": "Bearer {{token}}"
           }
         ],
@@ -62,18 +59,7 @@
           "raw": "{\n  \"userId\": 1,\n  \"listingId\": 1,\n  \"startDate\": \"2025-06-01\",\n  \"endDate\": \"2025-06-05\"\n}"
         },
         "url": {
-          "raw": "https://localhost:8443/api/bookings/account/createBooking",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "bookings",
-            "account",
-            "createBooking"
-          ]
+          "raw": "{{base_url}}/api/bookings/account/createBooking"
         }
       }
     },
@@ -88,18 +74,7 @@
           }
         ],
         "url": {
-          "raw": "https://localhost:8443/api/bookings/admin/allBookings",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "bookings",
-            "admin",
-            "allBookings"
-          ]
+          "raw": "{{base_url}}/api/bookings/admin/allBookings"
         }
       }
     },
@@ -114,19 +89,7 @@
           }
         ],
         "url": {
-          "raw": "https://localhost:8443/api/bookings/admin/search/1",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "bookings",
-            "admin",
-            "search",
-            "1"
-          ]
+          "raw": "{{base_url}}/api/bookings/admin/search/1"
         }
       }
     },
@@ -149,19 +112,7 @@
           "raw": "{\n  \"userId\": 1,\n  \"listingId\": 1,\n  \"startDate\": \"2025-06-10\",\n  \"endDate\": \"2025-06-15\"\n}"
         },
         "url": {
-          "raw": "https://localhost:8443/api/bookings/admin/editBooking/1",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "bookings",
-            "admin",
-            "editBooking",
-            "1"
-          ]
+          "raw": "{{base_url}}/api/bookings/admin/editBooking/1"
         }
       }
     },
@@ -176,19 +127,7 @@
           }
         ],
         "url": {
-          "raw": "https://localhost:8443/api/bookings/admin/deleteBooking/1",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "bookings",
-            "admin",
-            "deleteBooking",
-            "1"
-          ]
+          "raw": "{{base_url}}/api/bookings/admin/deleteBooking/1"
         }
       }
     },
@@ -203,18 +142,7 @@
           }
         ],
         "url": {
-          "raw": "https://localhost:8443/api/bookings/account/user",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "bookings",
-            "account",
-            "user"
-          ]
+          "raw": "{{base_url}}/api/bookings/account/user"
         }
       }
     }
