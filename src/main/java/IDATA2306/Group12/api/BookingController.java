@@ -126,9 +126,9 @@ public class BookingController {
             return ResponseEntity.status(401).build();
         }
         // Assuming the principal contains the user's email or username
-        String username = auth.getName();
-        System.out.println("Username: " + username);
-        User user = userRepository.findByEmail(username);
+        String email = auth.getName();
+        System.out.println("Email: " + email);
+        User user = userRepository.findByEmail(email);
         if (user == null) {
             System.out.println("User not found");
             return ResponseEntity.status(404).build();

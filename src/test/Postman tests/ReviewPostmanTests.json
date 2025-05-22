@@ -19,15 +19,7 @@
           "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\"\n}"
         },
         "url": {
-          "raw": "https://localhost:8443/login",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "login"
-          ]
+          "raw": "{{base_url}}/login"
         }
       },
       "event": [
@@ -65,18 +57,7 @@
           "raw": "{\n  \"hotelId\": 1,\n  \"userId\": 1,\n  \"review\": \"Great hotel with excellent service.\",\n  \"stars\": 5\n}"
         },
         "url": {
-          "raw": "https://localhost:8443/api/reviews/account/writeReview",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "reviews",
-            "account",
-            "writeReview"
-          ]
+          "raw": "{{base_url}}/api/reviews/account/writeReview"
         }
       }
     },
@@ -91,18 +72,7 @@
           }
         ],
         "url": {
-          "raw": "https://localhost:8443/api/reviews/admin/all",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "reviews",
-            "admin",
-            "all"
-          ]
+          "raw": "{{base_url}}/api/reviews/admin/all"
         }
       },
       "event": [
