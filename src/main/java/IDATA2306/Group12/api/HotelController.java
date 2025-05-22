@@ -98,7 +98,7 @@ public class HotelController {
     public ResponseEntity<List<HotelResponseDTO>> getRandomHotels(
             @RequestParam(name = "count", defaultValue = "3") int count) {
         try {
-            List<HotelResponseDTO> allHotels = hotelService.getAllHotels();
+            List<HotelResponseDTO> allHotels = hotelService.getAllVisibleHotels();
             if (allHotels == null || allHotels.isEmpty()) {
                 return ResponseEntity.ok(List.of());
             }
@@ -144,7 +144,6 @@ public class HotelController {
         }
     }
 
-    // Endpoint to update the visability of a hotel
     @Operation(summary = "Update hotel visibility", description = "Update the visibility of a hotel.")
     @ApiResponse(responseCode = "200", description = "Hotel visibility updated successfully.")
     @ApiResponse(responseCode = "404", description = "Hotel not found.")

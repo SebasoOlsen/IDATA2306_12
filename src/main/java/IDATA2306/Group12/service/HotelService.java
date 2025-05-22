@@ -36,10 +36,16 @@ public class HotelService {
     }
 
     public List<HotelResponseDTO> getAllHotels() {
-        List<Hotel> hotels = hotelRepository.findAll(); // verify this doesn't return null
-        System.out.println("Found " + hotels.size() + " hotels");
+        List<Hotel> hotels = hotelRepository.findAll(); // TODO verify this doesn't return null
 
         return hotelRepository.findAll().stream()
+                .map(hotelMapper::toResponseDTO)
+                .toList();
+    }
+
+    public List<HotelResponseDTO> getAllVisibleHotels() {
+        List<Hotel> hotels = hotelRepository.findAllByIsHiddenFalse();
+        return hotels.stream()
                 .map(hotelMapper::toResponseDTO)
                 .toList();
     }
@@ -57,11 +63,6 @@ public class HotelService {
     }
 
     public HotelResponseDTO createHotel(HotelCreateDTO hotelDTO) {
-        System.out.println("=== DTO Received ===");
-        System.out.println("Name: " + hotelDTO.getName());
-        System.out.println("City: " + hotelDTO.getCity());
-        System.out.println("Country: " + hotelDTO.getCountry());
-        // Resolve feature names to actual entities
         Set<ExtraFeature> resolvedFeatures = hotelDTO.getExtraFeatures().stream()
                 .map(extraFeatureService::getOrCreateByName)
                 .collect(Collectors.toSet());
@@ -70,7 +71,6 @@ public class HotelService {
                 .map(roomService::getOrCreateByName)
                 .collect(Collectors.toSet());
 
-        // Pass features to mapper
         Hotel hotel = hotelMapper.toEntity(hotelDTO, resolvedFeatures, resolvedRooms);
         Hotel saved = hotelRepository.save(hotel);
         return hotelMapper.toResponseDTO(saved);
