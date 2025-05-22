@@ -2,6 +2,7 @@ package IDATA2306.Group12.api;
 
 import IDATA2306.Group12.dto.booking.BookingCreateDTO;
 import IDATA2306.Group12.dto.booking.BookingResponseDTO;
+import IDATA2306.Group12.dto.listing.ListingResponseDTO;
 import IDATA2306.Group12.entity.User;
 import IDATA2306.Group12.repository.UserRepository;
 import IDATA2306.Group12.service.BookingService;
@@ -15,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -64,9 +67,28 @@ public class BookingController {
     @ApiResponse(responseCode = "404", description = "Listing not found.")
     @ApiResponse(responseCode = "500", description = "Internal server error.")
     @PostMapping("/account/createBooking")
-    public ResponseEntity<BookingResponseDTO> createBooking(@Valid @RequestBody BookingCreateDTO bookingCreateDTO) {
+    public ResponseEntity<BookingResponseDTO> createBooking(@RequestParam int listingId, LocalDate startDate, LocalDate endDate) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated()) {
+            return ResponseEntity.status(401).build();
+        }
+        // Assuming the principal contains the user's email or username
+        String email = auth.getName();
+        System.out.println("Email: " + email);
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            System.out.println("User not found");
+            return ResponseEntity.status(404).build();
+        }
+
         try {
-            BookingResponseDTO created = bookingService.createBooking(bookingCreateDTO);
+            BookingCreateDTO newBooking = new BookingCreateDTO();
+            newBooking.setListingId(listingId);
+            newBooking.setStartDate(startDate);
+            newBooking.setEndDate(endDate);
+            newBooking.setUserId(user.getId());
+            BookingResponseDTO created = bookingService.createBooking(newBooking);
             return ResponseEntity.status(201).body(created);
         } catch (RuntimeException e) {
             String message = e.getMessage();

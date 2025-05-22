@@ -75,7 +75,7 @@ public class LoginController {
     @ResponseBody
     public ResponseEntity<Map<String, Object>> isLoggedIn(HttpServletRequest request) {
         Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("loggedIn", false);
+        responseBody.put("isLoggedIn", false);
 
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
@@ -84,7 +84,7 @@ public class LoginController {
                     try {
                         if (token != null && jwtUtil.validateToken(token)) {
                             String email = jwtUtil.extractUsername(token);
-                            responseBody.put("loggedIn", true);
+                            responseBody.put("isLoggedIn", true);
                             responseBody.put("email", email);
                             break;
                         }
