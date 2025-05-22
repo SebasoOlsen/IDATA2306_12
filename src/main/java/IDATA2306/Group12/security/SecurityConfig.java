@@ -54,17 +54,17 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests(/*authz -> authz.anyRequest().permitAll()*/ authz -> authz
-                        //Public Endpoints
-                        .requestMatchers("/**/public/**","/images/**").permitAll()
-                        //Logged in restricted endpoints
+                .authorizeHttpRequests(/* authz -> authz.anyRequest().permitAll() */ authz -> authz
+                        // Public Endpoints
+                        .requestMatchers("/**/public/**", "/images/**").permitAll()
+                        // Logged in restricted endpoints
                         .requestMatchers("/**/account/**)").hasAnyRole("USER", "ADMIN")
-                        //Admin restricted endpoints
+                        // Admin restricted endpoints
                         .requestMatchers("/**/admin/**").hasRole("ADMIN")
                         // Other
-                        .anyRequest().authenticated()
-                )
-                // Disable Spring Security's default logout to allow your custom controller to handle logout
+                        .anyRequest().authenticated())
+                // Disable Spring Security's default logout to allow your custom controller to
+                // handle logout
                 .logout(logout -> logout.disable());
         return http.build();
     }
@@ -77,7 +77,8 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5174", "http://localhost:5173")); //TODO: Review localhost for production
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5174", "http://localhost:5173",
+                "http://10.212.27.13:80", "http://group12.web-tek.ninja"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);

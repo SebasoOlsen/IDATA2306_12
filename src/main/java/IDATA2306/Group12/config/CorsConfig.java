@@ -19,10 +19,14 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**") // all endpoints
-                        .allowedOrigins("http://localhost:5173", "http://localhost:5174") // your frontend dev port
+                registry.addMapping("/*") // match ALL API paths
+                        .allowedOriginPatterns(
+                                "http://localhost:5173/",
+                                "http://localhost:5174/",
+                                "http://10.212.27.13/",
+                                "http://group12.web-tek.ninja/")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*")
+                        .allowedHeaders("")
                         .allowCredentials(true);
             }
         };
