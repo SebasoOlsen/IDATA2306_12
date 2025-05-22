@@ -98,7 +98,7 @@ public class HotelController {
     public ResponseEntity<List<HotelResponseDTO>> getRandomHotels(
             @RequestParam(name = "count", defaultValue = "3") int count) {
         try {
-            List<HotelResponseDTO> allHotels = hotelService.getAllHotels();
+            List<HotelResponseDTO> allHotels = hotelService.getAllVisibleHotels();
             if (allHotels == null || allHotels.isEmpty()) {
                 return ResponseEntity.ok(List.of());
             }
@@ -141,6 +141,22 @@ public class HotelController {
             return ResponseEntity.ok(rooms);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @Operation(summary = "Update hotel visibility", description = "Update the visibility of a hotel.")
+    @ApiResponse(responseCode = "200", description = "Hotel visibility updated successfully.")
+    @ApiResponse(responseCode = "404", description = "Hotel not found.")
+    @ApiResponse(responseCode = "400", description = "Invalid input.")
+    @ApiResponse(responseCode = "403", description = "Not authorized to update this hotel.")
+    @PostMapping("/admin/updateHotelVisibility/{id}")
+    public ResponseEntity<HotelResponseDTO> updateHotelVisibility(@PathVariable Long id,
+            @RequestParam boolean visible) {
+        try {
+            HotelResponseDTO updated = hotelService.updateHotelVisibility(id, visible);
+            return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
         }
     }
 }

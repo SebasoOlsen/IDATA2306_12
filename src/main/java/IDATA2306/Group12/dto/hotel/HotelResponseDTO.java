@@ -25,6 +25,12 @@ public class HotelResponseDTO {
     @JsonProperty("city")
     private String city;
 
+    @JsonProperty("averageReview")
+    private float averageReview;
+
+    @JsonProperty("visibility")
+    private boolean isHidden;
+
     public HotelResponseDTO() {
     }
 
@@ -82,5 +88,21 @@ public class HotelResponseDTO {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public float getAverageReview() {
+        return averageReview;
+    }
+
+    public void setAverageReview(float averageReview) {
+        this.averageReview = averageReview;
+    }
+
+    public boolean isHidden() {
+        return isHidden;
+    }
+
+    public void setHidden(boolean isHidden) {
+        this.isHidden = isHidden;
     }
 }
