@@ -1,5 +1,7 @@
 package IDATA2306.Group12.dto.review;
-
+/**
+ * DTO for creating a review, containing hotel ID, user ID, review text, and star rating.
+ */
 public class ReviewCreateDTO {
 
     private int hotelId;
