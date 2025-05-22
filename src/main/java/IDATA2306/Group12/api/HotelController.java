@@ -19,7 +19,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * Controller for handling hotel-related API requests.
+ */
 @RestController
 @RequestMapping("/api/hotels")
 @Tag(name = "Hotel Management", description = "APIs for managing hotels.")
@@ -27,6 +29,12 @@ public class HotelController {
 
     private final HotelService hotelService;
     private final RoomService roomService;
+
+    /**
+     * Constructor for HotelController.
+     * @param hotelService the hotel service
+     * @param roomService the room service
+     */
 
     public HotelController(HotelService hotelService, RoomService roomService) {
         this.hotelService = hotelService;
@@ -37,6 +45,10 @@ public class HotelController {
     @ApiResponse(responseCode = "200", description = "List of all hotels.")
     @ApiResponse(responseCode = "500", description = "Internal server error.")
     @ApiResponse(responseCode = "403", description = "Not authorized to view this list of hotels.")
+    /**
+     * Get all hotels.
+     * @return list of all hotels
+     */
     @GetMapping("/admin/allHotels")
     public ResponseEntity<List<HotelResponseDTO>> getAllHotels() {
         try {
@@ -49,6 +61,11 @@ public class HotelController {
     }
 
     @Operation(summary = "Search for a hotel", description = "Search for a hotel using the hotel ID.")
+    /**
+     * Get a hotel by its ID.
+     * @param id hotel ID
+     * @return hotel with the given ID
+     */
     @GetMapping("public/searchById/{id}")
     @ApiResponse(responseCode = "200", description = "Hotel with the matching ID.")
     @ApiResponse(responseCode = "404", description = "Hotel not found.")
@@ -66,6 +83,11 @@ public class HotelController {
     @ApiResponse(responseCode = "201", description = "Hotel created successfully.")
     @ApiResponse(responseCode = "400", description = "Invalid input.")
     @ApiResponse(responseCode = "403", description = "Not authorized to create a hotel.")
+    /**
+     * Create a new hotel.
+     * @param hotel hotel data
+     * @return created hotel
+     */
     @PostMapping("/admin/createHotel")
     public ResponseEntity<HotelResponseDTO> createHotel(@RequestBody HotelCreateDTO hotel) {
         try {
@@ -81,6 +103,12 @@ public class HotelController {
     @ApiResponse(responseCode = "404", description = "Hotel not found.")
     @ApiResponse(responseCode = "400", description = "Invalid input.")
     @ApiResponse(responseCode = "403", description = "Not authorized to update this hotel.")
+    /**
+     * Update a hotel.
+     * @param id hotel ID
+     * @param hotel updated hotel data
+     * @return updated hotel
+     */
     @PutMapping("/admin/updateHotel/{id}")
     public ResponseEntity<HotelResponseDTO> updateHotel(@PathVariable Long id, @RequestBody HotelResponseDTO hotel) {
         try {
@@ -94,6 +122,11 @@ public class HotelController {
     @Operation(summary = "Get a list of random hotels", description = "Get a list of random hotels.")
     @ApiResponse(responseCode = "200", description = "List of random hotels.")
     @ApiResponse(responseCode = "500", description = "Internal server error.")
+    /**
+     * Get a list of random hotels.
+     * @param count number of hotels to return
+     * @return list of random hotels
+     */
     @GetMapping("/public/randomHotels")
     public ResponseEntity<List<HotelResponseDTO>> getRandomHotels(
             @RequestParam(name = "count", defaultValue = "3") int count) {
@@ -117,6 +150,11 @@ public class HotelController {
     @ApiResponse(responseCode = "200", description = "List of hotels matching the search parameters.")
     @ApiResponse(responseCode = "500", description = "Internal server error.")
     @ApiResponse(responseCode = "404", description = "Hotel not found.")
+    /**
+     * Get hotels by search parameters.
+     * @param params search parameters
+     * @return list of hotels matching the search
+     */
     @GetMapping("/public/search")
     public ResponseEntity<List<HotelResponseDTO>> getHotelsBySearch(@RequestParam Map<String, String> params) {
         try {
@@ -134,6 +172,11 @@ public class HotelController {
     @ApiResponse(responseCode = "200", description = "List of rooms for the hotel.")
     @ApiResponse(responseCode = "500", description = "Internal server error.")
     @ApiResponse(responseCode = "404", description = "Hotel not found.")
+    /**
+     * Get a list of rooms by hotel ID.
+     * @param id hotel ID
+     * @return list of rooms for the hotel
+     */
     @GetMapping("/public/{id}/rooms")
     public ResponseEntity<List<RoomResponseDTO>> getRoomsByHotelId(@PathVariable Integer id) {
         try {
@@ -149,6 +192,12 @@ public class HotelController {
     @ApiResponse(responseCode = "404", description = "Hotel not found.")
     @ApiResponse(responseCode = "400", description = "Invalid input.")
     @ApiResponse(responseCode = "403", description = "Not authorized to update this hotel.")
+    /**
+     * Update hotel visibility.
+     * @param id hotel ID
+     * @param visible visibility status
+     * @return updated hotel
+     */
     @PostMapping("/admin/updateHotelVisibility/{id}")
     public ResponseEntity<HotelResponseDTO> updateHotelVisibility(@PathVariable Long id,
             @RequestParam boolean visible) {
