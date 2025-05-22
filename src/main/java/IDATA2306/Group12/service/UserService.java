@@ -95,6 +95,24 @@ public class UserService {
     }
 
     @Transactional
+    public UserResponseDTO updateUserSelf(String email, UserCreateDTO userCreateDTO) throws IllegalArgumentException{
+        System.out.println("Updating user with email: " + email);
+        User existingUser = userRepository.findByEmail(email);
+        if (existingUser == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+
+        existingUser.setFirstName(userCreateDTO.getFirstName());
+        existingUser.setLastName(userCreateDTO.getLastName());
+        existingUser.setEmail(userCreateDTO.getEmail());
+        existingUser.setRole(userCreateDTO.getRole());
+        existingUser.setTelephone(userCreateDTO.getTelephone());
+
+        User saved = userRepository.save(existingUser);
+        return userMapper.toResponseDTO(saved);
+    }
+
+    @Transactional
     public void deleteUser(Long id) {
         userRepository.deleteById(id.intValue());
     }
