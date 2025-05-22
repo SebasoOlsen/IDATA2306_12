@@ -17,6 +17,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
+/**
+ * Security configuration class for Spring Security.
+ * Configures JWT authentication, CORS, session management, and endpoint authorization.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -24,11 +28,25 @@ public class SecurityConfig {
     private final JwtUtil jwtUtil;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    /**
+     * Constructs a SecurityConfig with required dependencies.
+     *
+     * @param jwtUtil the utility for JWT operations
+     * @param jwtAuthenticationFilter the filter for JWT authentication
+     */
     public SecurityConfig(JwtUtil jwtUtil, JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.jwtUtil = jwtUtil;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
+    /**
+     * Configures the security filter chain, including CORS, CSRF, session management,
+     * JWT authentication filter, and endpoint authorization rules.
+     *
+     * @param http the HttpSecurity to modify
+     * @return the configured SecurityFilterChain
+     * @throws Exception if an error occurs during configuration
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -51,6 +69,11 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /**
+     * Configures CORS settings for allowed origins, methods, and headers.
+     *
+     * @return the CorsConfigurationSource bean
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -64,6 +87,11 @@ public class SecurityConfig {
         return source;
     }
 
+    /**
+     * Provides a password encoder bean using BCrypt.
+     *
+     * @return the PasswordEncoder bean
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

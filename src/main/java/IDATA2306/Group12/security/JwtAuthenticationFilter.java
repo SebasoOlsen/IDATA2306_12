@@ -17,6 +17,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+/**
+ * Filter for authenticating requests using JWT tokens stored in cookies.
+ * Extracts the token, validates it, sets authentication in the security context,
+ * and refreshes the token if it is expiring soon.
+ */
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -24,11 +29,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
 
+    /**
+     * Constructs a JwtAuthenticationFilter with the required JwtUtil dependency.
+     *
+     * @param jwtUtil the utility for JWT operations
+     */
     @Autowired
     public JwtAuthenticationFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
     }
 
+    /**
+     * Filters incoming HTTP requests to authenticate users based on JWT tokens in cookies.
+     *
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @param filterChain the filter chain
+     * @throws ServletException if a servlet error occurs
+     * @throws IOException if an I/O error occurs.
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -96,6 +115,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    /**
+     * Refreshes the JWT token and updates the cookie in the response.
+     *
+     * @param response the HTTP response
+     * @param token the current JWT token
+     */
     private void refreshToken(HttpServletResponse response, String token) {
         String newToken = jwtUtil.refreshToken(token);
         Cookie newCookie = new Cookie("token", newToken);
