@@ -1,5 +1,8 @@
 package IDATA2306.Group12.dto.provider;
 
+/**
+ * DTO representing provider response data, including provider ID and name.
+ */
 public class ProviderResponseDTO {
     private int id;
     private String name;
