@@ -20,12 +20,16 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
     private int id;;
-
+    /**
+     * The user who made the booking.
+     */
     @ManyToOne
     @JoinColumn(name = "userId", nullable = false)
     @JsonProperty("user")
     private User user;
-
+    /**
+     * The listing that is booked.
+     */
     @ManyToOne
     @JoinColumn(name = "listingId", nullable = false)
     @JsonProperty("listing")
@@ -52,13 +56,21 @@ public class Booking {
     @JsonProperty("endDate")
     @Column(name = "endDate")
     private LocalDate endDate;
-
+    /**
+     * Default constructor.
+     */
     public Booking() {}
-
+    /**
+     * Sets the start date to the current date before persisting.
+     */
     @PrePersist
     protected void onCreate(){
         this.startDate = LocalDate.now(); ;
     }
+    /**
+     * Returns a string representation of the booking.
+     * @return string representation
+     */
     @Override
     public String toString() {
         return "Booking{" +
@@ -70,22 +82,70 @@ public class Booking {
                 ", listing=" + listing +
                 '}';
     }
+    /**
+     * Gets the booking ID.
+     * @return the booking ID
+     */
     public int getId() {return id;}
+    /**
+     * Sets the booking ID.
+     * @param id the booking ID
+     */
     public void setId(int id) {this.id = id;}
 
+    /**
+     * Gets the user who made the booking.
+     * @return the user
+     */
     public User getUser() { return user; }
+    /**
+     * Sets the user who made the booking.
+     * @param user the user
+     */
     public void setUser(User user) { this.user = user; }
 
+    /**
+     * Gets the listing that is booked.
+     * @return the listing
+     */
     public Listing getListing() { return listing; }
+    /**
+     * Sets the listing that is booked.
+     * @param listing the listing
+     */
     public void setListing(Listing listing) { this.listing = listing; }
 
+    /**
+     * Gets the booking status.
+     * @return the status
+     */
     public String getStatus() {return status;}
+    /**
+     * Sets the booking status.
+     * @param status the status
+     */
     public void setStatus(String status) {this.status = status;}
 
+    /**
+     * Gets the start date of the booking.
+     * @return the start date
+     */
     public LocalDate getStartDate() {return startDate;}
+    /**
+     * Sets the start date of the booking.
+     * @param startDate the start date
+     */
     public void setStartDate(LocalDate startDate) {this.startDate = startDate;}
 
+    /**
+     * Gets the end date of the booking.
+     * @return the end date
+     */
     public LocalDate getEndDate() {return endDate;}
+    /**
+     * Sets the end date of the booking.
+     * @param endDate the end date
+     */
     public void setEndDate(LocalDate endDate) {this.endDate = endDate;}
 
 

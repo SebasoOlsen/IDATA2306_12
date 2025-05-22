@@ -13,18 +13,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+/**
+ * Controller for handling listing-related API requests.
+ */
 @RestController
 @RequestMapping("/api/listings")
 @Tag(name = "Listing Management", description = "APIs for managing listings.")
 public class ListingController {
 
     private final ListingService listingService;
-
+    /**
+     * Constructor for ListingController.
+     * @param listingService the listing service
+     */
     public ListingController(ListingService listingService) {
         this.listingService = listingService;
     }
-
+    /**
+     * Create a new listing.
+     * @param listingCreateDTO the listing data
+     * @return the created listing or error message
+     */
     @Operation(
             summary = "Create a new listing",
             description = "Create a new listing using a ListingCreateDTO."
@@ -49,7 +58,11 @@ public class ListingController {
     // listingCreateDTO);
     // return ResponseEntity.ok(updated);
     // }
-
+    /**
+     * Delete a listing by its ID.
+     * @param id the listing ID
+     * @return status message
+     */
     @Operation(
             summary = "Delete a listing",
             description = "Delete a listing using the listing ID."
@@ -61,7 +74,11 @@ public class ListingController {
         listingService.deleteListing(id);
         return ResponseEntity.status(204).body("Listing deleted successfully.");
     }
-
+    /**
+     * Get a listing by its ID.
+     * @param id the listing ID
+     * @return the listing with the specified ID
+     */
     @Operation(
             summary = "Get a listing by ID.",
             description = "Returns a ListingResponseDTO if it exists."
@@ -78,10 +95,9 @@ public class ListingController {
     }
 
     /**
-     * Get all rooms by hotel id
-     * 
-     * @param hotelId
-     * @return
+     * Get all listings by hotel ID.
+     * @param hotelId the hotel ID
+     * @return list of listings for the specified hotel
      */
     //TODO find out if its needed
     @Operation(

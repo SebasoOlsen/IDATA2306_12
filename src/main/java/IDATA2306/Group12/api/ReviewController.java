@@ -11,18 +11,27 @@ import org.springframework.web.bind.annotation.*;
 import IDATA2306.Group12.dto.review.ReviewCreateDTO;
 import IDATA2306.Group12.dto.review.ReviewResponseDTO;
 import IDATA2306.Group12.service.ReviewService;
-
+/**
+ * This is Controller for handling review API requests.
+ */
 @RestController
 @RequestMapping("/api/reviews")
 @Tag(name = "Review Management", description = "APIs for managing reviews")
 public class ReviewController {
 
     private final ReviewService reviewService;
+    /**
+     * Constructor for ReviewController.
+     * @param reviewService the review service
+     */
 
     public ReviewController(ReviewService reviewService) {
         this.reviewService = reviewService;
     }
-
+    /**
+     * Get a list of all reviews.
+     * @return list of all reviews
+     */
     @Operation(
             summary = "Get a list of all reviews",
             description = "Get a list of all reviews."
@@ -32,7 +41,11 @@ public class ReviewController {
     public List<ReviewResponseDTO> getAllReviews() {
         return reviewService.getAllReviews();
     }
-
+    /**
+     * Create a new review.
+     * @param createDTO the review data
+     * @return the created review
+     */
     @Operation(
             summary = "Create a review",
             description = "Create a new review using a valid ReviewCreateDTO."

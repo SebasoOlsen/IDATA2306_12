@@ -4,7 +4,9 @@ import IDATA2306.Group12.dto.hotel.HotelResponseDTO;
 import IDATA2306.Group12.dto.provider.ProviderResponseDTO;
 import IDATA2306.Group12.dto.room.RoomResponseDTO;
 import IDATA2306.Group12.entity.Hotel;
-
+/**
+ * DTO for creating a listing, containing room, provider, price, currency, and hotel identifiers.
+ */
 public class ListingResponseDTO {
     private int id;
     private ProviderResponseDTO provider;

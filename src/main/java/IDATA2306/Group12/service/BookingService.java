@@ -1,5 +1,6 @@
 package IDATA2306.Group12.service;
 
+import IDATA2306.Group12.dto.booking.BookedDatesDTO;
 import IDATA2306.Group12.dto.booking.BookingCreateDTO;
 import IDATA2306.Group12.dto.booking.BookingResponseDTO;
 import IDATA2306.Group12.entity.Booking;
@@ -106,5 +107,12 @@ public class BookingService {
         return bookings.stream()
                 .map(bookingMapper::toResponseDTO)
                 .collect(Collectors.toList());
+    }
+
+    public List<BookedDatesDTO> getBookedDatesByListingId(long listingId) {
+        List<Booking> bookings = bookingRepository.findByListingId(listingId);
+        return bookings.stream()
+                .map(bookingMapper::toBookedDatesDTO)
+                .toList();
     }
 }

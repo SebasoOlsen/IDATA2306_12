@@ -4,6 +4,10 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * DTO representing hotel response data, including hotel details such as name, location, room types,
+ * extra features, country, city, average review score, and visibility status.
+ */
 public class HotelResponseDTO {
 
     private int id;

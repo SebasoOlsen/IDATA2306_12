@@ -5,33 +5,55 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
+/**
+ * Entity representing an image associated with a specific type (e.g., HOTEL or USER).
+ * Stores the image URL, type, and the identifier of the associated entity.
+ */
 @Entity
 @Table(name ="Reviews")
 public class Review {
 
+    /**
+     * The unique identifier for the review.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
     private int id;
 
+    /**
+     * The hotel being reviewed.
+     */
     @ManyToOne
     @JoinColumn(name = "hotelId", nullable = false)
     @JsonProperty("hotel")
     private Hotel hotel;
 
+    /**
+     * The user who wrote the review.
+     */
     @ManyToOne
     @JoinColumn(name = "userId", nullable = false)
     @JsonProperty("user")
     private User user;
 
+    /**
+     * The review text.
+     */
     @JsonProperty("review")
     @Column(name= "review")
     private String review;
 
+    /**
+     * The star rating given in the review.
+     */
     @JsonProperty("stars")
     @Column(name="stars")
     private int stars;
 
+    /**
+     * The date the review was posted.
+     */
     @JsonProperty("postDate")
     @Column(name="postDate")
     private LocalDate postDate;

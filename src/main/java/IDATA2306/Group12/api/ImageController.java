@@ -11,6 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Controller for handling image-related API requests.
+ */
 @RestController
 @RequestMapping("/api/images")
 @Tag(name = "Image Management", description = "APIs for managing images.")
@@ -18,10 +21,23 @@ public class ImageController {
 
     private final ImageService imageService;
 
+    /**
+     * Constructor for ImageController.
+     * 
+     * @param imageService the image service
+     */
     public ImageController(ImageService imageService) {
         this.imageService = imageService;
     }
 
+    /**
+     * Upload an image.
+     * 
+     * @param file   the image file to upload
+     * @param type   the type of the image (e.g., hotel, room)
+     * @param typeId the ID related to the type
+     * @return status message
+     */
     @Operation(summary = "Upload an image", description = "Upload an image using a MultipartFile and a type string.")
     @ApiResponse(responseCode = "200", description = "Image uploaded successfully.")
     @ApiResponse(responseCode = "400", description = "Invalid input.")
@@ -39,6 +55,13 @@ public class ImageController {
         }
     }
 
+    /**
+     * Get image URLs by type and ID.
+     * 
+     * @param type   the type of the image (e.g., hotel, room)
+     * @param typeId the ID related to the type
+     * @return list of image URLs
+     */
     @Operation(summary = "Get an image by type and ID", description = "Get an image by type and ID.")
     @ApiResponse(responseCode = "200", description = "Image with matching type and ID.")
     @GetMapping("/public/urls")

@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
+import IDATA2306.Group12.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,20 +18,34 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+/**
+ * Controller for handling login-related API requests.
+ */
 @RestController
 @RequestMapping("/api/login")
 @Tag(name = "Login Management", description = "APIs for managing login.")
 public class LoginController {
 
     private final LoginService loginService;
+    private final UserService userService;
     private final JwtUtil jwtUtil;
-
-    public LoginController(LoginService loginService, JwtUtil jwtUtil) {
+    /**
+     * Constructor for LoginController.
+     * @param loginService the login service
+     * @param jwtUtil the JWT utility
+     * @param userService the user service
+     */
+    public LoginController(LoginService loginService, JwtUtil jwtUtil, UserService userService) {
         this.loginService = loginService;
         this.jwtUtil = jwtUtil;
+        this.userService = userService;
     }
-
+    /**
+     * Process a login using email and password.
+     * @param email the user's email
+     * @param password the user's password
+     * @return response with login status and token cookie if successful
+     */
     @Operation(
             summary = "Process a login",
             description = "Process a login using email and password."
@@ -62,34 +77,47 @@ public class LoginController {
         }
 
     }
-
+    /**
+     * Check if a user is logged in by validating the token cookie.
+     * @param request the HTTP servlet request
+     * @return map containing loggedIn status and email if logged in
+     */
     @Operation(
-            summary = "Check if user is logged in",
-            description = "Check if user is logged in by checking if a token cookie is present."
+            summary = "Check if a user is logged in",
+            description = "Return a Map containing loggedIn status + email if the user is logged in."
     )
-    @ApiResponse(responseCode = "200", description = "Boolean: loggedIn true/false")
     @GetMapping("/public/isLoggedIn")
+    @ApiResponse(responseCode = "200", description = "Logged in status")
     @ResponseBody
-    public ResponseEntity<Map<String, Boolean>> isLoggedIn(HttpServletRequest request) {
-        boolean loggedIn = false;
-        //log.info("isLoggedIn endpoint called.");
+    public ResponseEntity<Map<String, Object>> isLoggedIn(HttpServletRequest request) {
+        Map<String, Object> responseBody = new HashMap<>();
+        responseBody.put("isLoggedIn", false);
+
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
                 if ("token".equals(cookie.getName())) {
                     String token = cookie.getValue();
-                    if (token != null && token.split("\\.").length == 3 && jwtUtil.validateToken(token)) {
-                        loggedIn = true;
-                        break;
+                    try {
+                        if (token != null && jwtUtil.validateToken(token)) {
+                            String email = jwtUtil.extractUsername(token);
+                            responseBody.put("isLoggedIn", true);
+                            responseBody.put("email", email);
+                            break;
+                        }
+                    } catch (Exception e) {
+                        // Token is invalid or expired returns loggedIn: false
                     }
                 }
             }
         }
-        //log.info("isLoggedIn called. User logged in: \\{{}\\}", loggedIn);
-        Map<String, Boolean> responseBody = new HashMap<>();
-        responseBody.put("loggedIn", loggedIn);
+        
         return ResponseEntity.ok(responseBody);
     }
-
+    /**
+     * Logout the current user by clearing the token cookie.
+     * @param response the HTTP servlet response
+     * @return map with redirect information
+     */
     @Operation(
             summary = "Logout",
             description = "Logout the current user by clearing the token cookie."

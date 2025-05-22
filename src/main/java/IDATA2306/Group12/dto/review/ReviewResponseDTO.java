@@ -1,7 +1,10 @@
 package IDATA2306.Group12.dto.review;
 
 import java.time.LocalDate;
-
+/**
+ * DTO representing review response data, including review ID, hotel ID, user ID, review text,
+ * star rating, and the date the review was posted.
+ */
 public class ReviewResponseDTO {
 
     private int id;

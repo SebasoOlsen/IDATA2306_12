@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import IDATA2306.Group12.service.FavouritesService;
-
+/**
+ * Controller for handling user favourites API requests.
+ */
 @RestController
 @RequestMapping("/api/favourites")
 @Tag(name = "Favourites Management", description = "APIs for managing favourites.")
@@ -24,12 +26,19 @@ public class FavouritesController {
 
     private final FavouritesService favouriteService;
     private final UserRepository userRepository;
-
+    /**
+     * Constructor for FavouritesController.
+     * @param favouriteService the favourites service
+     * @param userRepository the user repository
+     */
     public FavouritesController(FavouritesService favouriteService, UserRepository userRepository) {
         this.favouriteService = favouriteService;
         this.userRepository = userRepository;
     }
-
+    /**
+     * Get the list of favourites for the authenticated user.
+     * @return list of user's favourites or error status
+     */
     @Operation(
             summary = "Get user favourites",
             description = "Get a list of favourites connected to the user."
