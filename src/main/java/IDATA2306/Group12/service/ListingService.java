@@ -45,9 +45,9 @@ public class ListingService {
                 .toList();
     }
 
-    public ListingResponseDTO getListingById(int id) {
+    public ListingResponseDTO getListingById(int id) throws IllegalArgumentException{
         Listing listing = listingRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Listing not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Listing not found"));
         return listingMapper.toResponseDTO(listing);
     }
 
