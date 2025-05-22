@@ -54,6 +54,8 @@ public class Hotel {
 
     private float averageReview;
 
+    private boolean isHidden;
+
     public Hotel() {
     }
 
@@ -139,5 +141,13 @@ public class Hotel {
 
     public void setAverageReview(float averageReview) {
         this.averageReview = averageReview;
+    }
+
+    public boolean isHidden() {
+        return this.isHidden;
+    }
+
+    public void setHidden(boolean isHidden) {
+        this.isHidden = isHidden;
     }
 }

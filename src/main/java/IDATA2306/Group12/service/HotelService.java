@@ -122,4 +122,13 @@ public class HotelService {
 
     }
 
+    public HotelResponseDTO updateHotelVisibility(Long id, boolean visible) {
+        Hotel hotel = hotelRepository.findById(id.intValue())
+                .orElseThrow(() -> new RuntimeException("Hotel not found"));
+
+        hotel.setHidden(!visible);
+        hotelRepository.save(hotel);
+        return hotelMapper.toResponseDTO(hotel);
+    }
+
 }

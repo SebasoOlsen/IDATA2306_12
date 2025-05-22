@@ -26,7 +26,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository, UserMapper userMapper,
-                       PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
@@ -41,30 +41,31 @@ public class UserService {
     /**
      * Searches for users based on a query string. The search is performed on
      * the first name, last name, email, telephone, and role fields of the user.
-     * The search is case-insensitive for string fields and exact match for telephone.
+     * The search is case-insensitive for string fields and exact match for
+     * telephone.
      * 
      * @param query the search query string
      * @return a list of UserResponseDTO objects that match the search criteria
      */
     public List<UserResponseDTO> searchUsers(String query) {
-    return getAllUsers().stream()
-        .filter(user ->
-            (user.getFirstName() != null && user.getFirstName().toLowerCase().contains(query.toLowerCase())) ||
-            (user.getLastName() != null && user.getLastName().toLowerCase().contains(query.toLowerCase())) ||
-            (user.getEmail() != null && user.getEmail().toLowerCase().contains(query.toLowerCase())) ||
-            (user.getTelephone() != null && user.getTelephone().contains(query)) ||
-            (user.getRole() != null && user.getRole().toLowerCase().contains(query.toLowerCase()))
-        )
-        .collect(Collectors.toList());
+        return getAllUsers().stream()
+                .filter(user -> (user.getFirstName() != null
+                        && user.getFirstName().toLowerCase().contains(query.toLowerCase())) ||
+                        (user.getLastName() != null && user.getLastName().toLowerCase().contains(query.toLowerCase()))
+                        ||
+                        (user.getEmail() != null && user.getEmail().toLowerCase().contains(query.toLowerCase())) ||
+                        (user.getTelephone() != null && user.getTelephone().contains(query)) ||
+                        (user.getRole() != null && user.getRole().toLowerCase().contains(query.toLowerCase())))
+                .collect(Collectors.toList());
     }
 
-    public UserResponseDTO getUserById(Long id) throws IllegalArgumentException{
+    public UserResponseDTO getUserById(Long id) throws IllegalArgumentException {
         User user = userRepository.findById(id.intValue())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         return userMapper.toResponseDTO(user);
     }
 
-    public UserResponseDTO createUser(UserCreateDTO userCreateDTO) throws UserExistsException{
+    public UserResponseDTO createUser(UserCreateDTO userCreateDTO) throws UserExistsException {
 
         if (userRepository.existsByEmail(userCreateDTO.getEmail())) {
             throw new UserExistsException("This email is already registered.");
@@ -79,7 +80,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponseDTO updateUser(Long id, UserCreateDTO userCreateDTO) throws IllegalArgumentException{
+    public UserResponseDTO updateUser(Long id, UserCreateDTO userCreateDTO) throws IllegalArgumentException {
         System.out.println("Updating user with ID: " + id);
         User existingUser = userRepository.findById(id.intValue())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
@@ -90,12 +91,16 @@ public class UserService {
         existingUser.setRole(userCreateDTO.getRole());
         existingUser.setTelephone(userCreateDTO.getTelephone());
 
+        if (userCreateDTO.getPassword() != null && !userCreateDTO.getPassword().isBlank()) {
+            existingUser.setPassword(passwordEncoder.encode(userCreateDTO.getPassword()));
+        }
+
         User saved = userRepository.save(existingUser);
         return userMapper.toResponseDTO(saved);
     }
 
     @Transactional
-    public UserResponseDTO updateUserSelf(String email, UserCreateDTO userCreateDTO) throws IllegalArgumentException{
+    public UserResponseDTO updateUserSelf(String email, UserCreateDTO userCreateDTO) throws IllegalArgumentException {
         System.out.println("Updating user with email: " + email);
         User existingUser = userRepository.findByEmail(email);
         if (existingUser == null) {
@@ -124,6 +129,5 @@ public class UserService {
     public boolean telephoneExists(String telephone) {
         return this.userRepository.existsByTelephone(telephone);
     }
-
 
 }

@@ -143,4 +143,21 @@ public class HotelController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+    // Endpoint to update the visability of a hotel
+    @Operation(summary = "Update hotel visibility", description = "Update the visibility of a hotel.")
+    @ApiResponse(responseCode = "200", description = "Hotel visibility updated successfully.")
+    @ApiResponse(responseCode = "404", description = "Hotel not found.")
+    @ApiResponse(responseCode = "400", description = "Invalid input.")
+    @ApiResponse(responseCode = "403", description = "Not authorized to update this hotel.")
+    @PostMapping("/admin/updateHotelVisibility/{id}")
+    public ResponseEntity<HotelResponseDTO> updateHotelVisibility(@PathVariable Long id,
+            @RequestParam boolean visible) {
+        try {
+            HotelResponseDTO updated = hotelService.updateHotelVisibility(id, visible);
+            return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }
