@@ -19,15 +19,7 @@
           "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"adminpassword\"\n}"
         },
         "url": {
-          "raw": "https://localhost:8443/login",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "login"
-          ]
+          "raw": "{{base_url}}/login"
         }
       },
       "event": [
@@ -67,18 +59,7 @@
           "raw": "{\n  \"roomId\": 1,\n  \"providerId\": 1,\n  \"price\": 1200,\n  \"currency\": \"USD\",\n  \"hotelId\": 1\n}"
         },
         "url": {
-          "raw": "https://localhost:8443/api/listings/admin/createListing",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "listings",
-            "admin",
-            "createListing"
-          ]
+          "raw": "{{base_url}}/api/listings/admin/createListing"
         }
       }
     },
@@ -93,19 +74,7 @@
           }
         ],
         "url": {
-          "raw": "https://localhost:8443/api/listings/admin/deleteListing/1",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "listings",
-            "admin",
-            "deleteListing",
-            "1"
-          ]
+          "raw": "{{base_url}}/api/listings/admin/deleteListing/1"
         }
       }
     },
@@ -114,19 +83,7 @@
       "request": {
         "method": "GET",
         "url": {
-          "raw": "https://localhost:8443/api/listings/public/hotel/1",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "listings",
-            "public",
-            "hotel",
-            "1"
-          ]
+          "raw": "{{base_url}}/api/listings/public/hotel/1"
         }
       },
       "event": [
