@@ -4,7 +4,8 @@
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
-    {"name": "Login - Get JWT Token",
+    {
+      "name": "Login - Get JWT Token",
       "request": {
         "method": "POST",
         "header": [
@@ -18,15 +19,7 @@
           "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\"\n}"
         },
         "url": {
-          "raw": "https://localhost:8443/login",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "login"
-          ]
+          "raw": "{{base_url}}/login"
         }
       },
       "event": [
@@ -58,18 +51,7 @@
           }
         ],
         "url": {
-          "raw": "https://localhost:8443/api/favourites/account/user",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "favourites",
-            "account",
-            "user"
-          ]
+          "raw": "{{base_url}}/api/favourites/account/user"
         }
       },
       "event": [
