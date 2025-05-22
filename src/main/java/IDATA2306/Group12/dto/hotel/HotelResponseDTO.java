@@ -25,11 +25,14 @@ public class HotelResponseDTO {
     @JsonProperty("city")
     private String city;
 
+    @JsonProperty("averageReview")
+    private float averageReview;
+
     public HotelResponseDTO() {
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -37,7 +40,7 @@ public class HotelResponseDTO {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -45,7 +48,7 @@ public class HotelResponseDTO {
     }
 
     public String getLocationType() {
-        return locationType;
+        return this.locationType;
     }
 
     public void setLocationType(String locationType) {
@@ -53,7 +56,7 @@ public class HotelResponseDTO {
     }
 
     public List<String> getRoom() {
-        return room;
+        return this.room;
     }
 
     public void setRoom(List<String> room) {
@@ -61,7 +64,7 @@ public class HotelResponseDTO {
     }
 
     public List<String> getExtraFeature() {
-        return extraFeature;
+        return this.extraFeature;
     }
 
     public void setExtraFeature(List<String> extraFeature) {
@@ -69,7 +72,7 @@ public class HotelResponseDTO {
     }
 
     public String getCountry() {
-        return country;
+        return this.country;
     }
 
     public void setCountry(String country) {
@@ -77,10 +80,18 @@ public class HotelResponseDTO {
     }
 
     public String getCity() {
-        return city;
+        return this.city;
     }
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public float getAverageReview() {
+        return this.averageReview;
+    }
+
+    public void setAverageReview(float averageReview) {
+        this.averageReview = averageReview;
     }
 }

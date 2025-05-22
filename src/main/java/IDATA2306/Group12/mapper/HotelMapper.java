@@ -19,49 +19,51 @@ import IDATA2306.Group12.entity.Room;
 @Component
 public class HotelMapper {
 
-    public HotelMapper() {
-    }
+        public HotelMapper() {
+        }
 
-    public HotelResponseDTO toResponseDTO(Hotel hotel) {
-        if (hotel == null)
-            return null;
+        public HotelResponseDTO toResponseDTO(Hotel hotel) {
+                if (hotel == null)
+                        return null;
 
-        HotelResponseDTO dto = new HotelResponseDTO();
-        dto.setId(hotel.getId());
+                HotelResponseDTO dto = new HotelResponseDTO();
+                dto.setId(hotel.getId());
 
-        dto.setName(hotel.getName() != null ? hotel.getName() : "Unnamed Hotel");
+                dto.setName(hotel.getName() != null ? hotel.getName() : "Unnamed Hotel");
 
-        dto.setLocationType(
-                hotel.getLocationType() != null ? hotel.getLocationType() : "");
+                dto.setLocationType(
+                                hotel.getLocationType() != null ? hotel.getLocationType() : "");
 
-        List<String> extraFeatureNames = hotel.getExtraFeatures() != null
-                ? hotel.getExtraFeatures().stream()
-                        .map(ExtraFeature::getName)
-                        .collect(Collectors.toList())
-                : new ArrayList<>();
-        dto.setExtraFeature(extraFeatureNames);
+                List<String> extraFeatureNames = hotel.getExtraFeatures() != null
+                                ? hotel.getExtraFeatures().stream()
+                                                .map(ExtraFeature::getName)
+                                                .collect(Collectors.toList())
+                                : new ArrayList<>();
+                dto.setExtraFeature(extraFeatureNames);
 
-        List<String> roomNames = hotel.getRooms() != null
-                ? hotel.getRooms().stream()
-                        .map(Room::getName)
-                        .collect(Collectors.toList())
-                : new ArrayList<>();
-        dto.setRoom(roomNames);
+                List<String> roomNames = hotel.getRooms() != null
+                                ? hotel.getRooms().stream()
+                                                .map(Room::getName)
+                                                .collect(Collectors.toList())
+                                : new ArrayList<>();
+                dto.setRoom(roomNames);
 
-        dto.setCountry(hotel.getCountry() != null ? hotel.getCountry() : "Unknown");
-        dto.setCity(hotel.getCity() != null ? hotel.getCity() : "Unknown");
+                dto.setCountry(hotel.getCountry() != null ? hotel.getCountry() : "Unknown");
+                dto.setCity(hotel.getCity() != null ? hotel.getCity() : "Unknown");
+                dto.setAverageReview(hotel.getAverageReview());
 
-        return dto;
-    }
+                return dto;
+        }
 
-    public Hotel toEntity(HotelCreateDTO hotelDTO, Set<ExtraFeature> featuresFromDb, Set<Room> roomsFromDb) {
-        Hotel hotel = new Hotel();
-        hotel.setName(hotelDTO.getName());
-        hotel.setLocationType(hotelDTO.getLocationType());
-        hotel.setExtraFeatures(featuresFromDb);
-        hotel.setRooms(roomsFromDb);
-        hotel.setCity(hotelDTO.getCity());
-        hotel.setCountry(hotelDTO.getCountry());
-        return hotel;
-    }
+        public Hotel toEntity(HotelCreateDTO hotelDTO, Set<ExtraFeature> featuresFromDb, Set<Room> roomsFromDb) {
+                Hotel hotel = new Hotel();
+                hotel.setName(hotelDTO.getName());
+                hotel.setLocationType(hotelDTO.getLocationType());
+                hotel.setExtraFeatures(featuresFromDb);
+                hotel.setRooms(roomsFromDb);
+                hotel.setCity(hotelDTO.getCity());
+                hotel.setCountry(hotelDTO.getCountry());
+                hotel.setAverageReview(hotelDTO.getAverageReview());
+                return hotel;
+        }
 }

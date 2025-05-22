@@ -5,6 +5,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import IDATA2306.Group12.security.JwtConfig;
@@ -63,16 +65,17 @@ public class JwtUtil {
     public String generateToken(User user) {
         return Jwts.builder()
                 .setSubject(user.getEmail())
-                .claim("role", user.getRole())
+                .claim("roles", List.of("ROLE_" + user.getRole())) // ✅ critical change
                 .claim("id", user.getId())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 60 * 60 * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + 60 * 60 * 1000)) // 1 hour
                 .signWith(SignatureAlgorithm.HS256, jwtConfig.getSecret())
                 .compact();
     }
 
     /**
      * Get the role from the token.
+     * 
      * @param token The token to extract the role from.
      * @return The users role as a string. If the token is invalid, returns null.
      */
