@@ -1,6 +1,5 @@
 package IDATA2306.Group12.api;
 
-import IDATA2306.Group12.entity.Image;
 import IDATA2306.Group12.service.ImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,10 +22,7 @@ public class ImageController {
         this.imageService = imageService;
     }
 
-    @Operation(
-            summary = "Upload an image",
-            description = "Upload an image using a MultipartFile and a type string."
-    )
+    @Operation(summary = "Upload an image", description = "Upload an image using a MultipartFile and a type string.")
     @ApiResponse(responseCode = "200", description = "Image uploaded successfully.")
     @ApiResponse(responseCode = "400", description = "Invalid input.")
     @ApiResponse(responseCode = "403", description = "Not authorized to upload an image.")
@@ -43,10 +39,7 @@ public class ImageController {
         }
     }
 
-    @Operation(
-            summary = "Get an image by type and ID",
-            description = "Get an image by type and ID."
-    )
+    @Operation(summary = "Get an image by type and ID", description = "Get an image by type and ID.")
     @ApiResponse(responseCode = "200", description = "Image with matching type and ID.")
     @GetMapping("/public/urls")
     public ResponseEntity<List<String>> getImageUrls(@RequestParam String type, @RequestParam String typeId) {
