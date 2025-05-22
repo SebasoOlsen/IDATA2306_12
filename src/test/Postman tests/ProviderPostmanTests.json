@@ -19,15 +19,7 @@
           "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"adminpassword\"\n}"
         },
         "url": {
-          "raw": "https://localhost:8443/login",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "login"
-          ]
+          "raw": "{{base_url}}/login"
         }
       },
       "event": [
@@ -65,18 +57,7 @@
           "raw": "{\n  \"name\": \"TestProvider\"\n}"
         },
         "url": {
-          "raw": "https://localhost:8443/api/providers/admin/createProvider",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "providers",
-            "admin",
-            "createProvider"
-          ]
+          "raw": "{{base_url}}/api/providers/admin/createProvider"
         }
       }
     },
@@ -91,18 +72,7 @@
           }
         ],
         "url": {
-          "raw": "https://localhost:8443/api/providers/admin/allProviders",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "providers",
-            "admin",
-            "allProviders"
-          ]
+          "raw": "{{base_url}}/api/providers/admin/allProviders"
         }
       }
     },
@@ -111,19 +81,7 @@
       "request": {
         "method": "GET",
         "url": {
-          "raw": "https://localhost:8443/api/providers/public/search/1",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "providers",
-            "public",
-            "search",
-            "1"
-          ]
+          "raw": "{{base_url}}/api/providers/public/search/1"
         }
       }
     },
@@ -146,19 +104,7 @@
           "raw": "{\n  \"id\": 1,\n  \"name\": \"UpdatedProvider\"\n}"
         },
         "url": {
-          "raw": "https://localhost:8443/api/providers/admin/updateProvider/1",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "providers",
-            "admin",
-            "updateProvider",
-            "1"
-          ]
+          "raw": "{{base_url}}/api/providers/admin/updateProvider/1"
         }
       }
     },
@@ -173,19 +119,7 @@
           }
         ],
         "url": {
-          "raw": "https://localhost:8443/api/providers/admin/deleteProvider/1",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "providers",
-            "admin",
-            "deleteProvider",
-            "1"
-          ]
+          "raw": "{{base_url}}/api/providers/admin/deleteProvider/1"
         }
       }
     }
@@ -197,3 +131,5 @@
     }
   ]
 }
+
+
