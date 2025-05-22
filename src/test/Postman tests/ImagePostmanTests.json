@@ -10,7 +10,7 @@
         "method": "POST",
         "header": [
           {
-            "key": "Content Type",
+            "key": "Content-Type",
             "value": "application/json"
           }
         ],
@@ -19,11 +19,7 @@
           "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"adminpassword\"\n}"
         },
         "url": {
-          "raw": "https://localhost:8443/login",
-          "protocol": "https",
-          "host": ["localhost"],
-          "port": "8443",
-          "path": ["login"]
+          "raw": "{{base_url}}/login"
         }
       },
       "event": [
@@ -75,18 +71,7 @@
           ]
         },
         "url": {
-          "raw": "https://localhost:8443/api/images/admin/upload",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "images",
-            "admin",
-            "upload"
-          ]
+          "raw": "{{base_url}}/api/images/admin/upload"
         }
       }
     },
@@ -95,28 +80,7 @@
       "request": {
         "method": "GET",
         "url": {
-          "raw": "https://localhost:8443/api/images/public/urls?type=HOTEL&typeId=1",
-          "protocol": "https",
-          "host": [
-            "localhost"
-          ],
-          "port": "8443",
-          "path": [
-            "api",
-            "images",
-            "public",
-            "urls"
-          ],
-          "query": [
-            {
-              "key": "type",
-              "value": "HOTEL"
-            },
-            {
-              "key": "typeId",
-              "value": "1"
-            }
-          ]
+          "raw": "{{base_url}}/api/images/public/urls?type=HOTEL&typeId=1"
         }
       },
       "event": [
