@@ -19,12 +19,28 @@ public class ListingMapper {
     private ProviderMapper providerMapper;
     private HotelMapper hotelMapper;
 
+    /**
+     * Constructs a ListingMapper with required dependencies.
+     *
+     * @param roomMapper the RoomMapper to use
+     * @param providerMapper the ProviderMapper to use
+     * @param hotelMapper the HotelMapper to use
+     */
     public ListingMapper(RoomMapper roomMapper, ProviderMapper providerMapper, HotelMapper hotelMapper) {
         this.roomMapper = roomMapper;
         this.providerMapper = providerMapper;
         this.hotelMapper = hotelMapper;
     }
 
+    /**
+     * Converts a ListingCreateDTO, Hotel, Room, and Provider to a Listing entity.
+     *
+     * @param dto the ListingCreateDTO containing listing details
+     * @param hotel the Hotel associated with the listing
+     * @param room the Room associated with the listing
+     * @param provider the Provider associated with the listing
+     * @return the Listing entity
+     */
     public Listing toEntity(ListingCreateDTO dto, Hotel hotel, Room room, Provider provider) {
         Listing listing = new Listing();
         listing.setProvider(provider);
@@ -35,6 +51,12 @@ public class ListingMapper {
         return listing;
     }
 
+    /**
+     * Converts a Listing entity to a ListingResponseDTO.
+     *
+     * @param listing the Listing entity to convert
+     * @return the ListingResponseDTO
+     */
     public ListingResponseDTO toResponseDTO(Listing listing) {
         ListingResponseDTO dto = new ListingResponseDTO();
         dto.setId(listing.getId());
