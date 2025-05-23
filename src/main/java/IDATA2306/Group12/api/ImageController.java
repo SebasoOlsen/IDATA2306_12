@@ -1,71 +1,71 @@
 package IDATA2306.Group12.api;
 
-import IDATA2306.Group12.entity.Image;
-import IDATA2306.Group12.repository.ImageRepository;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
+import IDATA2306.Group12.service.ImageService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
-import java.nio.file.*;
 import java.util.List;
-import java.util.UUID;
 
+/**
+ * Controller for handling image-related API requests.
+ */
 @RestController
-@RequestMapping("/images")
+@RequestMapping("/api/images")
+@Tag(name = "Image Management", description = "APIs for managing images.")
 public class ImageController {
 
-    @Value("${file.upload-dir}")
-    private String uploadDir;
+    private final ImageService imageService;
 
-    private final ImageRepository imageRepository;
-
-    public ImageController(ImageRepository imageRepository) {
-        this.imageRepository = imageRepository;
+    /**
+     * Constructor for ImageController.
+     * 
+     * @param imageService the image service
+     */
+    public ImageController(ImageService imageService) {
+        this.imageService = imageService;
     }
 
-    @PostMapping("/upload")
+    /**
+     * Upload an image.
+     * 
+     * @param file   the image file to upload
+     * @param type   the type of the image (e.g., hotel, room)
+     * @param typeId the ID related to the type
+     * @return status message
+     */
+    @Operation(summary = "Upload an image", description = "Upload an image using a MultipartFile and a type string.")
+    @ApiResponse(responseCode = "200", description = "Image uploaded successfully.")
+    @ApiResponse(responseCode = "400", description = "Invalid input.")
+    @ApiResponse(responseCode = "403", description = "Not authorized to upload an image.")
+    @PostMapping("/admin/upload")
     public ResponseEntity<String> uploadImage(
             @RequestParam("file") MultipartFile file,
             @RequestParam("type") String type,
-            @RequestParam("typeId") String typeId) throws IOException {
-        String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.') + 1);
-        String fileName = type.toUpperCase() + "_" + typeId + "_" + UUID.randomUUID() + "." + extension;
-        Path filePath = Paths.get(uploadDir, fileName);
-        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-        Image image = new Image();
-        image.setType(type.toUpperCase());
-        image.setOwnerId(typeId);
-        image.setUrl("/images/" + fileName);
-
-        imageRepository.save(image);
-        return ResponseEntity.ok("Image uploaded");
-    }
-
-    // Fetch all images by type and typeId
-    @GetMapping
-    public List<Image> getImagesByTypeAndId(@RequestParam String type, @RequestParam String typeId) {
-        return imageRepository.findByTypeAndTypeId(type.toUpperCase(), typeId);
-    }
-
-    // Delete image by ID
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteImage(@PathVariable int id) {
-        Image image = imageRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Image not found"));
-
+            @RequestParam("typeId") String typeId) {
         try {
-            String filename = image.getUrl().replace("/images/", "");
-            Files.deleteIfExists(Paths.get(uploadDir, filename));
-            imageRepository.delete(image);
-            return ResponseEntity.ok("Image deleted");
+            imageService.uploadImage(file, type, typeId);
+            return ResponseEntity.ok("Image uploaded");
         } catch (IOException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error deleting image file");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
+    /**
+     * Get image URLs by type and ID.
+     * 
+     * @param type   the type of the image (e.g., hotel, room)
+     * @param typeId the ID related to the type
+     * @return list of image URLs
+     */
+    @Operation(summary = "Get an image by type and ID", description = "Get an image by type and ID.")
+    @ApiResponse(responseCode = "200", description = "Image with matching type and ID.")
+    @GetMapping("/public/urls")
+    public ResponseEntity<List<String>> getImageUrls(@RequestParam String type, @RequestParam String typeId) {
+        return ResponseEntity.ok(imageService.getImageUrlsByTypeAndId(type, typeId));
+    }
 }

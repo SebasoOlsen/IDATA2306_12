@@ -7,6 +7,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+/**
+ * Entity representing an image associated with a specific type (e.g., HOTEL or USER).
+ * Stores the image URL, type, and the identifier of the associated entity.
+ */
 @Entity
 public class Image {
 

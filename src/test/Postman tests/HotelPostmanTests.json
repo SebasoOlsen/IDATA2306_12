@@ -1,0 +1,147 @@
+{
+  "info": {
+    "name": "HotelPostmanTests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Login - Get JWT Token",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"adminpassword\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/login"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Login successful\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Save token\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.collectionVariables.set(\"token\", json.token);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Hotel",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Test Hotel\",\n  \"locationType\": \"Urban\",\n  \"roomTypes\": [\n    \"Single\",\n    \"Double\"\n  ],\n  \"extraFeatures\": [\n    \"Pool\",\n    \"Gym\"\n  ],\n  \"country\": \"Norway\",\n  \"city\": \"Oslo\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/hotels/admin/createHotel"
+        }
+      }
+    },
+    {
+      "name": "Get All Hotels",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/hotels/admin/allHotels"
+        }
+      }
+    },
+    {
+      "name": "Get Hotel by ID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/hotels/public/searchByID/1"
+        }
+      }
+    },
+    {
+      "name": "Update Hotel",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": 1,\n  \"name\": \"Updated Hotel\",\n  \"locationType\": \"Urban\",\n  \"room\": [\n    \"Single\",\n    \"Double\"\n  ],\n  \"extraFeature\": [\n    \"Sauna\"\n  ],\n  \"country\": \"Norway\",\n  \"city\": \"Oslo\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/hotels/admin/updateHotel/1"
+        }
+      }
+    },
+    {
+      "name": "Get Random Hotels",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/hotels/public/randomHotels?count=3"
+        }
+      }
+    },
+    {
+      "name": "Search Hotels",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/hotels/public/search?destination=Oslo"
+        }
+      }
+    },
+    {
+      "name": "Get Rooms by Hotel ID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/hotels/public/1/rooms"
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "token",
+      "value": ""
+    }
+  ]
+}

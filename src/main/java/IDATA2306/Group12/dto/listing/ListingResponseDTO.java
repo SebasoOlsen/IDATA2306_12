@@ -2,31 +2,64 @@ package IDATA2306.Group12.dto.listing;
 
 import IDATA2306.Group12.dto.hotel.HotelResponseDTO;
 import IDATA2306.Group12.dto.provider.ProviderResponseDTO;
-
+import IDATA2306.Group12.dto.room.RoomResponseDTO;
+import IDATA2306.Group12.entity.Hotel;
+/**
+ * DTO for creating a listing, containing room, provider, price, currency, and hotel identifiers.
+ */
 public class ListingResponseDTO {
     private int id;
     private ProviderResponseDTO provider;
-    private HotelResponseDTO hotel;
+    private RoomResponseDTO room;
     private int price;
     private String currency;
-    private String link;
+    private HotelResponseDTO hotel;
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public int getId() {
+        return id;
+    }
 
-    public ProviderResponseDTO getProvider() { return provider; }
-    public void setProvider(ProviderResponseDTO provider) { this.provider = provider; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public HotelResponseDTO getHotel() { return hotel; }
-    public void setHotel(HotelResponseDTO hotel) { this.hotel = hotel; }
+    public ProviderResponseDTO getProvider() {
+        return provider;
+    }
 
-    public int getPrice() { return price; }
-    public void setPrice(int price) { this.price = price; }
+    public void setProvider(ProviderResponseDTO provider) {
+        this.provider = provider;
+    }
 
-    public String getCurrency() { return currency; }
-    public void setCurrency(String currency) { this.currency = currency; }
+    public RoomResponseDTO getRoom() {
+        return this.room;
+    }
 
-    public String getLink() { return link; }
-    public void setLink(String link) { this.link = link; }
-    
+    public void setRoom(RoomResponseDTO room) {
+        this.room = room;
+    }
+
+    public int getPrice() {
+        return this.price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public String getCurrency() {
+        return this.currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public HotelResponseDTO getHotel() {
+        return this.hotel;
+    }
+
+    public void setHotel(HotelResponseDTO hotel) {
+        this.hotel = hotel;
+    }
 }

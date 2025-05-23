@@ -23,6 +23,11 @@ public class Listing {
     @JsonProperty("provider")
     private Provider provider;
 
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "roomId")
+    @JsonProperty("room")
+    private Room room;
+
     @ManyToOne
     @JoinColumn(name = "hotelId", nullable = false)
     @JsonProperty("hotel")
@@ -49,23 +54,62 @@ public class Listing {
     @Column(name = "link")
     private String link;
 
-    public Listing() {}
+    public Listing() {
+    }
 
-    public int getId() {return id;}
-    public void setId(int id) {this.id = id;}
+    public int getId() {
+        return this.id;
+    }
 
-    public Provider getProvider() { return provider; }
-    public void setProvider(Provider provider) { this.provider = provider; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public Hotel getHotel() { return hotel; }
-    public void setHotel(Hotel hotel) { this.hotel = hotel; }
+    public Provider getProvider() {
+        return this.provider;
+    }
 
-    public int getPrice() {return price;}
-    public void setPrice(int price) {this.price = price;}
+    public void setProvider(Provider provider) {
+        this.provider = provider;
+    }
 
-    public String getCurrency() {return currency;}
-    public void setCurrency(String currency) {this.currency = currency;}
+    public Room getRoom() {
+        return this.room;
+    }
 
-    public String getLink() {return link;}
-    public void setLink(String link) {this.link = link;}
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    public int getPrice() {
+        return this.price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public String getCurrency() {
+        return this.currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public String getLink() {
+        return this.link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public Hotel getHotel() {
+        return this.hotel;
+    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
+    }
 }

@@ -1,9 +1,7 @@
 package IDATA2306.Group12.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-
 
 /**
  * Represents a user
@@ -64,31 +62,72 @@ public class User {
 
     @Column(name = "role")
     @JsonProperty("role")
-    private String role;
+    private String role = "USER";
 
-    public User() {}
+    public User() {
+    }
 
-    public int getId() { return id;}
-    public void setId(int id) {this.id = id;}
+    public int getId() {
+        return id;
+    }
 
-    public String getFirstName() {return firstName;}
-    public void setFirstName(String firstName) {this.firstName = firstName;}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public String getLastName() {return lastName;}
-    public void setLastName(String lastName) {this.lastName = lastName;}
+    public String getFirstName() {
+        return firstName;
+    }
 
-    public String getEmail() {return email;}
-    public void setEmail(String email) {this.email = email;}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-    public String getPassword() {return password;}
-    public void setPassword(String password) {this.password = password;}
+    public String getLastName() {
+        return lastName;
+    }
 
-    public String getTelephone() {return telephone;}
-    public void setTelephone(String telephone) {this.telephone = telephone;}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-    public String getAreaCode() {return areaCode;}
-    public void setAreaCode(String areaCode) {this.areaCode = areaCode;}
+    public String getEmail() {
+        return email;
+    }
 
-    public String getRole() {return role;}
-    public void setRole(String role) {this.role = role;}
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getAreaCode() {
+        return areaCode;
+    }
+
+    public void setAreaCode(String areaCode) {
+        this.areaCode = areaCode;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }
