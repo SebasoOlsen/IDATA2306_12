@@ -12,16 +12,30 @@ import IDATA2306.Group12.dto.review.ReviewResponseDTO;
 import IDATA2306.Group12.entity.Review;
 import IDATA2306.Group12.repository.ReviewRepository;
 
+/**
+ * Service for managing reviews.
+ * Handles creation and retrieval of hotel reviews.
+ */
 @Service
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
 
+    /**
+     * Constructs a ReviewService with the required repository.
+     *
+     * @param reviewRepository the review repository
+     */
     @Autowired
     public ReviewService(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
     }
 
+    /**
+     * Retrieves all reviews.
+     *
+     * @return a list of ReviewResponseDTOs
+     */
     public List<ReviewResponseDTO> getAllReviews() {
         List<Review> reviews = reviewRepository.findAll();
 
@@ -34,6 +48,12 @@ public class ReviewService {
                 review.getPostDate())).collect(Collectors.toList());
     }
 
+    /**
+     * Creates a new review.
+     *
+     * @param createDTO the review creation DTO
+     * @return the created ReviewResponseDTO
+     */
     public ReviewResponseDTO createReview(ReviewCreateDTO createDTO) {
         Review review = new Review();
         review.getHotel().setId(createDTO.getHotelId());

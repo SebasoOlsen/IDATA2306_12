@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service for handling user login and authentication.
+ */
 @Service
 public class LoginService {
     private final Logger log = LoggerFactory.getLogger(LoginService.class);
@@ -16,12 +19,27 @@ public class LoginService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
+    /**
+     * Constructs a LoginService with required dependencies.
+     *
+     * @param userRepository the user repository
+     * @param passwordEncoder the password encoder
+     * @param jwtUtil the JWT utility
+     */
     public LoginService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
     }
 
+    /**
+     * Authenticates a user and returns a JWT token if successful
+     *
+     * @param email the user's email
+     * @param password the user's password
+     * @return the JWT token
+     * @throws IllegalArgumentException if email or password is invalid
+     */
     public String login(String email, String password) throws IllegalArgumentException {
         User user = userRepository.findByEmail(email);
         if (user == null) {
