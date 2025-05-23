@@ -19,12 +19,18 @@ Sprint stenographer: Sebastian
 ## **Sprint Summary**
 
 - **Total Planned Work:**
+  - Continue with login functionality and make favorite page. - Oskar
+  - Make payment page. - Knut
+  - Make admin user / admin pages - Sebastian
+  - Implement functionality dealing with invalid registration of users. - Jonas
+  - Read up on spring security and how to use it. - Everyone
 
-  -
 
 - **Completed Work:**
-
-  -
+  - Continue with login functionality and make favorite page. - Oskar
+  - Make admin user / admin pages - Sebastian
+  - Implement functionality dealing with invalid registration of users. - Jonas
+  - Read up on spring security and how to use it. - Everyone
 
 - **Comments::**
   -
