@@ -8,3 +8,7 @@ How to run locally:
 - Step 4: Create a database admin with the same username and password as stored in application.properties
 - Step 5: Run the MySql commands stored in stayfinder.sql.txt
 - Step 6: Run StayFinderApplication.main() to start the backend.
+
+DATABASE Username defined in application properties:
+Username: StayFinderApp
+Password: StayFinderApp
