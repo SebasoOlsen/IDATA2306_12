@@ -24,19 +24,6 @@ Sprint stenographer: Sebastian
   - Finished the Dashboard page and user edit page for admins. -Sebastian
   - Fix bugs on registration page. - jonas
   - Implemented Https implementation. - Jonas
-  -
-
-- **Completed Work:**
-  - Fix login page links. - Jonas
-  - Start working on HTTPS implementation. - Jonas
-  - Fix bugs on registration page. - jonas
-  - Finish the payment page. - Knut
-  - Implement functionality for admin to manage bookings. - Sebastian
-
-  -
-
-- **Comments::**
-  -
 
 ---
 
