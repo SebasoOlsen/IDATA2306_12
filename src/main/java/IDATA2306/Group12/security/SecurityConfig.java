@@ -17,6 +17,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
+/**
+ * Security configuration class for Spring Security.
+ * Configures JWT authentication, CORS, session management, and endpoint authorization.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -24,11 +28,25 @@ public class SecurityConfig {
     private final JwtUtil jwtUtil;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    /**
+     * Constructs a SecurityConfig with required dependencies.
+     *
+     * @param jwtUtil the utility for JWT operations
+     * @param jwtAuthenticationFilter the filter for JWT authentication
+     */
     public SecurityConfig(JwtUtil jwtUtil, JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.jwtUtil = jwtUtil;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
+    /**
+     * Configures the security filter chain, including CORS, CSRF, session management,
+     * JWT authentication filter, and endpoint authorization rules.
+     *
+     * @param http the HttpSecurity to modify
+     * @return the configured SecurityFilterChain
+     * @throws Exception if an error occurs during configuration
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -36,25 +54,31 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests(/*authz -> authz.anyRequest().permitAll()*/ authz -> authz
-                        //Public Endpoints
-                        .requestMatchers("/**/public/**","/images/**").permitAll()
-                        //Logged in restricted endpoints
+                .authorizeHttpRequests(/* authz -> authz.anyRequest().permitAll() */ authz -> authz
+                        // Public Endpoints
+                        .requestMatchers("/**/public/**", "/images/**").permitAll()
+                        // Logged in restricted endpoints
                         .requestMatchers("/**/account/**)").hasAnyRole("USER", "ADMIN")
-                        //Admin restricted endpoints
+                        // Admin restricted endpoints
                         .requestMatchers("/**/admin/**").hasRole("ADMIN")
                         // Other
-                        .anyRequest().authenticated()
-                )
-                // Disable Spring Security's default logout to allow your custom controller to handle logout
+                        .anyRequest().authenticated())
+                // Disable Spring Security's default logout to allow your custom controller to
+                // handle logout
                 .logout(logout -> logout.disable());
         return http.build();
     }
 
+    /**
+     * Configures CORS settings for allowed origins, methods, and headers.
+     *
+     * @return the CorsConfigurationSource bean
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5174", "http://localhost:5173")); //TODO: Review localhost for production
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5174", "http://localhost:5173",
+                "http://10.212.27.13:80", "http://group12.web-tek.ninja"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
@@ -64,6 +88,11 @@ public class SecurityConfig {
         return source;
     }
 
+    /**
+     * Provides a password encoder bean using BCrypt.
+     *
+     * @return the PasswordEncoder bean
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

@@ -2,6 +2,7 @@ package IDATA2306.Group12.api;
 
 import IDATA2306.Group12.dto.booking.BookingCreateDTO;
 import IDATA2306.Group12.dto.booking.BookingResponseDTO;
+import IDATA2306.Group12.dto.listing.ListingResponseDTO;
 import IDATA2306.Group12.entity.User;
 import IDATA2306.Group12.repository.UserRepository;
 import IDATA2306.Group12.service.BookingService;
@@ -15,8 +16,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * REST controller for managing bookings.
+ * Provides endpoints for creating, retrieving, updating, and deleting bookings.
+ */
 @RestController
 @RequestMapping("/api/bookings")
 @Tag(name = "Booking Management", description = "APIs for managing bookings.")
@@ -24,7 +31,6 @@ public class BookingController {
 
     private final BookingService bookingService;
     private final UserRepository userRepository;
-
     public BookingController(BookingService bookingService, UserRepository userRepository){
         this.userRepository = userRepository;
         this.bookingService = bookingService;
@@ -36,6 +42,14 @@ public class BookingController {
             description = "Get a list of all bookings."
             )
     @ApiResponse(responseCode = "200", description = "List of all bookings.")
+
+    /**
+     * Constructs a new BookingController.
+     *
+     * @param bookingService the booking service
+     * @param userRepository the user repository
+     */
+
     @GetMapping("/admin/allBookings")
     public ResponseEntity<List<BookingResponseDTO>> getAllBookings() {
         return ResponseEntity.ok(bookingService.getAllBookings());
@@ -47,6 +61,13 @@ public class BookingController {
     )
     @ApiResponse(responseCode = "200", description = "Booking with the matching ID.")
     @ApiResponse(responseCode = "404", description = "Booking not found.")
+
+    /**
+     * Retrieves a list of all bookings.
+     *
+     * @return a ResponseEntity containing the list of all bookings
+     */
+
     @GetMapping("/admin/search/{id}")
     public ResponseEntity<BookingResponseDTO> getBookingById(@PathVariable Long id) {
         try {
@@ -63,10 +84,37 @@ public class BookingController {
     @ApiResponse(responseCode = "201", description = "Booking created successfully.")
     @ApiResponse(responseCode = "404", description = "Listing not found.")
     @ApiResponse(responseCode = "500", description = "Internal server error.")
+
+    /**
+     * Creates a new booking.
+     *
+     * @param bookingCreateDTO the booking creation data
+     * @return a ResponseEntity containing the created booking, or error status
+     */
+
     @PostMapping("/account/createBooking")
-    public ResponseEntity<BookingResponseDTO> createBooking(@Valid @RequestBody BookingCreateDTO bookingCreateDTO) {
+    public ResponseEntity<BookingResponseDTO> createBooking(@RequestParam int listingId, LocalDate startDate, LocalDate endDate) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated()) {
+            return ResponseEntity.status(401).build();
+        }
+
+        String email = auth.getName();
+        System.out.println("Email: " + email);
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            System.out.println("User not found");
+            return ResponseEntity.status(404).build();
+        }
+
         try {
-            BookingResponseDTO created = bookingService.createBooking(bookingCreateDTO);
+            BookingCreateDTO newBooking = new BookingCreateDTO();
+            newBooking.setListingId(listingId);
+            newBooking.setStartDate(startDate);
+            newBooking.setEndDate(endDate);
+            newBooking.setUserId(user.getId());
+            BookingResponseDTO created = bookingService.createBooking(newBooking);
             return ResponseEntity.status(201).body(created);
         } catch (RuntimeException e) {
             String message = e.getMessage();
@@ -87,6 +135,13 @@ public class BookingController {
     @ApiResponse(responseCode = "200", description = "Booking updated successfully.")
     @ApiResponse(responseCode = "404", description = "Booking not found.")
     @ApiResponse(responseCode = "400", description = "Invalid input.")
+    /**
+     * Updates an existing booking.
+     *
+     * @param id the booking ID
+     * @param bookingCreateDTO the updated booking data
+     * @return a ResponseEntity containing the updated booking, or 404 if not found
+     */
     @PutMapping("/admin/editBooking/{id}")
     public ResponseEntity<BookingResponseDTO> updateBooking(@PathVariable Long id, 
                                                             @Valid @RequestBody BookingCreateDTO bookingCreateDTO) {
@@ -103,6 +158,12 @@ public class BookingController {
     )
     @ApiResponse(responseCode = "204", description = "Booking deleted successfully.")
     @ApiResponse(responseCode = "403", description = "Not authorized to delete this booking.")
+    /**
+     * Deletes a booking by its ID.
+     *
+     * @param id the booking ID
+     * @return a ResponseEntity with status 204 if deleted
+     */
     @DeleteMapping("/admin/deleteBooking/{id}")
     public ResponseEntity<String> deleteBooking(@PathVariable Long id) {
         bookingService.deleteBooking(id);
@@ -117,6 +178,11 @@ public class BookingController {
     @ApiResponse(responseCode = "404", description = "User not found.")
     @ApiResponse(responseCode = "401", description = "User is not authenticated.")
     @ApiResponse(responseCode = "403", description = "User is not authorized to view this list of bookings.")
+    /**
+     * Retrieves bookings for the authenticated user.
+     *
+     * @return a ResponseEntity containing the user's bookings, or error status
+     */
     @GetMapping("/account/user")
     public ResponseEntity<?> getUserBookings() {
 
@@ -126,7 +192,7 @@ public class BookingController {
         if (auth == null || !auth.isAuthenticated()) {
             return ResponseEntity.status(401).build();
         }
-        // Assuming the principal contains the user's email or username
+
         String email = auth.getName();
         System.out.println("Email: " + email);
         User user = userRepository.findByEmail(email);
@@ -144,6 +210,12 @@ public class BookingController {
     )
     @ApiResponse(responseCode = "200", description = "List of booked dates for the listing.")
     @ApiResponse(responseCode = "404", description = "Listing not found.")
+    /**
+     * Retrieves booked dates for a specific listing.
+     *
+     * @param id the listing ID
+     * @return a ResponseEntity containing the list of booked dates, or 404 if not found
+     */
     @GetMapping("/public/bookedDatesForListing/{id}")
     public ResponseEntity<?> getBookedDatesForListing(@PathVariable long id) {
         try {

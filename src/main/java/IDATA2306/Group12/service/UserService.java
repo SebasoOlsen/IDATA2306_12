@@ -25,6 +25,13 @@ public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * Constructs a UserService with required dependencies.
+     *
+     * @param userRepository the user repository
+     * @param userMapper the user mapper
+     * @param passwordEncoder the password encoder
+     */
     public UserService(UserRepository userRepository, UserMapper userMapper,
             PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -32,6 +39,11 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Retrieves all users.
+     *
+     * @return a list of UserResponseDTOs
+     */
     public List<UserResponseDTO> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(userMapper::toResponseDTO)
@@ -59,12 +71,26 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Retrieves a user by ID.
+     *
+     * @param id the user ID
+     * @return the UserResponseDTO
+     * @throws IllegalArgumentException if the user is not found
+     */
     public UserResponseDTO getUserById(Long id) throws IllegalArgumentException {
         User user = userRepository.findById(id.intValue())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         return userMapper.toResponseDTO(user);
     }
 
+    /**
+     * Creates a new user.
+     *
+     * @param userCreateDTO the user creation DTO
+     * @return the created UserResponseDTO
+     * @throws UserExistsException if the email or telephone already exists
+     */
     public UserResponseDTO createUser(UserCreateDTO userCreateDTO) throws UserExistsException {
 
         if (userRepository.existsByEmail(userCreateDTO.getEmail())) {
@@ -79,6 +105,14 @@ public class UserService {
         return userMapper.toResponseDTO(saved);
     }
 
+    /**
+     * Updates an existing user by ID.
+     *
+     * @param id the user ID
+     * @param userCreateDTO the user data to update
+     * @return the updated UserResponseDTO
+     * @throws IllegalArgumentException if the user is not found
+     */
     @Transactional
     public UserResponseDTO updateUser(Long id, UserCreateDTO userCreateDTO) throws IllegalArgumentException {
         System.out.println("Updating user with ID: " + id);
@@ -99,6 +133,14 @@ public class UserService {
         return userMapper.toResponseDTO(saved);
     }
 
+    /**
+     * Updates the current user's own data by email.
+     *
+     * @param email the user's email
+     * @param userCreateDTO the user data to update
+     * @return the updated UserResponseDTO
+     * @throws IllegalArgumentException if the user is not found
+     */
     @Transactional
     public UserResponseDTO updateUserSelf(String email, UserCreateDTO userCreateDTO) throws IllegalArgumentException {
         System.out.println("Updating user with email: " + email);
@@ -117,15 +159,32 @@ public class UserService {
         return userMapper.toResponseDTO(saved);
     }
 
+    /**
+     * Deletes a user by ID.
+     *
+     * @param id the user ID
+     */
     @Transactional
     public void deleteUser(Long id) {
         userRepository.deleteById(id.intValue());
     }
 
+    /**
+     * Checks if an email already exists.
+     *
+     * @param email the email to check
+     * @return true if the email exists, false otherwise
+     */
     public boolean emailExists(String email) {
         return this.userRepository.existsByEmail(email);
     }
 
+    /**
+     * Checks if a telephone number already exists.
+     *
+     * @param telephone the telephone number to check
+     * @return true if the telephone exists, false otherwise
+     */
     public boolean telephoneExists(String telephone) {
         return this.userRepository.existsByTelephone(telephone);
     }

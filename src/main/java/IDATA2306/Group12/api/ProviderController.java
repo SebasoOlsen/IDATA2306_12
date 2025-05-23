@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+/**
+ * Controller for handling provider-related API requests.
+ */
 @RestController
 @RequestMapping("/api/providers")
 @Tag(name = "Provider Management", description = "APIs for managing providers.")
@@ -19,10 +21,17 @@ public class ProviderController {
 
     private final ProviderService providerService;
 
+    /**
+     * Constructor for ProviderController.
+     * @param providerService the provider service
+     */
     public ProviderController(ProviderService providerService) {
         this.providerService = providerService;
     }
-
+    /**
+     * Get a list of all providers.
+     * @return list of all providers
+     */
     @Operation(
             summary = "Get a list of all providers.",
             description = "Get a list of all providers."
@@ -33,7 +42,11 @@ public class ProviderController {
     public ResponseEntity<List<ProviderResponseDTO>> getAllProviders() {
             return ResponseEntity.ok(providerService.getAllProviders());
     }
-
+    /**
+     * Get a provider by ID.
+     * @param id the provider ID
+     * @return provider with the matching ID
+     */
     @Operation(
             summary = "Get a provider by ID.",
             description = "Get a provider by ID."
@@ -49,7 +62,11 @@ public class ProviderController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    /**
+     * Create a new provider.
+     * @param providerDTO the provider data
+     * @return the created provider
+     */
     @Operation(
             summary = "Create a new provider.",
             description = "Create a new provider using a ProviderResponseDTO."
@@ -65,7 +82,12 @@ public class ProviderController {
             return ResponseEntity.badRequest().build();
         }
     }
-
+    /**
+     * Update an existing provider.
+     * @param id the provider ID
+     * @param providerDTO the updated provider data
+     * @return the updated provider
+     */
     @Operation(
             summary = "Update an existing provider",
             description = "Update an existing provider using a ProviderResponseDTO."
@@ -82,7 +104,11 @@ public class ProviderController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    /**
+     * Delete an existing provider.
+     * @param id the provider ID
+     * @return status message
+     */
     @Operation(
             summary = "Delete an existing provider",
             description = "Delete a provider using the provider ID."

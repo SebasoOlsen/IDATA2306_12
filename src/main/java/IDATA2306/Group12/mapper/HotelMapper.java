@@ -19,9 +19,18 @@ import IDATA2306.Group12.entity.Room;
 @Component
 public class HotelMapper {
 
+        /**
+         * Default constructor.
+         */
         public HotelMapper() {
         }
 
+        /**
+         * Converts a Hotel entity to a HotelResponseDTO.
+         *
+         * @param hotel the Hotel entity to convert
+         * @return the HotelResponseDTO
+         */
         public HotelResponseDTO toResponseDTO(Hotel hotel) {
                 if (hotel == null)
                         return null;
@@ -56,6 +65,14 @@ public class HotelMapper {
                 return dto;
         }
 
+        /**
+         * Converts a HotelCreateDTO and sets of ExtraFeature and Room entities to a Hotel entity.
+         *
+         * @param hotelDTO the HotelCreateDTO containing hotel details
+         * @param featuresFromDb the set of ExtraFeature entities
+         * @param roomsFromDb the set of Room entities
+         * @return the Hotel entity
+         */
         public Hotel toEntity(HotelCreateDTO hotelDTO, Set<ExtraFeature> featuresFromDb, Set<Room> roomsFromDb) {
                 Hotel hotel = new Hotel();
                 hotel.setName(hotelDTO.getName());

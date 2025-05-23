@@ -1,5 +1,7 @@
 package IDATA2306.Group12.dto.listing;
-
+/**
+ * DTO for creating a listing, containing room, provider, price, currency, and hotel identifiers.
+ */
 public class ListingCreateDTO {
     private int roomId;
     private int providerId;
