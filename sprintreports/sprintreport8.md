@@ -24,15 +24,6 @@ Sprint stenographer: Sebastian
   - Finished the Dashboard page and user edit page for admins. -Sebastian
   - Fix bugs on registration page. - jonas
   - Implemented Https implementation. - Jonas
-  -
-
-- **Completed Work:**
-
-  -
-
-- ## **Comments::**
-
----
 
 ## **Next Steps**
 
