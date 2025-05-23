@@ -127,18 +127,14 @@ public class LoginController {
     @PostMapping("/account/logout")
     @ResponseBody
     public ResponseEntity<Map<String, String>> logout(HttpServletResponse response) {
-        // log.info("Logout endpoint called.");
 
-        // Clear the token cookie - match properties if needed
         Cookie cookie = new Cookie("token", null);
         cookie.setPath("/");
         cookie.setMaxAge(0);
         response.addCookie(cookie);
-        // log.info("Token cookie cleared and added to response.");
 
         Map<String, String> body = new HashMap<>();
         body.put("redirect", "/login");
-        // log.info("Responding with redirect to /login.");
 
         return ResponseEntity.ok(body);
     }

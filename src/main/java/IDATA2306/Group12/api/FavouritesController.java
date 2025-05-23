@@ -56,7 +56,7 @@ public class FavouritesController {
         if (auth == null || !auth.isAuthenticated()) {
             return ResponseEntity.status(401).build();
         }
-        // Assuming the principal contains the user's email or username
+
         String username = auth.getName();
         System.out.println("Username: " + username);
         User user = userRepository.findByEmail(username);

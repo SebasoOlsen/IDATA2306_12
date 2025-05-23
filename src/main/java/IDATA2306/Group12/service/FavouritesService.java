@@ -15,21 +15,43 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service class for managing user favourites.
+ * Handles retrieval and conversion of favourite listings for users.
+ */
 @Service
 public class FavouritesService {
 
     private final FavouritesRepository favouritesRepository;
     private final FavouriteMapper favouriteMapper;
 
+    /**
+     * Constructs a FavouritesService with required dependencies.
+     *
+     * @param favouritesRepository the repository for favourites
+     * @param favouriteMapper the mapper for converting Favourite entities to DTOs
+     */
     public FavouritesService(FavouritesRepository favouritesRepository, FavouriteMapper favouriteMapper) {
         this.favouritesRepository = favouritesRepository;
         this.favouriteMapper = favouriteMapper;
     }
 
+    /**
+     * Finds all Favourite entities by user ID.
+     *
+     * @param userId the user ID
+     * @return a list of Favourite entities
+     */
     public List<Favourite> findByUserId(int userId) {
         return favouritesRepository.findByUserId(userId);
     }
 
+    /**
+     * Retrieves all favourites for a user by user ID and converts them to response DTOs.
+     *
+     * @param id the user ID
+     * @return a list of FavouriteResponseDTOs
+     */
     public List<FavouriteResponseDTO> getFavouritesByUserId(int id) {
         List<Favourite> favourites = favouritesRepository.findByUserId(id);
         System.out.println("Favourites123: " + favourites);
@@ -38,6 +60,12 @@ public class FavouritesService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Converts a Favourite entity to a FavouriteResponseDTO.
+     *
+     * @param favourite the Favourite entity to convert
+     * @return the FavouriteResponseDTO
+     */
     private FavouriteResponseDTO convertToResponseDTO(Favourite favourite) {
         FavouriteResponseDTO dto = new FavouriteResponseDTO();
         // Convert the User entity to UserResponseDTO.
@@ -47,6 +75,12 @@ public class FavouritesService {
         return dto;
     }
 
+    /**
+     * Converts a User entity to a UserResponseDTO.
+     *
+     * @param user the User entity to convert
+     * @return the UserResponseDTO
+     */
     private UserResponseDTO convertUserToResponseDTO(User user) {
         UserResponseDTO userDTO = new UserResponseDTO();
         userDTO.setId(user.getId());
@@ -56,6 +90,12 @@ public class FavouritesService {
         return userDTO;
     }
 
+    /**
+     * Converts a Listing entity to a ListingResponseDTO.
+     *
+     * @param listing the Listing entity to convert
+     * @return the ListingResponseDTO
+     */
     private ListingResponseDTO convertListingToResponseDTO(Listing listing) {
         ListingResponseDTO listingDTO = new ListingResponseDTO();
         listingDTO.setId(listing.getId());
@@ -63,6 +103,12 @@ public class FavouritesService {
         return listingDTO;
     }
 
+    /**
+     * Retrieves all favourites for a user and converts them to response DTOs.
+     *
+     * @param user the user whose favourites are to be retrieved
+     * @return a list of FavouriteResponseDTOs
+     */
     public List<?> getFavouritesByUser(User user) {
         System.out.println("User email: " + user.getEmail());
         System.out.println("User first name: " + user.getFirstName());

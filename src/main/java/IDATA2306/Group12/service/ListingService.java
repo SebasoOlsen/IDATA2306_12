@@ -17,6 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * Service class for managing listings.
+ * Handles creation, retrieval, updating, and deletion of listings,
+ * as well as fetching listings by hotel ID.
+ */
 @Service
 public class ListingService {
 
@@ -26,6 +31,15 @@ public class ListingService {
     private final ProviderRepository providerRepository;
     private final RoomRepository roomRepository;
 
+    /**
+     * Constructs a ListingService with required dependencies.
+     *
+     * @param listingRepository the listing repository
+     * @param listingMapper the listing mapper
+     * @param hotelRepository the hotel repository
+     * @param providerRepository the provider repository
+     * @param roomRepository the room repository
+     */
     public ListingService(
             ListingRepository listingRepository,
             ListingMapper listingMapper,
@@ -39,18 +53,37 @@ public class ListingService {
         this.roomRepository = roomRepository;
     }
 
+    /**
+     * Retrieves all listings.
+     *
+     * @return a list of ListingResponseDTOs
+     */
     public List<ListingResponseDTO> getAllListings() {
         return listingRepository.findAll().stream()
                 .map(listingMapper::toResponseDTO)
                 .toList();
     }
 
+    /**
+     * Retrieves a listing by its ID.
+     *
+     * @param id the ID of the listing
+     * @return the ListingResponseDTO
+     * @throws IllegalArgumentException if the listing is not found
+     */
     public ListingResponseDTO getListingById(int id) throws IllegalArgumentException{
         Listing listing = listingRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Listing not found"));
         return listingMapper.toResponseDTO(listing);
     }
 
+    /**
+     * Creates a new listing.
+     *
+     * @param createDTO the ListingCreateDTO containing listing details
+     * @return the created ListingResponseDTO
+     * @throws IllegalArgumentException if the hotel, provider, or room is not found
+     */
     public ListingResponseDTO createListing(ListingCreateDTO createDTO) throws IllegalArgumentException{
         Hotel hotel = hotelRepository.findById(createDTO.getHotelId())
                 .orElseThrow(() -> new IllegalArgumentException("Hotel not found"));
@@ -84,6 +117,11 @@ public class ListingService {
     // return listingMapper.toResponseDTO(existingListing);
     // }
 
+    /**
+     * Deletes a listing by its ID.
+     *
+     * @param id the listing ID
+     */
     @Transactional
     public void deleteListing(int id) {
         listingRepository.deleteById(id);
