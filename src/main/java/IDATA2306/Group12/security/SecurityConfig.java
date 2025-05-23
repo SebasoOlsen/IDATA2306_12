@@ -61,6 +61,9 @@ public class SecurityConfig {
                         .requestMatchers("/**/account/**)").hasAnyRole("USER", "ADMIN")
                         // Admin restricted endpoints
                         .requestMatchers("/**/admin/**").hasRole("ADMIN")
+                        // Swagger Documentation
+                        .requestMatchers("/**/swagger-ui/**").permitAll()
+                        .requestMatchers("/**/v3/api-docs/**").permitAll()
                         // Other
                         .anyRequest().authenticated())
                 // Disable Spring Security's default logout to allow your custom controller to
