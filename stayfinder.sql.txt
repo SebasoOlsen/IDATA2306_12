@@ -1,120 +1,400 @@
--- 1) Drop and recreate the database
-DROP DATABASE IF EXISTS stayfinder;
-CREATE DATABASE stayfinder;
-USE stayfinder;
+-- Clear existing data (if needed)
+DELETE FROM stayfinder.Favourites;
+DELETE FROM stayfinder.Bookings;
+DELETE FROM stayfinder.Reviews;
+DELETE FROM stayfinder.Listings;
+DELETE FROM stayfinder.hotel_extra_features;
+DELETE FROM stayfinder.hotel_rooms;
+DELETE FROM stayfinder.ExtraFeature;
+DELETE FROM stayfinder.Rooms;
+DELETE FROM stayfinder.Hotels;
+DELETE FROM stayfinder.Providers;
+DELETE FROM stayfinder.Users;
 
--- 2) Create the Users table with AUTO_INCREMENT for uID
-CREATE TABLE Users (
-    uID INT PRIMARY KEY AUTO_INCREMENT,
-    firstName VARCHAR(50) NOT NULL,
-    lastName VARCHAR(50) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    telephone VARCHAR(20),
-    areaCode VARCHAR(5),
-    password VARCHAR(100)
-);
+-- Reset auto-increment counters (if needed)
+ALTER TABLE stayfinder.Hotels AUTO_INCREMENT = 1;
+ALTER TABLE stayfinder.Rooms AUTO_INCREMENT = 1;
+ALTER TABLE stayfinder.Providers AUTO_INCREMENT = 1;
+ALTER TABLE stayfinder.ExtraFeature AUTO_INCREMENT = 1;
+ALTER TABLE stayfinder.Users AUTO_INCREMENT = 1;
+ALTER TABLE stayfinder.Listings AUTO_INCREMENT = 1;
+ALTER TABLE stayfinder.Bookings AUTO_INCREMENT = 1;
+ALTER TABLE stayfinder.Reviews AUTO_INCREMENT = 1;
 
--- 3) Create the Hotels table with AUTO_INCREMENT for hID
-CREATE TABLE Hotels (
-    hID INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    locationType VARCHAR(100),
-    extraFeatures VARCHAR(255),
-    roomTypes VARCHAR(255)
-);
+-- Populate Users table (Dave and Chuck as requested)
+INSERT INTO stayfinder.Users (firstName, lastName, email, password, telephone, areaCode, role) VALUES
+('Dave', 'User', 'dave@example.com', '$2a$10$CBIuMtd/Y45BWkYNiWa0gOYElQhuFiya7oKM5ceYQ7T.687JPMPpe', '12345000', '+1', 'USER');
 
--- 4) Create the Providers table with AUTO_INCREMENT for pID
-CREATE TABLE Providers (
-    pID INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL
-);
+INSERT INTO stayfinder.Users (firstName, lastName, email, password, telephone, areaCode, role) VALUES
+('Chuck', 'Admin', 'chuck@example.com', '$2a$10$PEFO7bgwFcRtMQGdBIfXr.iw0yabaD5b4K4N7SywnhX2JUQdiEbD2', '12345001', '+1', 'ADMIN');
 
--- 5) Create the Listings table with AUTO_INCREMENT for listID
-CREATE TABLE Listings (
-    listID INT PRIMARY KEY AUTO_INCREMENT,
-    hID INT NOT NULL,
-    pID INT NOT NULL,
-    currency VARCHAR(10),
-    link VARCHAR(255),
-    price DECIMAL(10,2),
-    CONSTRAINT fk_listings_hotels FOREIGN KEY (hID) REFERENCES Hotels(hID),
-    CONSTRAINT fk_listings_providers FOREIGN KEY (pID) REFERENCES Providers(pID)
-);
+INSERT INTO stayfinder.Users (firstName, lastName, email, password, telephone, areaCode, role) VALUES
+('Jane', 'Smith', 'jane@example.com', '$2a$10$hcn5cJOdLMtv3Yqj0DeRDeST9ySsndYfvDCgZ9g7J.8rrGZBX1g9S', '87654321', '+1', 'USER');
 
--- 6) Create the Bookings table with AUTO_INCREMENT for bID
-CREATE TABLE Bookings (
-    bID INT PRIMARY KEY AUTO_INCREMENT,
-    listID INT NOT NULL,
-    uID INT NOT NULL,
-    status VARCHAR(20),
-    startDate DATE,
-    endDate DATE,
-    CONSTRAINT fk_bookings_listings FOREIGN KEY (listID) REFERENCES Listings(listID),
-    CONSTRAINT fk_bookings_users FOREIGN KEY (uID) REFERENCES Users(uID)
-);
+INSERT INTO stayfinder.Users (firstName, lastName, email, password, telephone, areaCode, role) VALUES
+('Oskar', 'Kotyla', 'o@m.c', '$2a$10$hcn5cJOdLMtv3Yqj0DeRDeST9ySsndYfvDCgZ9g7J.8rrGZBX1g9S', '99887766', '+47', 'USER');
 
--- 7) Create the Favorites table (composite primary key, no auto-increment needed)
-CREATE TABLE Favorites (
-    listingID INT NOT NULL,
-    uID INT NOT NULL,
-    PRIMARY KEY (listingID, uID),
-    CONSTRAINT fk_favorites_listings FOREIGN KEY (listingID) REFERENCES Listings(listID),
-    CONSTRAINT fk_favorites_users FOREIGN KEY (uID) REFERENCES Users(uID)
-);
+INSERT INTO stayfinder.Users (firstName, lastName, email, password, telephone, areaCode, role) VALUES
+('Alice', 'Johnson', 'alice@example.com', '$2a$10$hcn5cJOdLMtv3Yqj0DeRDeST9ySsndYfvDCgZ9g7J.8rrGZBX1g9S', '55443322', '+44', 'USER');
 
--- =============================
--- INSERT SAMPLE DATA
--- =============================
+INSERT INTO stayfinder.Users (firstName, lastName, email, password, telephone, areaCode, role) VALUES
+('Bob', 'Williams', 'bob@example.com', '$2a$10$hcn5cJOdLMtv3Yqj0DeRDeST9ySsndYfvDCgZ9g7J.8rrGZBX1g9S', '66778899', '+33', 'USER');
 
--- Insert into Users (do not include uID since it will be auto-generated)
-INSERT INTO Users (firstName, lastName, email, telephone, areaCode, password)
-VALUES
-  ('John',  'Doe',     'john@example.com',  '12345678', '+47', 'password123'),
-  ('Jane',  'Smith',   'jane@example.com',  '12345679', '+47', 'password456'),
-  ('Alice', 'Johnson', 'alice@example.com', '12345680', '+47', 'password789'),
-  ('Bob',   'Brown',   'bob@example.com',   '98765432', '+47', 'password000'),
-  ('Carol', 'White',   'carol@example.com', '55555555', '+47', 'password111'),
-  ('Dave',  'Black',   'dave@example.com',  '44444444', '+47', 'password222');
+-- Populate Hotels table with the correct structure (including isHidden field)
+INSERT INTO stayfinder.Hotels (name, locationType, city, country, averageReview, isHidden) VALUES
+('Andante Hotel', 'City Center', 'Barcelona', 'Spain', 4.2, 0);
 
--- Insert into Hotels
-INSERT INTO Hotels (name, locationType, extraFeatures, roomTypes)
-VALUES
-  ('Andante Hotel',       'City Center',         'Rooftop Pool, Gym',                'Single, Double'),
-  ('Thon Hotel Ålesund',  'Coastal/Fjord View',  'Free Breakfast, Conference Facilities', 'Single, Family'),
-  ('Scandic Parken',      'Park Proximity',      'In-house Restaurant, EV Charging', 'Double, Suite');
+INSERT INTO stayfinder.Hotels (name, locationType, city, country, averageReview, isHidden) VALUES
+('Thon Hotel Ålesund', 'Coastal/Fjord View', 'Ålesund', 'Norway', 4.5, 0);
 
--- Insert into Providers
-INSERT INTO Providers (name)
-VALUES
-  ('Booking.com'),
-  ('Agoda'),
-  ('Expedia'),
-  ('momondo'),
-  ('Airbnb');
+INSERT INTO stayfinder.Hotels (name, locationType, city, country, averageReview, isHidden) VALUES
+('Scandic Parken', 'Park Proximity', 'Ålesund', 'Norway', 4.3, 0);
 
--- Insert into Listings (with price)
-INSERT INTO Listings (hID, pID, currency, link, price)
-VALUES
-  (1, 1, 'USD', 'http://booking.com/andante',       150.00),
-  (1, 2, 'USD', 'http://agoda.com/andante',         200.00),
-  (2, 4, 'NOK', 'http://momondo.com/thon',         1200.00),
-  (2, 3, 'NOK', 'http://expedia.com/thon',         1400.00),
-  (3, 5, 'NOK', 'http://airbnb.com/scandic',       1100.00),
-  (3, 2, 'NOK', 'http://agoda.com/scandic',        1500.00);
+INSERT INTO stayfinder.Hotels (name, locationType, city, country, averageReview, isHidden) VALUES
+('Carlton Tower Hotel', 'Urban', 'London', 'UK', 4.8, 0);
 
--- Insert into Bookings
-INSERT INTO Bookings (listID, uID, status, startDate, endDate)
-VALUES
-  (1, 1, 'awaiting payment', '2025-04-01', '2025-04-05'),
-  (3, 2, 'paid',             '2025-04-10', '2025-04-15'),
-  (5, 3, 'canceled',         '2025-04-20', '2025-04-22');
+INSERT INTO stayfinder.Hotels (name, locationType, city, country, averageReview, isHidden) VALUES
+('Swissôtel Amsterdam', 'City Center', 'Amsterdam', 'Netherlands', 4.4, 0);
 
--- Insert into Favorites
-INSERT INTO Favorites (listingID, uID)
-VALUES
-  (1, 2),
-  (3, 1),
-  (5, 1);
+INSERT INTO stayfinder.Hotels (name, locationType, city, country, averageReview, isHidden) VALUES
+('Hotel Homs', 'Historic Center', 'Rome', 'Italy', 4.1, 0);
 
--- Done!
-SELECT 'Database setup complete!' AS message;
+INSERT INTO stayfinder.Hotels (name, locationType, city, country, averageReview, isHidden) VALUES
+('Radisson Blu Atlantic Hotel', 'City Center with Lake View', 'Stavanger', 'Norway', 4.6, 0);
+
+INSERT INTO stayfinder.Hotels (name, locationType, city, country, averageReview, isHidden) VALUES
+('Clarion Hotel The Hub', 'Urban', 'Oslo', 'Norway', 4.5, 0);
+
+INSERT INTO stayfinder.Hotels (name, locationType, city, country, averageReview, isHidden) VALUES
+('Grand Hotel Terminus', 'City Center', 'Bergen', 'Norway', 4.7, 0);
+
+INSERT INTO stayfinder.Hotels (name, locationType, city, country, averageReview, isHidden) VALUES
+('The Thief', 'Waterfront/Urban', 'Oslo', 'Norway', 4.9, 0);
+
+INSERT INTO stayfinder.Hotels (name, locationType, city, country, averageReview, isHidden) VALUES
+('Hotel Bristol', 'Historic Center', 'Oslo', 'Norway', 4.6, 0);
+
+INSERT INTO stayfinder.Hotels (name, locationType, city, country, averageReview, isHidden) VALUES
+('Marina Bay Sands', 'Waterfront/City Center', 'Singapore', 'Singapore', 4.8, 0);
+
+-- Populate Rooms table (based on original schema structure)
+INSERT INTO stayfinder.Rooms (Name) VALUES ('Single Room');
+INSERT INTO stayfinder.Rooms (Name) VALUES ('Superior Room');
+INSERT INTO stayfinder.Rooms (Name) VALUES ('Standard Room');
+INSERT INTO stayfinder.Rooms (Name) VALUES ('Plus Room');
+INSERT INTO stayfinder.Rooms (Name) VALUES ('Premium Room');
+INSERT INTO stayfinder.Rooms (Name) VALUES ('Deluxe Room');
+INSERT INTO stayfinder.Rooms (Name) VALUES ('Executive Suite');
+INSERT INTO stayfinder.Rooms (Name) VALUES ('Classic Room');
+INSERT INTO stayfinder.Rooms (Name) VALUES ('Junior Suite');
+INSERT INTO stayfinder.Rooms (Name) VALUES ('Suite');
+INSERT INTO stayfinder.Rooms (Name) VALUES ('Business Class Room');
+INSERT INTO stayfinder.Rooms (Name) VALUES ('Moderate Room');
+INSERT INTO stayfinder.Rooms (Name) VALUES ('Grand Suite');
+INSERT INTO stayfinder.Rooms (Name) VALUES ('Artist Room');
+INSERT INTO stayfinder.Rooms (Name) VALUES ('Premier Room');
+INSERT INTO stayfinder.Rooms (Name) VALUES ('Club Room');
+
+-- Populate hotel_rooms join table
+-- Andante Hotel (ID: 1)
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (1, 1); -- Single Room
+
+-- Thon Hotel Ålesund (ID: 2)
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (2, 2); -- Superior Room
+
+-- Scandic Parken (ID: 3)
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (3, 3); -- Standard Room
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (3, 4); -- Plus Room
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (3, 5); -- Premium Room
+
+-- Carlton Tower Hotel (ID: 4)
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (4, 6); -- Deluxe Room
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (4, 7); -- Executive Suite
+
+-- Swissôtel Amsterdam (ID: 5)
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (5, 8); -- Classic Room
+
+-- Hotel Homs (ID: 6)
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (6, 3); -- Standard Room
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (6, 9); -- Junior Suite
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (6, 10); -- Suite
+
+-- Radisson Blu Atlantic Hotel (ID: 7)
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (7, 3); -- Standard Room
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (7, 11); -- Business Class Room
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (7, 10); -- Suite
+
+-- Clarion Hotel The Hub (ID: 8)
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (8, 12); -- Moderate Room
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (8, 3); -- Standard Room
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (8, 2); -- Superior Room
+
+-- Grand Hotel Terminus (ID: 9)
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (9, 8); -- Classic Room
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (9, 6); -- Deluxe Room
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (9, 13); -- Grand Suite
+
+-- The Thief (ID: 10)
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (10, 14); -- Artist Room
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (10, 15); -- Premier Room
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (10, 10); -- Suite
+
+-- Hotel Bristol (ID: 11)
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (11, 8); -- Classic Room
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (11, 6); -- Deluxe Room
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (11, 10); -- Suite
+
+-- Marina Bay Sands (ID: 12)
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (12, 6); -- Deluxe Room
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (12, 15); -- Premier Room
+INSERT INTO stayfinder.hotel_rooms (hotel_id, room_id) VALUES (12, 16); -- Club Room
+
+-- Populate Providers table
+INSERT INTO stayfinder.Providers (name) VALUES ('Booking.com');
+INSERT INTO stayfinder.Providers (name) VALUES ('Agoda');
+INSERT INTO stayfinder.Providers (name) VALUES ('Momondo');
+INSERT INTO stayfinder.Providers (name) VALUES ('Expedia');
+INSERT INTO stayfinder.Providers (name) VALUES ('Airbnb');
+INSERT INTO stayfinder.Providers (name) VALUES ('Hotels.com');
+INSERT INTO stayfinder.Providers (name) VALUES ('Kayak');
+INSERT INTO stayfinder.Providers (name) VALUES ('Hotel.com');
+INSERT INTO stayfinder.Providers (name) VALUES ('Nordic Choice Hotels');
+INSERT INTO stayfinder.Providers (name) VALUES ('TripAdvisor');
+INSERT INTO stayfinder.Providers (name) VALUES ('The Thief Website');
+INSERT INTO stayfinder.Providers (name) VALUES ('Marina Bay Sands Website');
+INSERT INTO stayfinder.Providers (name) VALUES ('Trip.com');
+
+-- Populate ExtraFeature table
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Complimentary Wi-Fi');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Rooftop Pool');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('24-hour Gym Access');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Free Breakfast');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Fjord View Rooms');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Conference Facilities');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('In-house Restaurant');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Meeting Rooms');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('EV Charging Stations');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Spa Services');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Gourmet Dining');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Limousine Service');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Fitness Center');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Bicycle Rental');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Business Center');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Mini Bar');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Private Terrace');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Babysitting Service');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Sky Bar');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Rooftop Bar');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Organic Breakfast');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Eco-Friendly');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Whisky Bar');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Heritage Building');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Afternoon Tea');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Waterfront Views');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Art Decor');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Library Bar');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Infinity Pool');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('SkyPark');
+INSERT INTO stayfinder.ExtraFeature (name) VALUES ('Luxury Shopping');
+
+-- Populate hotel_extra_features join table
+-- Andante Hotel features
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (1, 1);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (1, 2);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (1, 3);
+
+-- Thon Hotel Ålesund features
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (2, 4);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (2, 5);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (2, 6);
+
+-- Scandic Parken features
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (3, 7);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (3, 8);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (3, 9);
+
+-- Carlton Tower Hotel features
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (4, 10);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (4, 11);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (4, 12);
+
+-- Swissôtel Amsterdam features
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (5, 13);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (5, 14);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (5, 15);
+
+-- Hotel Homs features
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (6, 16);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (6, 17);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (6, 18);
+
+-- Radisson Blu Atlantic Hotel features
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (7, 4);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (7, 19);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (7, 9);
+
+-- Clarion Hotel The Hub features
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (8, 20);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (8, 21);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (8, 22);
+
+-- Grand Hotel Terminus features
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (9, 23);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (9, 24);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (9, 25);
+
+-- The Thief features
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (10, 10);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (10, 26);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (10, 27);
+
+-- Hotel Bristol features
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (11, 28);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (11, 25);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (11, 13);
+
+-- Marina Bay Sands features
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (12, 29);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (12, 30);
+INSERT INTO stayfinder.hotel_extra_features (hotel_id, feature_id) VALUES (12, 31);
+
+-- Populate Listings table with prices from PDF
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(1, 1, 1, 150, 'USD', 'https://booking.com/andante-hotel');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(1, 2, 1, 200, 'USD', 'https://agoda.com/andante-hotel');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(2, 3, 2, 1200, 'NOK', 'https://momondo.com/thon-hotel-alesund');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(2, 4, 2, 1400, 'NOK', 'https://expedia.com/thon-hotel-alesund');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(3, 5, 3, 1100, 'NOK', 'https://airbnb.com/scandic-parken');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(3, 2, 4, 1500, 'NOK', 'https://agoda.com/scandic-parken');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(4, 2, 6, 250, 'GBP', 'https://agoda.com/carlton-tower');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(4, 1, 7, 600, 'GBP', 'https://booking.com/carlton-tower-suite');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(5, 7, 8, 180, 'EUR', 'https://kayak.com/swissotel-amsterdam');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(5, 1, 8, 240, 'EUR', 'https://booking.com/swissotel-amsterdam');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(6, 8, 3, 100, 'EUR', 'https://hotel.com/hotel-homs');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(6, 2, 9, 220, 'EUR', 'https://agoda.com/hotel-homs-junior');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(6, 1, 10, 240, 'EUR', 'https://booking.com/hotel-homs-suite');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(7, 6, 3, 950, 'NOK', 'https://hotels.com/radisson-blu-atlantic');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(7, 1, 11, 990, 'NOK', 'https://booking.com/radisson-blu-atlantic');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(8, 9, 12, 1050, 'NOK', 'https://nordicchoice.com/clarion-hub');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(8, 4, 3, 1100, 'NOK', 'https://expedia.com/clarion-hub');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(9, 10, 8, 1200, 'NOK', 'https://tripadvisor.com/grand-hotel-terminus');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(9, 6, 6, 1250, 'NOK', 'https://hotels.com/grand-hotel-terminus');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(10, 11, 14, 2300, 'NOK', 'https://thethief.com/rooms');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(10, 2, 15, 2500, 'NOK', 'https://agoda.com/the-thief');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(11, 1, 8, 1600, 'NOK', 'https://booking.com/hotel-bristol');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(11, 4, 6, 1700, 'NOK', 'https://expedia.com/hotel-bristol');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(12, 12, 6, 500, 'SGD', 'https://marinabaysands.com/rooms');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(12, 13, 15, 550, 'SGD', 'https://trip.com/marina-bay-sands');
+
+INSERT INTO stayfinder.Listings (hotelId, providerId, roomId, price, currency, link) VALUES
+(12, 6, 16, 530, 'SGD', 'https://hotels.com/marina-bay-sands');
+
+-- Dave's 4 Bookings (User ID: 1)
+INSERT INTO stayfinder.Bookings (userId, listingId, status, startDate, endDate) VALUES
+(1, 1, 'CONFIRMED', '2025-05-20', '2025-05-25');
+
+INSERT INTO stayfinder.Bookings (userId, listingId, status, startDate, endDate) VALUES
+(1, 8, 'CONFIRMED', '2025-08-10', '2025-08-15');
+
+INSERT INTO stayfinder.Bookings (userId, listingId, status, startDate, endDate) VALUES
+(1, 15, 'PENDING', '2025-07-05', '2025-07-12');
+
+INSERT INTO stayfinder.Bookings (userId, listingId, status, startDate, endDate) VALUES
+(1, 22, 'CONFIRMED', '2025-06-15', '2025-06-20');
+
+-- Other users' bookings
+INSERT INTO stayfinder.Bookings (userId, listingId, status, startDate, endDate) VALUES
+(3, 4, 'CONFIRMED', '2025-06-15', '2025-06-20');
+
+INSERT INTO stayfinder.Bookings (userId, listingId, status, startDate, endDate) VALUES
+(3, 20, 'CANCELLED', '2025-10-01', '2025-10-06');
+
+INSERT INTO stayfinder.Bookings (userId, listingId, status, startDate, endDate) VALUES
+(4, 2, 'CONFIRMED', '2025-05-22', '2025-05-26');
+
+INSERT INTO stayfinder.Bookings (userId, listingId, status, startDate, endDate) VALUES
+(4, 12, 'CONFIRMED', '2025-09-10', '2025-09-15');
+
+INSERT INTO stayfinder.Bookings (userId, listingId, status, startDate, endDate) VALUES
+(5, 5, 'CONFIRMED', '2025-07-01', '2025-07-05');
+
+INSERT INTO stayfinder.Bookings (userId, listingId, status, startDate, endDate) VALUES
+(6, 10, 'CONFIRMED', '2025-09-05', '2025-09-10');
+
+-- Populate Reviews table
+INSERT INTO stayfinder.Reviews (hotelId, userId, review, stars, postDate) VALUES
+(1, 1, 'Great location and amazing rooftop pool! Would definitely stay again.', 5, '2025-05-26');
+
+INSERT INTO stayfinder.Reviews (hotelId, userId, review, stars, postDate) VALUES
+(1, 4, 'Clean rooms and friendly staff. Good value for money.', 4, '2025-05-27');
+
+INSERT INTO stayfinder.Reviews (hotelId, userId, review, stars, postDate) VALUES
+(2, 3, 'The fjord views were breathtaking! Breakfast was excellent.', 5, '2025-06-21');
+
+INSERT INTO stayfinder.Reviews (hotelId, userId, review, stars, postDate) VALUES
+(4, 1, 'Luxurious accommodations but a bit overpriced.', 3, '2025-08-16');
+
+INSERT INTO stayfinder.Reviews (hotelId, userId, review, stars, postDate) VALUES
+(7, 4, 'The Sky Bar had amazing views and the breakfast buffet was extensive.', 5, '2025-09-16');
+
+INSERT INTO stayfinder.Reviews (hotelId, userId, review, stars, postDate) VALUES
+(11, 5, 'Historic hotel with lovely afternoon tea service.', 4, '2025-06-21');
+
+-- Dave's 2 Favourites (User ID: 1) plus other favourites
+INSERT INTO stayfinder.Favourites (userId, listingId) VALUES (1, 7);
+INSERT INTO stayfinder.Favourites (userId, listingId) VALUES (1, 20);
+
+INSERT INTO stayfinder.Favourites (userId, listingId) VALUES (3, 11);
+INSERT INTO stayfinder.Favourites (userId, listingId) VALUES (3, 18);
+INSERT INTO stayfinder.Favourites (userId, listingId) VALUES (4, 4);
+INSERT INTO stayfinder.Favourites (userId, listingId) VALUES (4, 24);
+INSERT INTO stayfinder.Favourites (userId, listingId) VALUES (5, 9);
+INSERT INTO stayfinder.Favourites (userId, listingId) VALUES (6, 25);
