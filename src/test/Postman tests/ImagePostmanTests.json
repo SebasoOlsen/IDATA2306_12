@@ -19,23 +19,25 @@
           "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"adminpassword\"\n}"
         },
         "url": {
-          "raw": "{{base_url}}/login"
+          "raw": "{{base_url}}/login",
+          "host": ["{{base_url}}"],
+          "path": ["login"]
         }
       },
       "event": [
         {
           "listen": "test",
           "script": {
+            "type": "text/javascript",
             "exec": [
               "pm.test(\"Login successful\", function () {",
               "    pm.response.to.have.status(200);",
               "});",
               "pm.test(\"Save token\", function () {",
               "    var json = pm.response.json();",
-              "    pm.collectionVariables.set(\"token\", json.token);",
+              "    pm.environment.set(\"token\", json.token);",
               "});"
-            ],
-            "type": "text/javascript"
+            ]
           }
         }
       ]
@@ -56,7 +58,7 @@
             {
               "key": "file",
               "type": "file",
-              "src": "/path/to/sample.jpg"
+              "src": "/path/to/sample.jpg"  // Replace with actual local file path
             },
             {
               "key": "type",
@@ -71,29 +73,57 @@
           ]
         },
         "url": {
-          "raw": "{{base_url}}/api/images/admin/upload"
-        }
-      }
-    },
-    {
-      "name": "Get Image URLs by Type and ID",
-      "request": {
-        "method": "GET",
-        "url": {
-          "raw": "{{base_url}}/api/images/public/urls?type=HOTEL&typeId=1"
+          "raw": "{{base_url}}/api/images/admin/upload",
+          "host": ["{{base_url}}"],
+          "path": ["api", "images", "admin", "upload"]
         }
       },
       "event": [
         {
           "listen": "test",
           "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Upload response is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get Image URLs by Type and ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/images/public/urls?type=HOTEL&typeId=1",
+          "host": ["{{base_url}}"],
+          "path": ["api", "images", "public", "urls"],
+          "query": [
+            {
+              "key": "type",
+              "value": "HOTEL"
+            },
+            {
+              "key": "typeId",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
             "exec": [
               "pm.test(\"Should return array of image URLs\", function () {",
               "    var jsonData = pm.response.json();",
               "    pm.expect(jsonData).to.be.an('array');",
               "});"
-            ],
-            "type": "text/javascript"
+            ]
           }
         }
       ]
