@@ -19,7 +19,9 @@
           "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"adminpassword\"\n}"
         },
         "url": {
-          "raw": "{{base_url}}/login"
+          "raw": "{{base_url}}/login",
+          "host": ["{{base_url}}"],
+          "path": ["login"]
         }
       },
       "event": [
@@ -57,9 +59,24 @@
           "raw": "{\n  \"name\": \"TestProvider\"\n}"
         },
         "url": {
-          "raw": "{{base_url}}/api/providers/admin/createProvider"
+          "raw": "{{base_url}}/api/providers/admin/createProvider",
+          "host": ["{{base_url}}"],
+          "path": ["api", "providers", "admin", "createProvider"]
         }
-      }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Provider created\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
     },
     {
       "name": "Get All Providers",
@@ -72,18 +89,50 @@
           }
         ],
         "url": {
-          "raw": "{{base_url}}/api/providers/admin/allProviders"
+          "raw": "{{base_url}}/api/providers/admin/allProviders",
+          "host": ["{{base_url}}"],
+          "path": ["api", "providers", "admin", "allProviders"]
         }
-      }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Providers retrieved\", function () {",
+              "    pm.response.to.have.status(200);",
+              "    let data = pm.response.json();",
+              "    pm.expect(data).to.be.an('array');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
     },
     {
       "name": "Get Provider By ID",
       "request": {
         "method": "GET",
         "url": {
-          "raw": "{{base_url}}/api/providers/public/search/1"
+          "raw": "{{base_url}}/api/providers/public/search/1",
+          "host": ["{{base_url}}"],
+          "path": ["api", "providers", "public", "search", "1"]
         }
-      }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Provider found or not\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 404]);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
     },
     {
       "name": "Update Provider",
@@ -104,9 +153,24 @@
           "raw": "{\n  \"id\": 1,\n  \"name\": \"UpdatedProvider\"\n}"
         },
         "url": {
-          "raw": "{{base_url}}/api/providers/admin/updateProvider/1"
+          "raw": "{{base_url}}/api/providers/admin/updateProvider/1",
+          "host": ["{{base_url}}"],
+          "path": ["api", "providers", "admin", "updateProvider", "1"]
         }
-      }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Provider updated or not found\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 404]);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
     },
     {
       "name": "Delete Provider",
@@ -119,9 +183,24 @@
           }
         ],
         "url": {
-          "raw": "{{base_url}}/api/providers/admin/deleteProvider/1"
+          "raw": "{{base_url}}/api/providers/admin/deleteProvider/1",
+          "host": ["{{base_url}}"],
+          "path": ["api", "providers", "admin", "deleteProvider", "1"]
         }
-      }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Provider deleted\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
     }
   ],
   "variable": [
@@ -131,5 +210,6 @@
     }
   ]
 }
+
 
 

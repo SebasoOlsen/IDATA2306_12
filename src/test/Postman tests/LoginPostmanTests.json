@@ -30,7 +30,9 @@
           ]
         },
         "url": {
-          "raw": "{{base_url}}/api/login/public/process"
+          "raw": "{{base_url}}/api/login/public/process",
+          "host": ["{{base_url}}"],
+          "path": ["api", "login", "public", "process"]
         }
       },
       "event": [
@@ -41,8 +43,8 @@
               "pm.test(\"Login should be successful\", function () {",
               "    pm.response.to.have.status(200);",
               "});",
-              "const tokenCookie = pm.response.headers.get('Set-Cookie');",
-              "pm.collectionVariables.set('token_cookie', tokenCookie);"
+              "const rawSetCookie = pm.response.headers.get('Set-Cookie');",
+              "pm.collectionVariables.set('token_cookie', rawSetCookie.split(';')[0]);"
             ],
             "type": "text/javascript"
           }
@@ -60,7 +62,9 @@
           }
         ],
         "url": {
-          "raw": "{{base_url}}/api/login/public/isLoggedIn"
+          "raw": "{{base_url}}/api/login/public/isLoggedIn",
+          "host": ["{{base_url}}"],
+          "path": ["api", "login", "public", "isLoggedIn"]
         }
       },
       "event": [
@@ -73,7 +77,8 @@
               "});",
               "pm.test(\"User should be logged in\", function () {",
               "    const jsonData = pm.response.json();",
-              "    pm.expect(jsonData.loggedIn).to.be.true;",
+              "    pm.expect(jsonData.loggedIn).to.eql(true);",
+              "    pm.expect(jsonData).to.have.property(\"email\");",
               "});"
             ],
             "type": "text/javascript"
@@ -92,7 +97,9 @@
           }
         ],
         "url": {
-          "raw": "{{base_url}}/api/login/account/logout"
+          "raw": "{{base_url}}/api/login/account/logout",
+          "host": ["{{base_url}}"],
+          "path": ["api", "login", "account", "logout"]
         }
       },
       "event": [
@@ -102,6 +109,10 @@
             "exec": [
               "pm.test(\"Logout should be successful\", function () {",
               "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Response should contain redirect\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.redirect).to.eql(\"/login\");",
               "});"
             ],
             "type": "text/javascript"

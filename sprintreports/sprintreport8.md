@@ -27,8 +27,10 @@ Sprint stenographer: Sebastian
   -
 
 - **Completed Work:**
-
-  -
+  - Change session implementation to use JWT tokens (.env file) Oskar
+  - Finished the Dashboard page and user edit page for admins. -Sebastian
+  - Fix bugs on registration page. - jonas
+  - Implemented Https implementation. - Jonas
 
 - ## **Comments::**
 

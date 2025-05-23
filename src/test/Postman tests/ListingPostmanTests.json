@@ -19,13 +19,16 @@
           "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"adminpassword\"\n}"
         },
         "url": {
-          "raw": "{{base_url}}/login"
+          "raw": "{{base_url}}/login",
+          "host": ["{{base_url}}"],
+          "path": ["login"]
         }
       },
       "event": [
         {
           "listen": "test",
           "script": {
+            "type": "text/javascript",
             "exec": [
               "pm.test(\"Login successful\", function () {",
               "    pm.response.to.have.status(200);",
@@ -34,8 +37,7 @@
               "    var json = pm.response.json();",
               "    pm.collectionVariables.set(\"token\", json.token);",
               "});"
-            ],
-            "type": "text/javascript"
+            ]
           }
         }
       ]
@@ -59,9 +61,24 @@
           "raw": "{\n  \"roomId\": 1,\n  \"providerId\": 1,\n  \"price\": 1200,\n  \"currency\": \"USD\",\n  \"hotelId\": 1\n}"
         },
         "url": {
-          "raw": "{{base_url}}/api/listings/admin/createListing"
+          "raw": "{{base_url}}/api/listings/admin/createListing",
+          "host": ["{{base_url}}"],
+          "path": ["api", "listings", "admin", "createListing"]
         }
-      }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Listing created\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "Delete Listing",
@@ -74,30 +91,71 @@
           }
         ],
         "url": {
-          "raw": "{{base_url}}/api/listings/admin/deleteListing/1"
-        }
-      }
-    },
-    {
-      "name": "Get Listings by Hotel ID",
-      "request": {
-        "method": "GET",
-        "url": {
-          "raw": "{{base_url}}/api/listings/public/hotel/1"
+          "raw": "{{base_url}}/api/listings/admin/deleteListing/1",
+          "host": ["{{base_url}}"],
+          "path": ["api", "listings", "admin", "deleteListing", "1"]
         }
       },
       "event": [
         {
           "listen": "test",
           "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Listing deleted\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get Listings by Hotel ID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/api/listings/public/hotel/1",
+          "host": ["{{base_url}}"],
+          "path": ["api", "listings", "public", "hotel", "1"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
             "exec": [
               "pm.test(\"Listings returned\", function () {",
               "    pm.response.to.have.status(200);",
               "    var jsonData = pm.response.json();",
               "    pm.expect(jsonData).to.be.an('array');",
               "});"
-            ],
-            "type": "text/javascript"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get Listing by ID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/api/listings/public/search/1",
+          "host": ["{{base_url}}"],
+          "path": ["api", "listings", "public", "search", "1"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Listing found or not\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 404]);",
+              "});"
+            ]
           }
         }
       ]

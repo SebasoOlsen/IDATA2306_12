@@ -19,7 +19,9 @@
           "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\"\n}"
         },
         "url": {
-          "raw": "{{base_url}}/login"
+          "raw": "{{base_url}}/login",
+          "host": ["{{base_url}}"],
+          "path": ["login"]
         }
       },
       "event": [
@@ -54,12 +56,27 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"hotelId\": 1,\n  \"userId\": 1,\n  \"review\": \"Great hotel with excellent service.\",\n  \"stars\": 5\n}"
+          "raw": "{\n  \"hotelId\": 1,\n  \"review\": \"Great hotel with excellent service.\",\n  \"stars\": 5\n}"
         },
         "url": {
-          "raw": "{{base_url}}/api/reviews/account/writeReview"
+          "raw": "{{base_url}}/api/reviews/account/writeReview",
+          "host": ["{{base_url}}"],
+          "path": ["api", "reviews", "account", "writeReview"]
         }
-      }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Review created\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
     },
     {
       "name": "Get All Reviews (Admin)",
@@ -72,7 +89,9 @@
           }
         ],
         "url": {
-          "raw": "{{base_url}}/api/reviews/admin/all"
+          "raw": "{{base_url}}/api/reviews/admin/all",
+          "host": ["{{base_url}}"],
+          "path": ["api", "reviews", "admin", "all"]
         }
       },
       "event": [
