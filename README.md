@@ -9,6 +9,8 @@ How to run locally:
 - Step 5: Run the MySql commands stored in stayfinder.sql.txt
 - Step 6: Run StayFinderApplication.main() to start the backend.
 
-DATABASE Username defined in application properties:
-Username: StayFinderApp
-Password: StayFinderApp
+-DATABASE Username defined in application properties:
+-Username: StayFinderApp
+-Password: StayFinderApp
+
+-To be able to see pictures on Hotels you need to add the hotel through the Hotel Admin endpoint on the dashboard. 
