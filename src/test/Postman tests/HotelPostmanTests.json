@@ -19,23 +19,25 @@
           "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"adminpassword\"\n}"
         },
         "url": {
-          "raw": "{{base_url}}/login"
+          "raw": "{{base_url}}/login",
+          "host": ["{{base_url}}"],
+          "path": ["login"]
         }
       },
       "event": [
         {
           "listen": "test",
           "script": {
+            "type": "text/javascript",
             "exec": [
               "pm.test(\"Login successful\", function () {",
               "    pm.response.to.have.status(200);",
               "});",
               "pm.test(\"Save token\", function () {",
               "    var json = pm.response.json();",
-              "    pm.collectionVariables.set(\"token\", json.token);",
+              "    pm.environment.set(\"token\", json.token);",
               "});"
-            ],
-            "type": "text/javascript"
+            ]
           }
         }
       ]
@@ -56,10 +58,12 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"name\": \"Test Hotel\",\n  \"locationType\": \"Urban\",\n  \"roomTypes\": [\n    \"Single\",\n    \"Double\"\n  ],\n  \"extraFeatures\": [\n    \"Pool\",\n    \"Gym\"\n  ],\n  \"country\": \"Norway\",\n  \"city\": \"Oslo\"\n}"
+          "raw": "{\n  \"name\": \"Test Hotel\",\n  \"locationType\": \"Urban\",\n  \"roomTypes\": [\"Single\", \"Double\"],\n  \"extraFeatures\": [\"Pool\", \"Gym\"],\n  \"country\": \"Norway\",\n  \"city\": \"Oslo\"\n}"
         },
         "url": {
-          "raw": "{{base_url}}/hotels/admin/createHotel"
+          "raw": "{{base_url}}/api/hotels/admin/createHotel",
+          "host": ["{{base_url}}"],
+          "path": ["api", "hotels", "admin", "createHotel"]
         }
       }
     },
@@ -74,7 +78,9 @@
           }
         ],
         "url": {
-          "raw": "{{base_url}}/hotels/admin/allHotels"
+          "raw": "{{base_url}}/api/hotels/admin/allHotels",
+          "host": ["{{base_url}}"],
+          "path": ["api", "hotels", "admin", "allHotels"]
         }
       }
     },
@@ -83,7 +89,9 @@
       "request": {
         "method": "GET",
         "url": {
-          "raw": "{{base_url}}/hotels/public/searchByID/1"
+          "raw": "{{base_url}}/api/hotels/public/searchById/1",
+          "host": ["{{base_url}}"],
+          "path": ["api", "hotels", "public", "searchById", "1"]
         }
       }
     },
@@ -103,10 +111,12 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"id\": 1,\n  \"name\": \"Updated Hotel\",\n  \"locationType\": \"Urban\",\n  \"room\": [\n    \"Single\",\n    \"Double\"\n  ],\n  \"extraFeature\": [\n    \"Sauna\"\n  ],\n  \"country\": \"Norway\",\n  \"city\": \"Oslo\"\n}"
+          "raw": "{\n  \"id\": 1,\n  \"name\": \"Updated Hotel\",\n  \"locationType\": \"Urban\",\n  \"roomTypes\": [\"Single\", \"Double\"],\n  \"extraFeatures\": [\"Sauna\"],\n  \"country\": \"Norway\",\n  \"city\": \"Oslo\"\n}"
         },
         "url": {
-          "raw": "{{base_url}}/hotels/admin/updateHotel/1"
+          "raw": "{{base_url}}/api/hotels/admin/updateHotel/1",
+          "host": ["{{base_url}}"],
+          "path": ["api", "hotels", "admin", "updateHotel", "1"]
         }
       }
     },
@@ -115,7 +125,15 @@
       "request": {
         "method": "GET",
         "url": {
-          "raw": "{{base_url}}/hotels/public/randomHotels?count=3"
+          "raw": "{{base_url}}/api/hotels/public/randomHotels?count=3",
+          "host": ["{{base_url}}"],
+          "path": ["api", "hotels", "public", "randomHotels"],
+          "query": [
+            {
+              "key": "count",
+              "value": "3"
+            }
+          ]
         }
       }
     },
@@ -124,7 +142,15 @@
       "request": {
         "method": "GET",
         "url": {
-          "raw": "{{base_url}}/hotels/public/search?destination=Oslo"
+          "raw": "{{base_url}}/api/hotels/public/search?destination=Oslo",
+          "host": ["{{base_url}}"],
+          "path": ["api", "hotels", "public", "search"],
+          "query": [
+            {
+              "key": "destination",
+              "value": "Oslo"
+            }
+          ]
         }
       }
     },
@@ -133,7 +159,32 @@
       "request": {
         "method": "GET",
         "url": {
-          "raw": "{{base_url}}/hotels/public/1/rooms"
+          "raw": "{{base_url}}/api/hotels/public/1/rooms",
+          "host": ["{{base_url}}"],
+          "path": ["api", "hotels", "public", "1", "rooms"]
+        }
+      }
+    },
+    {
+      "name": "Update Hotel Visibility",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/hotels/admin/updateHotelVisibility/1?visible=true",
+          "host": ["{{base_url}}"],
+          "path": ["api", "hotels", "admin", "updateHotelVisibility", "1"],
+          "query": [
+            {
+              "key": "visible",
+              "value": "true"
+            }
+          ]
         }
       }
     }

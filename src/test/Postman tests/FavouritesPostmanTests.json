@@ -1,11 +1,35 @@
 {
   "info": {
+    "_postman_id": "0460a1fb-4473-4e68-8b50-7851177db3c2",
     "name": "FavoritesPostmanTests",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "45160425"
   },
   "item": [
     {
       "name": "Login - Get JWT Token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Login successful\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Save JWT token\", function () {",
+              "    const json = pm.response.json();",
+              "    if (json.token) {",
+              "        pm.environment.set(\"token\", json.token);",
+              "    } else {",
+              "        console.error(\"Token not found in response\");",
+              "    }",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
       "request": {
         "method": "POST",
         "header": [
@@ -19,29 +43,37 @@
           "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\"\n}"
         },
         "url": {
-          "raw": "{{base_url}}/login"
+          "raw": "{{base_url}}/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "login"
+          ]
         }
       },
+      "response": []
+    },
+    {
+      "name": "Get User Favourites",
       "event": [
         {
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test(\"Login successful\", function () {",
+              "pm.test(\"Status code is 200\", function () {",
               "    pm.response.to.have.status(200);",
               "});",
-              "pm.test(\"Save token\", function () {",
-              "    var json = pm.response.json();",
-              "    pm.collectionVariables.set(\"token\", json.token);",
+              "",
+              "pm.test(\"Response is array\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.be.an('array');",
               "});"
             ],
             "type": "text/javascript"
           }
         }
-      ]
-    },
-    {
-      "name": "Get User Favourites",
+      ],
       "request": {
         "method": "GET",
         "header": [
@@ -51,32 +83,20 @@
           }
         ],
         "url": {
-          "raw": "{{base_url}}/api/favourites/account/user"
-        }
+          "raw": "{{base_url}}/api/favourites/account/user",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "favourites",
+            "account",
+            "user"
+          ]
+        },
+        "description": "This endpoint retrieves the list of favorite items for a specific user account. The response of this request can be documented as a JSON schema as follows:\n\n``` json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"error\": {\n            \"type\": \"string\"\n        }\n    }\n}\n\n ```"
       },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "pm.test(\"Response should be an array\", function () {",
-              "    let jsonData = pm.response.json();",
-              "    pm.expect(jsonData).to.be.an('array');",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
-    }
-  ],
-  "variable": [
-    {
-      "key": "token",
-      "value": ""
+      "response": []
     }
   ]
 }
