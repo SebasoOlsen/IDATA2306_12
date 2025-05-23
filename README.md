@@ -14,3 +14,4 @@ How to run locally:
 -Password: StayFinderApp
 
 -To be able to see pictures on Hotels you need to add the hotel through the Hotel Admin endpoint on the dashboard. They will then be added to the uploads folder and get names through the -Image API
+-The pictures directly in the same directory as the README.md can be used when making a new hotel as the pictures for the rooms to show how the how the hotel cards on the front page work. They are loaded 3 random at the time so sometimes you need to refresh to get the right one. 
