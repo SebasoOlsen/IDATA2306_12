@@ -99,7 +99,7 @@ public class BookingController {
         if (auth == null || !auth.isAuthenticated()) {
             return ResponseEntity.status(401).build();
         }
-        // Assuming the principal contains the user's email or username
+
         String email = auth.getName();
         System.out.println("Email: " + email);
         User user = userRepository.findByEmail(email);
@@ -192,7 +192,7 @@ public class BookingController {
         if (auth == null || !auth.isAuthenticated()) {
             return ResponseEntity.status(401).build();
         }
-        // Assuming the principal contains the user's email or username
+
         String email = auth.getName();
         System.out.println("Email: " + email);
         User user = userRepository.findByEmail(email);
