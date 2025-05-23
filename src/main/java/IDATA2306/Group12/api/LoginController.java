@@ -18,6 +18,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 /**
  * Controller for handling login-related API requests.
  */
@@ -29,33 +30,34 @@ public class LoginController {
     private final LoginService loginService;
     private final UserService userService;
     private final JwtUtil jwtUtil;
+
     /**
      * Constructor for LoginController.
+     * 
      * @param loginService the login service
-     * @param jwtUtil the JWT utility
-     * @param userService the user service
+     * @param jwtUtil      the JWT utility
+     * @param userService  the user service
      */
     public LoginController(LoginService loginService, JwtUtil jwtUtil, UserService userService) {
         this.loginService = loginService;
         this.jwtUtil = jwtUtil;
         this.userService = userService;
     }
+
     /**
      * Process a login using email and password.
-     * @param email the user's email
+     * 
+     * @param email    the user's email
      * @param password the user's password
      * @return response with login status and token cookie if successful
      */
-    @Operation(
-            summary = "Process a login",
-            description = "Process a login using email and password."
-    )
+    @Operation(summary = "Process a login", description = "Process a login using email and password.")
     @ApiResponse(responseCode = "200", description = "Login successful.")
     @ApiResponse(responseCode = "400", description = "Invalid input.")
     @PostMapping("/public/process")
     @ResponseBody
     public ResponseEntity<String> processLogin(@RequestParam String email,
-                                               @RequestParam String password) {
+            @RequestParam String password) {
         System.out.println("Login attempt with email: " + email);
         System.out.println("Login attempt with password: " + password);
         try {
@@ -63,7 +65,7 @@ public class LoginController {
 
             ResponseCookie cookie = ResponseCookie.from("token", token)
                     .httpOnly(true)
-                    .secure(true)
+                    .secure(false)
                     .path("/")
                     .maxAge(Duration.ofHours(24))
                     .sameSite("Lax")
@@ -77,15 +79,14 @@ public class LoginController {
         }
 
     }
+
     /**
      * Check if a user is logged in by validating the token cookie.
+     * 
      * @param request the HTTP servlet request
      * @return map containing loggedIn status and email if logged in
      */
-    @Operation(
-            summary = "Check if a user is logged in",
-            description = "Return a Map containing loggedIn status + email if the user is logged in."
-    )
+    @Operation(summary = "Check if a user is logged in", description = "Return a Map containing loggedIn status + email if the user is logged in.")
     @GetMapping("/public/isLoggedIn")
     @ApiResponse(responseCode = "200", description = "Logged in status")
     @ResponseBody
@@ -110,35 +111,34 @@ public class LoginController {
                 }
             }
         }
-        
+
         return ResponseEntity.ok(responseBody);
     }
+
     /**
      * Logout the current user by clearing the token cookie.
+     * 
      * @param response the HTTP servlet response
      * @return map with redirect information
      */
-    @Operation(
-            summary = "Logout",
-            description = "Logout the current user by clearing the token cookie."
-    )
+    @Operation(summary = "Logout", description = "Logout the current user by clearing the token cookie.")
     @ApiResponse(responseCode = "200", description = "Logout successful. Redirect to login page.")
     @ApiResponse(responseCode = "403", description = "Not authorized to logout (not logged in).")
     @PostMapping("/account/logout")
     @ResponseBody
     public ResponseEntity<Map<String, String>> logout(HttpServletResponse response) {
-        //log.info("Logout endpoint called.");
+        // log.info("Logout endpoint called.");
 
         // Clear the token cookie - match properties if needed
         Cookie cookie = new Cookie("token", null);
         cookie.setPath("/");
         cookie.setMaxAge(0);
         response.addCookie(cookie);
-        //log.info("Token cookie cleared and added to response.");
+        // log.info("Token cookie cleared and added to response.");
 
         Map<String, String> body = new HashMap<>();
         body.put("redirect", "/login");
-        //log.info("Responding with redirect to /login.");
+        // log.info("Responding with redirect to /login.");
 
         return ResponseEntity.ok(body);
     }
