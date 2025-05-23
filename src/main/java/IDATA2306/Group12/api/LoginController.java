@@ -51,12 +51,13 @@ public class LoginController {
 
             ResponseCookie cookie = ResponseCookie.from("token", token)
                     .httpOnly(true)
-                    .secure(true)
+                    .secure(false)
                     .path("/")
                     .maxAge(Duration.ofHours(24))
                     .sameSite("Lax")
                     .build();
 
+            System.out.println(cookie);
             return ResponseEntity.ok()
                     .header(HttpHeaders.SET_COOKIE, cookie.toString())
                     .body("Login successful.");
@@ -84,8 +85,10 @@ public class LoginController {
                     try {
                         if (token != null && jwtUtil.validateToken(token)) {
                             String email = jwtUtil.extractUsername(token);
+                            String role = jwtUtil.getRoleFromToken(token);
                             responseBody.put("loggedIn", true);
                             responseBody.put("email", email);
+                            responseBody.put("role", role);
                             break;
                         }
                     } catch (Exception e) {
